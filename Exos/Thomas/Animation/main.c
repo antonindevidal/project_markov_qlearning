@@ -34,10 +34,11 @@ int main(int argc, char **argv)
     }
 
     /* Création des textures */
-    SDL_Texture *image_fond = load_texture_from_image("image.jpg", window, renderer);
+    SDL_Texture *image_fond = load_texture_from_image("image_fond.jpg", window, renderer);
+    SDL_Texture *michelin = load_texture_from_image("michelin.png", window, renderer);
 
     /* Gestion des événements */
-    SDL_bool en_cours = SDL_TRUE, pause = SDL_FALSE;
+    SDL_bool en_cours = SDL_TRUE;
     SDL_Event event;
     while (en_cours)
     { // Boucle événementielle
@@ -53,12 +54,14 @@ int main(int argc, char **argv)
             }
         }
         afficher_texture_full(image_fond, window, renderer);
+        afficher_texture(michelin, window, renderer);
         SDL_RenderPresent(renderer);
         SDL_Delay(30); // Faire une pause pour une bonne fluidité
     }
     
 
     SDL_DestroyTexture(image_fond);
+    SDL_DestroyTexture(michelin);
     end_sdl(1, "Fin Normale", window, renderer);
     IMG_Quit();
     SDL_Quit();
