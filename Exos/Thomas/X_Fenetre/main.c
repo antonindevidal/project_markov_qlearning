@@ -38,8 +38,8 @@ int main(int argc, char **argv) {
     int x=pos_X, y=pos_Y, x1, y1;
     while ((x+largeur_fenetres<dim.w) && (y>0)) {
         x++; y--;
-        printf("x = %d, y = %d\n", x1, y1);
         SDL_GetWindowPosition(fenetres[0], &x1, &y1);
+        //printf("x = %d, y = %d\n", x1, y1);
         SDL_SetWindowPosition(fenetres[0], x, y);
         SDL_Delay(10);
     }
