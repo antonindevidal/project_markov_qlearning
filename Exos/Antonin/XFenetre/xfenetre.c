@@ -30,7 +30,7 @@ void end_sdl(char ok,			   // fin normale : ok = 0 ; anormale ok = 1
 		}
 	}
 
-	SDL_Quit();
+	SDL_Quit();SDL_TRUE
 
 	if (!ok)
 	{ // On quitte si cela ne va pas
@@ -47,6 +47,8 @@ SDL_bool update(SDL_Window **windows, SDL_DisplayMode screen)
 		SDL_GetWindowPosition(windows[i], &x, &y);
 		if (x != (screen.w / 2) - FENETRE_W / 2 || y != (screen.h / 2) - FENETRE_H / 2)
 		{
+
+			//REgroupement des fenêtres vers le milieu
 			if (x > (screen.w / 2) - FENETRE_W / 2)
 			{
 				x--;
@@ -67,6 +69,7 @@ SDL_bool update(SDL_Window **windows, SDL_DisplayMode screen)
 		}
 		else
 		{
+			//Augmentation de la taille des fenêtres
 			SDL_GetWindowSize(windows[i],&w,&h);
 			if (w <600){
 				w+=5;
@@ -155,7 +158,7 @@ int main(int argc, char **argv)
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_ESCAPE:
-					program_on = SDL_FALSE;
+					program_on = SDL_FALSE; //Fermeture du programme à l'appuie sur la touche ECHAP
 					break;
 
 				default:
@@ -172,7 +175,7 @@ int main(int argc, char **argv)
 	/* et on referme tout ce qu'on a ouvert en ordre inverse de la création */
 	for (int i = 0; i < NBFENETRES; i++)
 	{
-		SDL_DestroyWindow(windows[i]); // la fenêtre 1
+		SDL_DestroyWindow(windows[i]); // la fenêtre i
 	}
 
 	SDL_Quit(); // la SDL
