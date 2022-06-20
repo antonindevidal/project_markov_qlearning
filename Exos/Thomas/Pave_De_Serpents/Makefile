@@ -1,4 +1,4 @@
-SRC=main.c
+SRC=main.c fonctions_SDL.c
 EXE=prog
 
 CC=gcc
