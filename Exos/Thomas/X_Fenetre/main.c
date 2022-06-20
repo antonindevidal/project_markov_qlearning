@@ -2,11 +2,11 @@
 #include <SDL2/SDL.h>
 #define TAILLE_LISTE_FENETRES 5
 
-void createWindow(SDL_Window * pWindow, char *titre, int x, int y, int w, int h, Uint32 flags) {
-    pWindow = SDL_CreateWindow(titre, x, y, w, h, flags);
-    if (pWindow == NULL) {
+void createWindow(SDL_Window ** pWindow, char *titre, int x, int y, int w, int h, Uint32 flags) {
+    *pWindow = SDL_CreateWindow(titre, x, y, w, h, flags);
+    if (*pWindow == NULL) {
         SDL_Log("Erreur: SDL Window création - %s\n", SDL_GetError());
-        SDL_DestroyWindow(pWindow);
+        SDL_DestroyWindow(*pWindow);
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
@@ -33,43 +33,41 @@ int main(int argc, char **argv) {
     int hauteur_fenetres = 100;
     int pos_X = dim.w/2 - largeur_fenetres/2;
     int pos_Y = dim.h/2 - hauteur_fenetres/2;
-    createWindow(fenetres[0], "Fenêtre 0", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
+    createWindow(&fenetres[0], "Fenêtre 0", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     SDL_Delay(1000);
-    int x=pos_X, y=pos_Y, x1, y1;
-    while ((x+largeur_fenetres<dim.w) && (y>0)) {
+    int x=pos_X, y=pos_Y;
+    while ((x+largeur_fenetres<dim.w-50) && (y>50)) {
         x++; y--;
-        SDL_GetWindowPosition(fenetres[0], &x1, &y1);
-        printf("x = %d, y = %d\n", x1, y1);
         SDL_SetWindowPosition(fenetres[0], x, y);
         SDL_Delay(10);
     }
 
     SDL_Delay(1000);
-    createWindow(fenetres[1], "Fenêtre 1", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
+    createWindow(&fenetres[1], "Fenêtre 1", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x=pos_X, y=pos_Y;
-    while ((x>0) && (y>0)) {
+    while ((x>50) && (y>50)) {
         x--; y--;
         SDL_SetWindowPosition(fenetres[1], x, y);
         SDL_Delay(10);
     }
 
-    createWindow(fenetres[2], "Fenêtre 2", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
+    createWindow(&fenetres[2], "Fenêtre 2", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x=pos_X, y=pos_Y;
-    while ((x>0) && (dim.h<y+hauteur_fenetres)) {
+    while ((x>50) && (dim.h-50>y+hauteur_fenetres)) {
         x--; y++;
         SDL_SetWindowPosition(fenetres[2], x, y);
         SDL_Delay(10);
     }
 
-    createWindow(fenetres[3], "Fenêtre 3", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
+    createWindow(&fenetres[3], "Fenêtre 3", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x=pos_X, y=pos_Y;
-    while ((x+largeur_fenetres>dim.w) && (dim.h<y+hauteur_fenetres)) {
+    while ((x+largeur_fenetres<dim.w-50) && (dim.h-50>y+hauteur_fenetres)) {
         x++; y++;
         SDL_SetWindowPosition(fenetres[3], x, y);
         SDL_Delay(10);
     }
-
-    createWindow(fenetres[4], "Fenêtre 4", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
+    printf("Coucou\n");
+    createWindow(&fenetres[4], "Fenêtre 4", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     SDL_Delay(1000); // En ms
     
     /* Fermeture des fenêtres */
