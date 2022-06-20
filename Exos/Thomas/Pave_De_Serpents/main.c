@@ -9,6 +9,8 @@ int main(int argc, char **argv)
     /* 
      * Si on appuie sur A alors on modifie le sens des bras du personnage
      * Si on clique avec la souris, on modifie la couleur du rectangle 
+     * Si on appuie sur la barre espace, l'image se met en pause:
+     * (pas de changement de couleur sur l'arc de cercle en haut à gauche)
      */
     (void)argc;
     (void)argv;
@@ -81,9 +83,9 @@ int main(int argc, char **argv)
         {
             couleur_arc = -1;
         }
-        couleur_arc++;
+        couleur_arc+=10;
         SDL_RenderPresent(renderer);
-        SDL_Delay(50); // Faire une pause pour une bonne fluidité
+        SDL_Delay(30); // Faire une pause pour une bonne fluidité
     }
 
     end_sdl(1, "Fin Normale", window, renderer);
