@@ -1,5 +1,5 @@
 SRC=xfenetre.c
-EXE=xfenetre
+EXE=xfenetre.out
 
 CC=gcc
 CFLAGS:=-Wall -Wextra -MMD -g $(sdl2-config --cflags)
