@@ -30,7 +30,7 @@ void end_sdl(char ok,			   // fin normale : ok = 0 ; anormale ok = 1
 		}
 	}
 
-	SDL_Quit();SDL_TRUE
+	SDL_Quit();
 
 	if (!ok)
 	{ // On quitte si cela ne va pas
@@ -69,7 +69,7 @@ SDL_bool update(SDL_Window **windows, SDL_DisplayMode screen)
 		}
 		else
 		{
-			//Augmentation de la taille des fenêtres
+			//Augmentation de la taille des fenetres
 			SDL_GetWindowSize(windows[i],&w,&h);
 			if (w <600){
 				w+=5;
