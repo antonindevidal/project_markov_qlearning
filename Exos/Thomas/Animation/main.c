@@ -36,7 +36,10 @@ int main(int argc, char **argv)
     /* Création des textures */
     SDL_Texture *image_fond = load_texture_from_image("image_fond.jpg", window, renderer);
     SDL_Texture *michelin = load_texture_from_image("michelin.png", window, renderer);
+    SDL_Texture *bateau = load_texture_from_image("bateau.jpg", window, renderer);
 
+    animation_image(bateau, window, renderer);
+    
     /* Gestion des événements */
     SDL_bool en_cours = SDL_TRUE;
     SDL_Event event;
@@ -62,6 +65,7 @@ int main(int argc, char **argv)
 
     SDL_DestroyTexture(image_fond);
     SDL_DestroyTexture(michelin);
+    SDL_DestroyTexture(bateau);
     end_sdl(1, "Fin Normale", window, renderer);
     IMG_Quit();
     SDL_Quit();
