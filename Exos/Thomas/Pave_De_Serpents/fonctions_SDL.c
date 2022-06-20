@@ -75,15 +75,15 @@ void draw(SDL_Renderer *renderer, int pos, int couleur, int couleur_arc)
         SDL_RenderDrawLine(renderer, 200, 225, 200, 175);
         SDL_RenderDrawLine(renderer, 300, 225, 300, 275);
     }
-    
+
     /* Arc de cercle en haut à gauche pour essayer un animation qui bouge tout le temps */
     int i;
-    for (i = 0; i < 100; i+=3)
+    for (i = 0; i < 100; i += 3)
     {
         for (angle = -M_PI / 2; angle < 0; angle += M_PI / 4000)
         {
             SDL_SetRenderDrawColor(renderer, couleur_arc, 255 - couleur_arc, 0, 255);
-            SDL_RenderDrawPoint(renderer, i * cos(angle), - i * sin(angle));
+            SDL_RenderDrawPoint(renderer, i * cos(angle), -i * sin(angle));
         }
     }
 }
