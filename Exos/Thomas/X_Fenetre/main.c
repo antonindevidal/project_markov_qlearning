@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
-#define TAILLE_LISTE_FENETRES 50
+#define TAILLE_LISTE_FENETRES 5
 
 void createWindow(SDL_Window * pWindow, char *titre, int x, int y, int w, int h, Uint32 flags) {
     pWindow = SDL_CreateWindow(titre, x, y, w, h, flags);
@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 
     /* A bien faire avant SDL_Init ! Sinon problème de descripteur */
     SDL_Window **fenetres;
-    fenetres = malloc(TAILLE_LISTE_FENETRES * sizeof(SDL_Window *));
+    fenetres = (SDL_Window **)malloc(TAILLE_LISTE_FENETRES * sizeof(SDL_Window *));
 
     /* Initialisation de la SDL */
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     while ((x+largeur_fenetres<dim.w) && (y>0)) {
         x++; y--;
         SDL_GetWindowPosition(fenetres[0], &x1, &y1);
-        //printf("x = %d, y = %d\n", x1, y1);
+        printf("x = %d, y = %d\n", x1, y1);
         SDL_SetWindowPosition(fenetres[0], x, y);
         SDL_Delay(10);
     }
