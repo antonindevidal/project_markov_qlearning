@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define HAUTEUR_BRAS_MAX 250
-#define HAUTEUR_BRAS_MIN 400
+#define HAUTEUR_BRAS_MIN 450
 
 /*********************************************************************************************************************/
 /*                              Programme d'exemple de création de rendu + dessin                                    */
@@ -45,32 +45,32 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
     }
 }
 
-void update(int *hauteurBras, int montee)
+//Update character position
+void update(int *hauteurBras, int *montee)
 {
-    if (*hauteurBras < HAUTEUR_BRAS_MAX)
+    if (*hauteurBras < HAUTEUR_BRAS_MAX) //600
     {
-        montee = 0;
+        *montee = 0;
     }
-    else if (*hauteurBras > HAUTEUR_BRAS_MIN)
+    else if (*hauteurBras > HAUTEUR_BRAS_MIN) //250
     {
-        montee = 1;
+        *montee = 1;
     }
 
-    if (montee)
-    {
-        *hauteurBras += 5;
-    }
-    else
+    if (*montee)
     {
         *hauteurBras -= 5;
     }
+    else
+    {
+        *hauteurBras += 5;
+    }
 }
 
-void draw(SDL_Renderer *renderer, SDL_DisplayMode screen,int hauteurBras)
-{ // Je pense que vous allez faire moins laid :)
+//Draw character
+void draw(SDL_Renderer *renderer, SDL_DisplayMode screen, int hauteurBras)
+{
     SDL_Rect rectangle;
-
-
 
     SDL_SetRenderDrawColor(renderer,
                            255, 255, 255, // mode Red, Green, Blue (tous dans 0..255)
@@ -109,7 +109,7 @@ void draw(SDL_Renderer *renderer, SDL_DisplayMode screen,int hauteurBras)
                        250, 550); // x,y seconde extrémité
 
     SDL_RenderDrawLine(renderer,
-                       200, 350,  // x,y du point de la première extrémité
+                       200, 350,          // x,y du point de la première extrémité
                        350, hauteurBras); // x,y seconde extrémité
     SDL_RenderDrawLine(renderer,
                        200, 350, // x,y du point de la première extrémité
@@ -120,9 +120,8 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
- 
-    int hauteurBras = 300, montee = 1;
 
+    int hauteurBras = 300, montee = 1;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -186,9 +185,9 @@ int main(int argc, char **argv)
                 break;
             }
         }
-        update(&hauteurBras,montee);
-        draw(renderer, screen,hauteurBras);      // appel de la fonction qui crée l'image
-        SDL_RenderPresent(renderer); // affichage
+        update(&hauteurBras, &montee);
+        draw(renderer, screen, hauteurBras); // appel de la fonction qui crée l'image
+        SDL_RenderPresent(renderer);         // affichage
 
         SDL_Delay(10);
     } // Pause exprimée en ms
