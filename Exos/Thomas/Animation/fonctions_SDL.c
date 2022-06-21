@@ -115,7 +115,7 @@ void animation_image(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer *
     SDL_RenderClear(renderer); // Effacer la fenêtre une fois le travail terminé
 }
 
-void animation_sprite(SDL_Texture *my_texture, SDL_Window *window, SDL_Renderer *renderer)
+void animation_sprite(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer *renderer)
 {
     SDL_Rect
         source = {0},            // Rectangle définissant la zone totale de la planche
@@ -123,30 +123,24 @@ void animation_sprite(SDL_Texture *my_texture, SDL_Window *window, SDL_Renderer 
         destination = {0},       // Rectangle définissant où la zone_source doit être déposée dans le renderer
         state = {0};             // Rectangle de la vignette en cours dans la planche
 
-    SDL_GetWindowSize(window, // Récupération des dimensions de la fenêtre
-                      &window_dimensions.w,
-                      &window_dimensions.h);
-    SDL_QueryTexture(my_texture, // Récupération des dimensions de l'image
-                     NULL, NULL,
-                     &source.w, &source.h);
+    SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h);
+    SDL_QueryTexture(ma_texture, NULL, NULL, &source.w, &source.h);
 
-    /* Mais pourquoi prendre la totalité de l'image, on peut n'en afficher qu'un morceau, et changer de morceau :-) */
-
-    int nb_images = 8;                   // Il y a 8 vignette dans la ligne de l'image qui nous intéresse
-    float zoom = 2;                      // zoom, car ces images sont un peu petites
-    int offset_x = source.w / nb_images, // La largeur d'une vignette de l'image, marche car la planche est bien réglée
-        offset_y = source.h / 4;         // La hauteur d'une vignette de l'image, marche car la planche est bien réglée
+    int nb_images = 9; //Nombre d'images par ligne
+    int nb_lignes = 3;
+    float zoom = 2;   
+    int offset_x = source.w / nb_images, // La largeur d'une vignette de l'image
+        offset_y = source.h / nb_lignes;         // La hauteur d'une vignette de l'image
 
     state.x = 0;            // La première vignette est en début de ligne
-    state.y = 3 * offset_y; // On s'intéresse à la 4ème ligne, le bonhomme qui court
+    state.y = 0 * offset_y; // On s'intéresse à la 1ère ligne
     state.w = offset_x;     // Largeur de la vignette
     state.h = offset_y;     // Hauteur de la vignette
 
     destination.w = offset_x * zoom; // Largeur du sprite à l'écran
     destination.h = offset_y * zoom; // Hauteur du sprite à l'écran
 
-    destination.y = // La course se fait en milieu d'écran (en vertical)
-        (window_dimensions.h - destination.h) / 2;
+    destination.y = (window_dimensions.h - destination.h) / 2;
 
     int speed = 9;
     for (int x = 0; x < window_dimensions.w - destination.w; x += speed)
@@ -157,11 +151,9 @@ void animation_sprite(SDL_Texture *my_texture, SDL_Window *window, SDL_Renderer 
                              // celle de début de ligne
 
         SDL_RenderClear(renderer);           // Effacer l'image précédente avant de dessiner la nouvelle
-        SDL_RenderCopy(renderer, my_texture, // Préparation de l'affichage
-                       &state,
-                       &destination);
-        SDL_RenderPresent(renderer); // Affichage
-        SDL_Delay(80);               // Pause en ms
+        SDL_RenderCopy(renderer, ma_texture, &state, &destination);
+        SDL_RenderPresent(renderer); 
+        SDL_Delay(80);           
     }
     SDL_RenderClear(renderer); // Effacer la fenêtre avant de rendre la main
 }

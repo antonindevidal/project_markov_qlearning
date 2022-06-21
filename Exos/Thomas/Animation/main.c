@@ -34,10 +34,11 @@ int main(int argc, char **argv)
     }
 
     /* Création des textures */
-    SDL_Texture *image_fond = load_texture_from_image("image_fond.jpg", window, renderer);
-    SDL_Texture *michelin = load_texture_from_image("michelin.png", window, renderer);
-    SDL_Texture *bateau = load_texture_from_image("bateau.jpg", window, renderer);
-
+    SDL_Texture *image_fond = load_texture_from_image("images/image_fond.jpg", window, renderer);
+    SDL_Texture *michelin = load_texture_from_image("images/michelin.png", window, renderer);
+    SDL_Texture *bateau = load_texture_from_image("images/bateau.jpg", window, renderer);
+    SDL_Texture *sprite = load_texture_from_image("images/Player/player_tilesheet.png", window, renderer);
+    animation_sprite(sprite, window, renderer);
     animation_image(bateau, window, renderer);
     
     /* Gestion des événements */
