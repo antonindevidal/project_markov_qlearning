@@ -7,8 +7,8 @@
 /*                              Programme d'exemple de création de rendu + dessin                                    */
 /*********************************************************************************************************************/
 
-int balleX=340;
-int balleY=360;
+int balleX = 340;
+int balleY = 360;
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
              SDL_Window *window, // fenêtre à fermer
@@ -45,49 +45,93 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
     }
 }
 
-void draw(SDL_Renderer *renderer)
-{ // Je pense que vous allez faire moins laid :)
-    SDL_Rect rectangle;
-
-    SDL_SetRenderDrawColor(renderer,
-                           150, 150, 150, // mode Red, Green, Blue (tous entre 0..255)
-                           255);     // 0 = transparent ; 255 = opaque
-    rectangle.x = 0;                 // x haut gauche du rectangle
-    rectangle.y = 0;                 // y haut gauche du rectangle
-    rectangle.w = 1720;               // sa largeur (w = width)
-    rectangle.h = 1080;               // sa hauteur (h = height)
-
-    SDL_RenderFillRect(renderer, &rectangle);
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
-
-    /* tracer un cercle n'est en fait pas trivial, voilà le résultat sans algo intelligent ... */
-    for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+void draw(SDL_Renderer *renderer, SDL_bool AnimationFini)
+{
+    if (!AnimationFini)
     {
-        SDL_RenderDrawPoint(renderer,
-                            300 + 30 * cos(angle),  // coordonnée en x
-                            300 + 30 * sin(angle)); //            en y
+        SDL_Rect rectangle;
+
+        SDL_SetRenderDrawColor(renderer,
+                               255, 102, 170, // mode Red, Green, Blue (tous entre 0..255)
+                               255);          // 0 = transparent ; 255 = opaque
+        rectangle.x = 0;                      // x haut gauche du rectangle
+        rectangle.y = 0;                      // y haut gauche du rectangle
+        rectangle.w = 1720;                   // sa largeur (w = width)
+        rectangle.h = 1080;                   // sa hauteur (h = height)
+
+        SDL_RenderFillRect(renderer, &rectangle);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+        /* tracer un cercle n'est en fait pas trivial, voilà le résultat sans algo intelligent ... */
+        for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+        {
+            SDL_RenderDrawPoint(renderer,
+                                300 + 30 * cos(angle),  // coordonnée en x
+                                300 + 30 * sin(angle)); //            en y
+        }
+
+        SDL_RenderDrawLine(renderer, 300, 330, 300, 430); // xi,yi;xj,yj
+        SDL_RenderDrawLine(renderer, 300, 430, 260, 480); // jambe gauche
+        SDL_RenderDrawLine(renderer, 300, 430, 340, 480); // jambe droite
+        SDL_RenderDrawLine(renderer, 300, 350, 315, 390); // bras
+        SDL_RenderDrawLine(renderer, 315, 390, 340, 360); // avant-bras
+
+        SDL_Rect rect;
+        rect.x = 900; // x haut gauche du rectangle
+        rect.y = 250; // y haut gauche du rectangle
+        rect.w = 30;  // sa largeur (w = width)
+        rect.h = 250; // sa hauteur (h = height)
+        SDL_RenderDrawRect(renderer, &rect);
+
+        // balle
+        for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+        {
+            SDL_RenderDrawPoint(renderer, balleX + 25 * cos(angle), balleY + 25 * sin(angle));
+        }
     }
-
-    SDL_RenderDrawLine(renderer,300, 330, 300, 430); //xi,yi;xj,yj
-    SDL_RenderDrawLine(renderer,300, 430, 260, 480); //jambe gauche
-    SDL_RenderDrawLine(renderer,300, 430, 340, 480); //jambe droite
-    SDL_RenderDrawLine(renderer,300, 350, 315, 390); //bras
-    SDL_RenderDrawLine(renderer,315, 390, 340, 360); //avant-bras
-
-    
-
-    SDL_Rect rect;
-    rect.x = 900;                 // x haut gauche du rectangle
-    rect.y = 250;                 // y haut gauche du rectangle
-    rect.w = 30;               // sa largeur (w = width)
-    rect.h = 250;               // sa hauteur (h = height)
-    SDL_RenderDrawRect(renderer,&rect);
-
-    for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+    else
     {
-        SDL_RenderDrawPoint(renderer,balleX + 25 * cos(angle),balleY + 25 * sin(angle));
+                SDL_Rect rectangle;
+
+        SDL_SetRenderDrawColor(renderer,
+                               150, 150, 150, // mode Red, Green, Blue (tous entre 0..255)
+                               255);          // 0 = transparent ; 255 = opaque
+        rectangle.x = 0;                      // x haut gauche du rectangle
+        rectangle.y = 0;                      // y haut gauche du rectangle
+        rectangle.w = 1720;                   // sa largeur (w = width)
+        rectangle.h = 1080;                   // sa hauteur (h = height)
+
+        SDL_RenderFillRect(renderer, &rectangle);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+        /* tracer un cercle n'est en fait pas trivial, voilà le résultat sans algo intelligent ... */
+        for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+        {
+            SDL_RenderDrawPoint(renderer,
+                                190 + 30 * cos(angle),  // coordonnée en x
+                                450 + 30 * sin(angle)); //            en y
+        }
+
+        SDL_RenderDrawLine(renderer, 215, 465, 300, 465); // xi,yi;xj,yj
+        SDL_RenderDrawLine(renderer, 300, 465, 340, 450); // jambe gauche
+        SDL_RenderDrawLine(renderer, 300, 465, 340, 480); // jambe droite
+        SDL_RenderDrawLine(renderer, 235, 465, 190, 515); // bras droit
+        SDL_RenderDrawLine(renderer, 235, 465, 200, 410); // bras gauche
+
+        SDL_Rect rect;
+        rect.x = 900; // x haut gauche du rectangle
+        rect.y = 250; // y haut gauche du rectangle
+        rect.w = 30;  // sa largeur (w = width)
+        rect.h = 250; // sa hauteur (h = height)
+        SDL_RenderDrawRect(renderer, &rect);
+
+        // balle
+        for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+        {
+            SDL_RenderDrawPoint(renderer, 360 + 25 * cos(angle), 450 + 25 * sin(angle));
+        }
     }
 }
 
@@ -96,12 +140,15 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
+    int directionBalle = 1;
+    SDL_bool AnimationFini = SDL_FALSE;
+
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
     SDL_DisplayMode screen;
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-    SDL_Event event;           // Evènement à traiter
+    SDL_Event event;                // Evènement à traiter
 
     /*********************************************************************************************************************/
     /*                         Initialisation de la SDL  + gestion de l'échec possible                                   */
@@ -145,7 +192,7 @@ int main(int argc, char **argv)
                               // comme la valeur du type est SDL_Keydown, dans la partie 'union' de
                               // l'event, plusieurs champs deviennent pertinents
                 switch (event.key.keysym.sym)
-                {                     // la touche appuyée est ...
+                {                   // la touche appuyée est ...
                 case SDLK_ESCAPE:   // 'ESCAPE'
                     program_on = 0; // 'escape' ou 'q', d'autres façons de quitter le programme
                     break;
@@ -155,10 +202,16 @@ int main(int argc, char **argv)
                 }
                 break;
             }
-            draw(renderer);              // appel de la fonction qui crée l'image
-            SDL_RenderPresent(renderer); // affichage
-            SDL_Delay(10);            // Pause exprimée en ms
+            draw(renderer, AnimationFini); // appel de la fonction qui crée l'image
 
+            balleX = balleX + directionBalle * 5;
+            if (balleX > 874)
+                directionBalle = -1;
+            if (balleX < 300)
+                AnimationFini = SDL_TRUE;
+
+            SDL_RenderPresent(renderer); // affichage
+            SDL_Delay(10);               // Pause exprimée en ms
         }
     }
 
