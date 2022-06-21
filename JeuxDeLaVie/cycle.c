@@ -1,4 +1,5 @@
 #include 'cycle.h'
+#include 'data.h'
 
 //mode=0 mode normal
 //mode=1 mode thorique
@@ -50,7 +51,9 @@ int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour,int mode){
 
 //mode=0 mode normal
 //mode=1 mode thorique
-void cycle(int** nouv, int** anc,int mode){
+//void cycle(int** nouv, int** anc,int mode){
+
+//}
 
 int detection_etat_stable(int **anc, int **nouv, int taille_x, int taille_y)
 {
