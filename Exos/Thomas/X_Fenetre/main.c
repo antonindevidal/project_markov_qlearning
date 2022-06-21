@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     createWindow(&fenetres[0], "Fenêtre 0", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     SDL_Delay(1000);
     int x = pos_X, y = pos_Y;
-    while ((x + largeur_fenetres < dim.w - 50) && (y > 50))
+    while ((x + largeur_fenetres < dim.w - 200) && (y > 200))
     {
         x++;
         y--;
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     SDL_Delay(1000);
     createWindow(&fenetres[1], "Fenêtre 1", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x = pos_X, y = pos_Y;
-    while ((x > 50) && (y > 50))
+    while ((x > 200) && (y > 200))
     {
         x--;
         y--;
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
     createWindow(&fenetres[2], "Fenêtre 2", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x = pos_X, y = pos_Y;
-    while ((x > 50) && (dim.h - 50 > y + hauteur_fenetres))
+    while ((x > 200) && (dim.h - 200 > y + hauteur_fenetres))
     {
         x--;
         y++;
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 
     createWindow(&fenetres[3], "Fenêtre 3", pos_X, pos_Y, largeur_fenetres, hauteur_fenetres, SDL_WINDOW_RESIZABLE);
     x = pos_X, y = pos_Y;
-    while ((x + largeur_fenetres < dim.w - 50) && (dim.h - 50 > y + hauteur_fenetres))
+    while ((x + largeur_fenetres < dim.w - 200) && (dim.h - 200 > y + hauteur_fenetres))
     {
         x++;
         y++;
