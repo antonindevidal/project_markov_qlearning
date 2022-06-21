@@ -1,70 +1,135 @@
 #include <SDL2/SDL.h>
+#include <math.h>
 #include <stdio.h>
+#include <string.h>
 
-/************************************/
-/*  exemple de création de fenêtres */
-/************************************/
+/*********************************************************************************************************************/
+/*                              Programme d'exemple de création de rendu + dessin                                    */
+/*********************************************************************************************************************/
+
+int balleX=340;
+int balleY=360;
+void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
+             char const *msg,    // message à afficher
+             SDL_Window *window, // fenêtre à fermer
+             SDL_Renderer *renderer)
+{ // renderer à fermer
+    char msg_formated[255];
+    int l;
+
+    if (!ok)
+    { // Affichage de ce qui ne va pas
+        strncpy(msg_formated, msg, 250);
+        l = strlen(msg_formated);
+        strcpy(msg_formated + l, " : %s\n");
+
+        SDL_Log(msg_formated, SDL_GetError());
+    }
+
+    if (renderer != NULL)
+    {                                  // Destruction si nécessaire du renderer
+        SDL_DestroyRenderer(renderer); // Attention : on suppose que les NULL sont maintenus !!
+        renderer = NULL;
+    }
+    if (window != NULL)
+    {                              // Destruction si nécessaire de la fenêtre
+        SDL_DestroyWindow(window); // Attention : on suppose que les NULL sont maintenus !!
+        window = NULL;
+    }
+
+    SDL_Quit();
+
+    if (!ok)
+    { // On quitte si cela ne va pas
+        exit(EXIT_FAILURE);
+    }
+}
+
+void draw(SDL_Renderer *renderer)
+{ // Je pense que vous allez faire moins laid :)
+    SDL_Rect rectangle;
+
+    SDL_SetRenderDrawColor(renderer,
+                           150, 150, 150, // mode Red, Green, Blue (tous entre 0..255)
+                           255);     // 0 = transparent ; 255 = opaque
+    rectangle.x = 0;                 // x haut gauche du rectangle
+    rectangle.y = 0;                 // y haut gauche du rectangle
+    rectangle.w = 1720;               // sa largeur (w = width)
+    rectangle.h = 1080;               // sa hauteur (h = height)
+
+    SDL_RenderFillRect(renderer, &rectangle);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+
+    /* tracer un cercle n'est en fait pas trivial, voilà le résultat sans algo intelligent ... */
+    for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+    {
+        SDL_RenderDrawPoint(renderer,
+                            300 + 30 * cos(angle),  // coordonnée en x
+                            300 + 30 * sin(angle)); //            en y
+    }
+
+    SDL_RenderDrawLine(renderer,300, 330, 300, 430); //xi,yi;xj,yj
+    SDL_RenderDrawLine(renderer,300, 430, 260, 480); //jambe gauche
+    SDL_RenderDrawLine(renderer,300, 430, 340, 480); //jambe droite
+    SDL_RenderDrawLine(renderer,300, 350, 315, 390); //bras
+    SDL_RenderDrawLine(renderer,315, 390, 340, 360); //avant-bras
+
+    
+
+    SDL_Rect rect;
+    rect.x = 900;                 // x haut gauche du rectangle
+    rect.y = 250;                 // y haut gauche du rectangle
+    rect.w = 30;               // sa largeur (w = width)
+    rect.h = 250;               // sa hauteur (h = height)
+    SDL_RenderDrawRect(renderer,&rect);
+
+    for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000)
+    {
+        SDL_RenderDrawPoint(renderer,balleX + 25 * cos(angle),balleY + 25 * sin(angle));
+    }
+}
 
 int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
 
-    int XFenetre = 100;
-    int YFenetre = 100;
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
 
     SDL_DisplayMode screen;
-    SDL_Window
-        *window_1 = NULL, // Future fenêtre de gauche
-        *window_2 = NULL; // Future fenêtre de droite
-
-    SDL_bool
-        program_on = SDL_TRUE, // Booléen pour dire que le programme doit continuer
-        paused = SDL_FALSE;    // Booléen pour dire que le programme est en pause
+    SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;           // Evènement à traiter
 
-    /* Initialisation de la SDL  + gestion de l'échec possible */
+    /*********************************************************************************************************************/
+    /*                         Initialisation de la SDL  + gestion de l'échec possible                                   */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        SDL_Log("Error : SDL initialisation - %s\n",
-                SDL_GetError()); // l'initialisation de la SDL a échoué
-        exit(EXIT_FAILURE);
-    }
+        end_sdl(0, "ERROR SDL INIT", window, renderer);
+
     SDL_GetCurrentDisplayMode(0, &screen);
+    printf("Résolution écran\n\tw : %d\n\th : %d\n",
+           screen.w, screen.h);
 
-    /* Création de la fenêtre de gauche */
-    window_1 = SDL_CreateWindow(
-        "Fenêtre à gauche",    // codage en utf8, donc accents possibles
-        XFenetre, YFenetre,    // coin haut gauche en haut gauche de l'écran
-        400, 300,              // largeur = 400, hauteur = 300
-        SDL_WINDOW_RESIZABLE); // redimensionnable
+    /* Création de la fenêtre */
+    window = SDL_CreateWindow("Dessin",
+                              SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, screen.w * 0.66,
+                              screen.h * 0.66,
+                              SDL_WINDOW_OPENGL);
+    if (window == NULL)
+        end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
 
-    if (window_1 == NULL)
-    {
-        SDL_Log("Error : SDL window 1 creation - %s\n",
-                SDL_GetError()); // échec de la création de la fenêtre
-        SDL_Quit();              // On referme la SDL
-        exit(EXIT_FAILURE);
-    }
+    /* Création du renderer */
+    renderer = SDL_CreateRenderer(window, -1,
+                                  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == NULL)
+        end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
 
-    /* Création de la fenêtre de droite */
-    window_2 = SDL_CreateWindow(
-        "Fenêtre à droite",                                   // codage en utf8, donc accents possibles
-        screen.w - 500 - XFenetre, screen.h - 300 - YFenetre, // à droite de la fenêtre de gauche
-        400, 300,                                             // largeur = 500, hauteur = 300
-        SDL_WINDOW_RESIZABLE);
-
-    if (window_2 == NULL)
-    {
-        /* L'init de la SDL : OK
-           fenêtre 1 :OK
-           fenêtre 2 : échec */
-        SDL_Log("Error : SDL window 2 creation - %s\n",
-                SDL_GetError());     // échec de la création de la deuxième fenêtre
-        SDL_DestroyWindow(window_1); // la première fenétre (qui elle a été créée) doit être détruite
-        SDL_Quit();
-        exit(EXIT_FAILURE);
-    }
+    /*********************************************************************************************************************/
+    /*                                     On dessine dans le renderer                                                   */
+    /*********************************************************************************************************************/
 
     while (program_on)
     { // La boucle des évènements
@@ -81,48 +146,25 @@ int main(int argc, char **argv)
                               // l'event, plusieurs champs deviennent pertinents
                 switch (event.key.keysym.sym)
                 {                     // la touche appuyée est ...
-                case SDLK_p:          // 'p'
-                case SDLK_SPACE:      // ou 'SPC'
-                    paused = !paused; // basculement pause/unpause
-                    break;
                 case SDLK_ESCAPE:   // 'ESCAPE'
                     program_on = 0; // 'escape' ou 'q', d'autres façons de quitter le programme
                     break;
-                case SDLK_z: // 'z'
-                    YFenetre -= 10;
-                    break;
-                case SDLK_q: // 'q'
-                    XFenetre -= 10;
-                    break;
-                case SDLK_s: // 's'
-                    YFenetre += 10;
-                    break;
-                case SDLK_d: // 'd'
-                    XFenetre += 10;
-                    break;
+
                 default: // Une touche appuyée qu'on ne traite pas
                     break;
                 }
                 break;
-                
             }
-            SDL_SetWindowPosition(window_1, XFenetre, YFenetre);
-            SDL_SetWindowPosition(window_2, screen.w - 500 - XFenetre, screen.h - 300 - YFenetre);
-            SDL_SetWindowSize(window_1, XFenetre+400,YFenetre+300);
-            SDL_SetWindowSize(window_2, 400-XFenetre,300-YFenetre);
-            // draw(state, &color, renderer, window); // On redessine
+            draw(renderer);              // appel de la fonction qui crée l'image
+            SDL_RenderPresent(renderer); // affichage
+            SDL_Delay(10);            // Pause exprimée en ms
+
         }
-        //SDL_Delay(50); // Petite pause
     }
 
-    /* Normalement, on devrait ici remplir les fenêtres... */
-    // SDL_Delay(10000);                           // Pause exprimée  en ms
-
-    /* et on referme tout ce qu'on a ouvert en ordre inverse de la création */
-    SDL_DestroyWindow(window_2); // la fenêtre 2
-    SDL_DestroyWindow(window_1); // la fenêtre 1
+    /* on referme proprement la SDL */
+    end_sdl(1, "Normal ending", window, renderer);
 
     SDL_Quit(); // la SDL
-
-    return 0;
+    return EXIT_SUCCESS;
 }
