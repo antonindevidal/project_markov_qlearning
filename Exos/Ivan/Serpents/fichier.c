@@ -202,6 +202,9 @@ int main(int argc, char **argv)
                 }
                 break;
             }
+
+            //SDL_Delay(10);               // Pause exprimée en ms
+        }
             draw(renderer, AnimationFini); // appel de la fonction qui crée l'image
 
             balleX = balleX + directionBalle * 5;
@@ -211,8 +214,6 @@ int main(int argc, char **argv)
                 AnimationFini = SDL_TRUE;
 
             SDL_RenderPresent(renderer); // affichage
-            SDL_Delay(10);               // Pause exprimée en ms
-        }
     }
 
     /* on referme proprement la SDL */
