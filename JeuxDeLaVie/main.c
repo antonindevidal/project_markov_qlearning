@@ -47,21 +47,21 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
 }
 
 // Create grid: return 0 if no errors
-int** creationGrille(int * error)
+int** creationGrille(int * error,int tailleX, int tailleY)
 {   int ** nouv;
-    nouv = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+    nouv = malloc(sizeof(int *) * tailleY);
     if (nouv != NULL)
     {
-        for(int i = 0;i <WINDOWW / CELLSIZE;i++)
+        for(int i = 0;i <tailleY;i++)
         {
-            nouv[i] = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+            nouv[i] = malloc(sizeof(int *) * tailleX);
             if (nouv == NULL)
             {
                 *error = 1;
             }else{
-                for(int j =0;j<WINDOWH/CELLSIZE;j++)
+                for(int j =0;j<tailleX;j++)
                 {
-                    nouv[i][j] = j%2;
+                    nouv[i][j] = 0;
                 }
             }
         }
@@ -72,9 +72,9 @@ int** creationGrille(int * error)
     }
     return nouv;
 }
-void libererGrille(int ** tab,int tailleX)
+void libererGrille(int ** tab,int tailleY)
 {
-    for(int i =0;i <tailleX;i++)
+    for(int i =0;i <tailleY;i++)
     {
         free(tab[i]);
     }
@@ -106,12 +106,18 @@ int main(int argc, char **argv)
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    nouv = creationGrille(&erreur);
+    nouv = creationGrille(&erreur,tailleX,tailleY);
     if(erreur) end_sdl(0, "ERROR INIT GRILLE", window, renderer);
 
-    anc= creationGrille(&erreur);
+    anc= creationGrille(&erreur,tailleX,tailleY);
     if(erreur) end_sdl(0, "ERROR INIT GRILLE", window, renderer);
 
+    anc[10][11] = 1;
+    anc[11][12] = 1;
+    anc[12][10] = 1;
+    anc[12][11] = 1;
+    anc[12][12] = 1;
+    
     /* Création de la fenêtre */
     window = SDL_CreateWindow("Premier dessin",
                               SDL_WINDOWPOS_CENTERED,
@@ -155,9 +161,10 @@ int main(int argc, char **argv)
                 break;
             }
         }
+        SDL_Delay(300);
 
         // Update cycle
-        cycle(nouv, anc, tailleX, tailleY,0);
+        cycle(nouv, anc, tailleX, tailleY,1);
 
         // Draw Frame
         afficherGrille(nouv,tailleX, tailleY,CELLSIZE,renderer);
@@ -165,12 +172,11 @@ int main(int argc, char **argv)
         anc=nouv;
         nouv=tmp;
         SDL_RenderPresent(renderer); // affichage
-        SDL_Delay(100);
     }
 
 
-    libererGrille(nouv,tailleX);
-    libererGrille(anc,tailleX);
+    libererGrille(nouv,tailleY);
+    libererGrille(anc,tailleY);
 
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();

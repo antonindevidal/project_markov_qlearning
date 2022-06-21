@@ -48,7 +48,6 @@ void cycle(int** nouv, int** anc, int tailleX, int tailleY,int mode){
         for(int j=0;j<tailleX;j++){          
             nb=nbVoisin(i,j,tailleX,tailleY,anc,mode);
             //si vivant de base
-            printf("%d %d\n",i,j);
             if(anc[i][j]){
                 nouv[i][j]=survie[nb];
             }
