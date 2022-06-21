@@ -1,4 +1,4 @@
-#include "save.c"
+#include "save.h"
 
 void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
 {
@@ -6,8 +6,11 @@ void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
     if (file)
     {
         int i, j;
-        fir (i=0; i<taille_X; i++) {
+        for (i=0; i<taille_X; i++) {
             fgets(ligne, taille_Y, file);
+            for (j=0; j<taille_Y; j++) {
+                config[i][j] = atoi(ligne[j]);
+            }
         }
     }
     fclose(file);

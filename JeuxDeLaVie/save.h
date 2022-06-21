@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 /* Déclaration des prototypes */
-void saveConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
+void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y);
+void saveConfig(char *nom_fichier, int **config, int taille_X, int taille_Y);
 
 #endif
