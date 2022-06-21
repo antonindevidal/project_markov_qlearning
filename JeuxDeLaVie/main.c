@@ -1,4 +1,5 @@
 #include"affichage.h"
+#include "cycle.h"
 #include <SDL2/SDL.h>
 #include <math.h>
 #include <stdio.h>
@@ -156,10 +157,13 @@ int main(int argc, char **argv)
         }
 
         // Update cycle
+        cycle(nouv, anc, tailleX, tailleY,0);
 
         // Draw Frame
         afficherGrille(nouv,tailleX, tailleY,CELLSIZE,renderer);
-
+        int** tmp=anc;
+        anc=nouv;
+        nouv=tmp;
         SDL_RenderPresent(renderer); // affichage
         SDL_Delay(100);
     }

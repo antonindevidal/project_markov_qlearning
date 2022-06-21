@@ -8,9 +8,9 @@ int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour,int mode){
 
     if(!mode){
     int haut=i>0;
-    int bas=i<tailleY;
+    int bas=i<tailleY-1;
     int gauche=j>0;
-    int droite=j<tailleX;
+    int droite=j<tailleX-1;
 
     if(haut)nbVoisin+=cour[i-1][j];
     if(bas) nbVoisin+=cour[i+1][j];
@@ -24,15 +24,15 @@ int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour,int mode){
     }
     //Mode thorique
     else{
-        nbVoisin+=cour[(i-1)%tailleY][(j-1)%tailleX];//haut
-        nbVoisin+=cour[(i-1)%tailleY][j];
-        nbVoisin+=cour[(i-1)%tailleY][(j+1)%tailleX];
+        nbVoisin+=cour[(tailleY+i-1)%tailleY][(tailleX+j-1)%tailleX];//haut
+        nbVoisin+=cour[(tailleY+i-1)%tailleY][j];
+        nbVoisin+=cour[(tailleY+i-1)%tailleY][(j+1)%tailleX];
 
-        nbVoisin+=cour[(i+1)%tailleY][(j-1)%tailleX];//bas
+        nbVoisin+=cour[(i+1)%tailleY][(tailleX+j-1)%tailleX];//bas
         nbVoisin+=cour[(i+1)%tailleY][j];
         nbVoisin+=cour[(i+1)%tailleY][(j+1)%tailleX];
 
-        nbVoisin+=cour[i][(j-1)%tailleX];//gauche
+        nbVoisin+=cour[i][(tailleX+j-1)%tailleX];//gauche
         nbVoisin+=cour[i][(j+1)%tailleX];//droite
 
     }
@@ -45,8 +45,17 @@ void cycle(int** nouv, int** anc, int tailleX, int tailleY,int mode){
 
     int nb;
     for(int i=0;i<tailleY;i++){
-        for(int j=0;j<tailleX;j++){
-            nb=0;
+        for(int j=0;j<tailleX;j++){          
+            nb=nbVoisin(i,j,tailleX,tailleY,anc,mode);
+            //si vivant de base
+            printf("%d %d\n",i,j);
+            if(anc[i][j]){
+                nouv[i][j]=survie[nb];
+            }
+            //si mort de base
+            else{
+                nouv[i][j]=naissance[nb];
+            }
         }
     }
 }
