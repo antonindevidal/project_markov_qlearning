@@ -1,5 +1,6 @@
 #include"affichage.h"
 #include "cycle.h"
+#include "save.h"
 #include <SDL2/SDL.h>
 #include <math.h>
 #include <stdio.h>
@@ -151,6 +152,15 @@ int main(int argc, char **argv)
                 {
                 case SDLK_ESCAPE:
                     program_on = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                    break;
+                
+                case SDLK_s:
+                    saveConfig("config.txt", nouv, tailleX, tailleY);
+                    SDL_Delay(500);
+                    break;
+
+                case SDLK_c:
+                    chargerConfig("config.txt", anc, &tailleX, &tailleY);
                     break;
 
                 default:

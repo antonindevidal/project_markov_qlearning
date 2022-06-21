@@ -1,6 +1,6 @@
 #include "save.h"
 
-void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
+void chargerConfig(char *nom_fichier, int **config, int *taille_X, int *taille_Y)
 { // On passe taille_X et taille_Y en passage par adresse pour les récupérer.
   // Le fichier contient sur la 1ère ligne: taille_X taille_Y
   // Puis: 11100011011\n
@@ -9,10 +9,10 @@ void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
     if (file)
     {
         int i, j;
-        fscanf(file, "%i %i", &taille_X, &taille_Y);
-        for (i = 0; i < taille_X; i++)
+        fscanf(file, "%i %i", taille_X, taille_Y);
+        for (i = 0; i < *taille_Y; i++)
         {
-            for (j = 0; j < taille_Y; j++)
+            for (j = 0; j < *taille_X; j++)
             {
                 fscanf(file, "%d", &config[i][j]);
             }
@@ -28,9 +28,9 @@ void saveConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
     {
         fprintf(file, "%i %i\n", taille_X, taille_Y);
         int i, j;
-        for (i = 0; i < taille_X; i++)
+        for (i = 0; i < taille_Y; i++)
         {
-            for (j = 0; j < taille_Y; j++)
+            for (j = 0; j < taille_X; j++)
             {
                 fprintf(file, "%i", config[i][j]);
             }
