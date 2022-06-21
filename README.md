@@ -1,11 +1,11 @@
 # Projet_ZZ1
 
 Semaines de projet du groupe de: <br/>
-- Antonin Devidal<br/>
-- Thomas Quentel<br/>
-- Ivan Le Teuff<br/>
+- [Antonin Devidal](/Exos/Antonin)<br/>
+- [Thomas Quentel](/Exos/Thomas)<br/>
+- [Ivan Le Teuff](/Exos/Ivan)<br/>
 
 
-##Arborescence du projet 
+## Arborescence du projet 
 <br/>
-![imageArborescence](/Exos/Ivan/img/ArbreProjet.png)
+![imageArborescence](/Doc/ArbreProjet.png)
