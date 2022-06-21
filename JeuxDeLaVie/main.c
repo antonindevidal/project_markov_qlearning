@@ -4,11 +4,9 @@
 #include <string.h>
 #include <SDL2/SDL_image.h>
 
-#define NBIMAGES 2
-#define SOURCEX 1
-#define SOURCEY 68
-#define OFFSET 1
-#define SPRITESIZE 16
+#define WINDOWH 400
+#define WINDOWW 500
+#define CELLSIZE 10
 
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
@@ -46,12 +44,51 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
     }
 }
 
-
+// Create grid: return 0 if no errors
+int creationGrille(int **nouv, int **anc)
+{
+    int error = 0;
+    nouv = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+    if (nouv != NULL)
+    {
+        for(int i = 0;i <WINDOWW / CELLSIZE;i++)
+        {
+            nouv[i] = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+            if (nouv == NULL)
+            {
+                error = 1;
+            }
+        }
+    }
+    else
+    {
+        error = 1;
+    }
+    anc = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+    if (anc != NULL)
+    {
+        for(int i = 0;i <WINDOWW / CELLSIZE;i++)
+        {
+            nouv[i] = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
+            if (anc == NULL)
+            {
+                error = 1;
+            }
+        }
+    }
+    else
+    {
+        error = 1;
+    }
+    return error;
+}
 
 int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
+
+    int **nouv = NULL, **anc = NULL;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -68,11 +105,16 @@ int main(int argc, char **argv)
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
+    if (creationGrille(nouv, anc))
+    {
+        end_sdl(0, "ERROR GRID CREATION MALLOC", window, renderer);
+    }
     /* Création de la fenêtre */
     window = SDL_CreateWindow("Premier dessin",
                               SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED, screen.w * 0.66,
-                              screen.h * 0.66,
+                              SDL_WINDOWPOS_CENTERED,
+                              WINDOWW,
+                              WINDOWH,
                               SDL_WINDOW_OPENGL);
     if (window == NULL)
         end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
@@ -82,7 +124,6 @@ int main(int argc, char **argv)
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
         end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
-
 
     while (program_on)
     {
@@ -111,19 +152,13 @@ int main(int argc, char **argv)
             }
         }
 
+        // Update cycle
 
-        //Update cycle
+        // Draw Frame
 
-
-        //Draw Frame
-        
-        
-        
-        SDL_RenderPresent(renderer);                                               // affichage
+        SDL_RenderPresent(renderer); // affichage
         SDL_Delay(100);
-    } 
-
-
+    }
 
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();
