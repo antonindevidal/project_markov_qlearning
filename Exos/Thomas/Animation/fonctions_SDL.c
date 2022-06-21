@@ -66,8 +66,6 @@ void afficher_texture_full(SDL_Texture *ma_texture, SDL_Window *window, SDL_Rend
 
     destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
-    /* On veut afficher la texture de façon à ce que l'image occupe la totalité de la fenêtre */
-
     SDL_RenderCopy(renderer, ma_texture, &source, &destination); // Création de l'élément à afficher
 }
 
@@ -126,11 +124,11 @@ void animation_sprite(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer 
     SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h);
     SDL_QueryTexture(ma_texture, NULL, NULL, &source.w, &source.h);
 
-    int nb_images = 9; //Nombre d'images par ligne
+    int nb_images = 9; // Nombre d'images par ligne
     int nb_lignes = 3;
-    float zoom = 2;   
+    float zoom = 2;
     int offset_x = source.w / nb_images, // La largeur d'une vignette de l'image
-        offset_y = source.h / nb_lignes;         // La hauteur d'une vignette de l'image
+        offset_y = source.h / nb_lignes; // La hauteur d'une vignette de l'image
 
     state.x = 0;            // La première vignette est en début de ligne
     state.y = 0 * offset_y; // On s'intéresse à la 1ère ligne
@@ -147,13 +145,60 @@ void animation_sprite(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer 
     {
         destination.x = x;   // Position en x pour l'affichage du sprite
         state.x += offset_x; // On passe à la vignette suivante dans l'image
-        state.x %= source.w; // La vignette qui suit celle de fin de ligne est
-                             // celle de début de ligne
+        state.x %= source.w; // La vignette qui suit celle de fin de ligne est celle de début de ligne
 
-        SDL_RenderClear(renderer);           // Effacer l'image précédente avant de dessiner la nouvelle
+        SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, ma_texture, &state, &destination);
-        SDL_RenderPresent(renderer); 
-        SDL_Delay(80);           
+        SDL_RenderPresent(renderer);
+        SDL_Delay(80);
     }
     SDL_RenderClear(renderer); // Effacer la fenêtre avant de rendre la main
+}
+
+void fond_sprite(SDL_Texture *bg_texture, SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer *renderer)
+{
+    SDL_Rect source = {0}, window_dimensions = {0}, destination = {0};
+
+    SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h);
+    SDL_QueryTexture(ma_texture, NULL, NULL, &source.w, &source.h);
+
+    int nb_images = 9;
+    int nb_lignes = 3;
+    int nb_images_animation = 5 * nb_images;
+    float zoom = 1;
+    int offset_x = source.w / nb_images, // La largeur d'une vignette de l'image
+        offset_y = source.h / nb_lignes; // La hauteur d'une vignette de l'image
+    SDL_Rect state[nb_images];           // Tableau qui stocke les vignettes dans le bon ordre pour l'animation
+
+    /* Construction des différents rectangles autour de chacune des vignettes de la planche */
+    int i = 0, y = offset_y;
+    for (int x = 0; x < source.w; x += offset_x)
+    {
+        state[i].x = x;
+        state[i].y = y;
+        state[i].w = offset_x;
+        state[i].h = offset_y;
+        ++i;
+    }
+
+    for (i = 0; i < nb_images; ++i)
+    { // reprise du début de l'animation en sens inverse
+        state[i] = state[nb_images - 1 - i];
+    }
+
+    destination.w = offset_x * zoom;                                 // Largeur du sprite à l'écran
+    destination.h = offset_y * zoom;                                 // Hauteur du sprite à l'écran
+    destination.x = (window_dimensions.w - destination.w) / 2;       // Position en x pour l'affichage du sprite
+    destination.y = (window_dimensions.h - destination.h) / 2 + 150; // Position en y pour l'affichage du sprite
+
+    i = 0;
+    for (int cpt = 0; cpt < nb_images_animation; ++cpt)
+    {
+        afficher_texture_full(bg_texture, window, renderer);
+        SDL_RenderCopy(renderer, ma_texture, &state[i], &destination);
+        i = (i + 1) % nb_images; // Passage à l'image suivante, le modulo car l'animation est cyclique
+        SDL_RenderPresent(renderer);
+        SDL_Delay(100);
+    }
+    SDL_RenderClear(renderer);
 }

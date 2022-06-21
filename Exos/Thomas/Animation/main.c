@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     printf("Résolution écran: %d x %d\n", ecran.w, ecran.h);
 
     /* Création de la fenêtre */
-    window = SDL_CreateWindow("Animation", ecran.w / 2 - 250, ecran.h / 2 - 250, 500, 500, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Animation", ecran.w / 2 - 400, ecran.h / 2 - 250, 800, 500, SDL_WINDOW_OPENGL);
     if (window == NULL)
     {
         end_sdl(0, "Erreur: WINDOW CREATION", window, renderer);
@@ -38,9 +38,10 @@ int main(int argc, char **argv)
     SDL_Texture *michelin = load_texture_from_image("images/michelin.png", window, renderer);
     SDL_Texture *bateau = load_texture_from_image("images/bateau.jpg", window, renderer);
     SDL_Texture *sprite = load_texture_from_image("images/Player/player_tilesheet.png", window, renderer);
+    fond_sprite(image_fond, sprite, window, renderer);
     animation_sprite(sprite, window, renderer);
     animation_image(bateau, window, renderer);
-    
+
     /* Gestion des événements */
     SDL_bool en_cours = SDL_TRUE;
     SDL_Event event;
@@ -62,11 +63,11 @@ int main(int argc, char **argv)
         SDL_RenderPresent(renderer);
         SDL_Delay(30); // Faire une pause pour une bonne fluidité
     }
-    
 
     SDL_DestroyTexture(image_fond);
     SDL_DestroyTexture(michelin);
     SDL_DestroyTexture(bateau);
+    SDL_DestroyTexture(sprite);
     end_sdl(1, "Fin Normale", window, renderer);
     IMG_Quit();
     SDL_Quit();
