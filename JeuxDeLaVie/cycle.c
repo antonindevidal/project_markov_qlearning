@@ -1,20 +1,10 @@
-#include 'cycle.h'
-#include 'data.h'
+#include "cycle.h"
+#include "data.h"
 
 //mode=0 mode normal
 //mode=1 mode thorique
 int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour,int mode){
     int nbVoisin=0;
-    if(k!=tailleX)
-    for(int k=(i-1)%tailleX;k<=i+1;k++){
-        for(int r=(j-1)%tailleY;r<=j+1;r++){
-            if(k!=i && r!=j){
-                if(cour[k][r]){
-                    nbVoisin++;
-                }
-            }
-        }
-    }
 
     if(!mode){
     int haut=i>0;
@@ -51,17 +41,23 @@ int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour,int mode){
 
 //mode=0 mode normal
 //mode=1 mode thorique
-//void cycle(int** nouv, int** anc,int mode){
+void cycle(int** nouv, int** anc, int tailleX, int tailleY,int mode){
 
-//}
+    int nb;
+    for(int i=0;i<tailleY;i++){
+        for(int j=0;j<tailleX;j++){
+            nb=0;
+        }
+    }
+}
 
 int detection_etat_stable(int **anc, int **nouv, int taille_x, int taille_y)
 {
     int i = 0, j = 0;
     int stable = 1;
-    while ((i < taille_x) && stable))
+    while ((i < taille_x) && stable)
         {
-            while ((j < taille_h) && stable))
+            while ((j < taille_y) && stable)
                 {
                     if (anc[i][j] != nouv[i][j])
                     {
