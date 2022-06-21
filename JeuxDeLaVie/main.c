@@ -1,3 +1,4 @@
+#include"affichage.h"
 #include <SDL2/SDL.h>
 #include <math.h>
 #include <stdio.h>
@@ -45,9 +46,8 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
 }
 
 // Create grid: return 0 if no errors
-int creationGrille(int **nouv, int **anc)
-{
-    int error = 0;
+int** creationGrille(int * error)
+{   int ** nouv;
     nouv = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
     if (nouv != NULL)
     {
@@ -56,31 +56,28 @@ int creationGrille(int **nouv, int **anc)
             nouv[i] = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
             if (nouv == NULL)
             {
-                error = 1;
+                *error = 1;
+            }else{
+                for(int j =0;j<WINDOWH/CELLSIZE;j++)
+                {
+                    nouv[i][j] = j%2;
+                }
             }
         }
     }
     else
     {
-        error = 1;
+        *error = 1;
     }
-    anc = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
-    if (anc != NULL)
+    return nouv;
+}
+void libererGrille(int ** tab,int tailleX)
+{
+    for(int i =0;i <tailleX;i++)
     {
-        for(int i = 0;i <WINDOWW / CELLSIZE;i++)
-        {
-            nouv[i] = malloc(sizeof(int *) * (WINDOWW / CELLSIZE));
-            if (anc == NULL)
-            {
-                error = 1;
-            }
-        }
+        free(tab[i]);
     }
-    else
-    {
-        error = 1;
-    }
-    return error;
+    free(tab);
 }
 
 int main(int argc, char **argv)
@@ -88,7 +85,10 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    int **nouv = NULL, **anc = NULL;
+    int **nouv = NULL, **anc = NULL,erreur = 0;
+
+    int tailleX = WINDOWW/CELLSIZE;
+    int tailleY = WINDOWH/CELLSIZE;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -105,10 +105,12 @@ int main(int argc, char **argv)
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    if (creationGrille(nouv, anc))
-    {
-        end_sdl(0, "ERROR GRID CREATION MALLOC", window, renderer);
-    }
+    nouv = creationGrille(&erreur);
+    if(erreur) end_sdl(0, "ERROR INIT GRILLE", window, renderer);
+
+    anc= creationGrille(&erreur);
+    if(erreur) end_sdl(0, "ERROR INIT GRILLE", window, renderer);
+
     /* Création de la fenêtre */
     window = SDL_CreateWindow("Premier dessin",
                               SDL_WINDOWPOS_CENTERED,
@@ -124,6 +126,7 @@ int main(int argc, char **argv)
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
         end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
+
 
     while (program_on)
     {
@@ -155,10 +158,15 @@ int main(int argc, char **argv)
         // Update cycle
 
         // Draw Frame
+        afficherGrille(nouv,tailleX, tailleY,CELLSIZE,renderer);
 
         SDL_RenderPresent(renderer); // affichage
         SDL_Delay(100);
     }
+
+
+    libererGrille(nouv,tailleX);
+    libererGrille(anc,tailleX);
 
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();
