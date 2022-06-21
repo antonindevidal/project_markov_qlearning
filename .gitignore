@@ -9,6 +9,7 @@
 
 .vscode
 executable
+config.txt
 
 # Linker output
 *.ilk
