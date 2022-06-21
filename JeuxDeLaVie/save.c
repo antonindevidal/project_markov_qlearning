@@ -9,12 +9,12 @@ void chargerConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
     if (file)
     {
         int i, j;
-        fscanf(file, "%i %i", taille_X, taille_Y);
+        fscanf(file, "%i %i", &taille_X, &taille_Y);
         for (i = 0; i < taille_X; i++)
         {
             for (j = 0; j < taille_Y; j++)
             {
-                fscanf(file, "%d", config[i][j]);
+                fscanf(file, "%d", &config[i][j]);
             }
         }
     }
