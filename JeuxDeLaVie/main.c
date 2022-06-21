@@ -156,7 +156,6 @@ int main(int argc, char **argv)
                 
                 case SDLK_s:
                     saveConfig("config.txt", nouv, tailleX, tailleY);
-                    SDL_Delay(500);
                     break;
 
                 case SDLK_c:

@@ -32,7 +32,7 @@ void saveConfig(char *nom_fichier, int **config, int taille_X, int taille_Y)
         {
             for (j = 0; j < taille_X; j++)
             {
-                fprintf(file, "%i", config[i][j]);
+                fprintf(file, "%i ", config[i][j]);
             }
             fprintf(file, "\n");
         }
