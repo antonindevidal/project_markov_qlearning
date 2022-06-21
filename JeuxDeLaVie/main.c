@@ -87,10 +87,10 @@ void libererGrille(int **tab, int tailleY)
 
 void poserCase(int caseX, int caseY, int **nouv, int tailleX, int tailleY)
 {
-	if (caseX < tailleX && caseY < tailleY)
-	{
-		nouv[caseY][caseX] = !nouv[caseY][caseX];
-	}
+    if (caseX < tailleX && caseY < tailleY)
+    {
+        nouv[caseY][caseX] = !nouv[caseY][caseX];
+    }
 }
 
 int main(int argc, char **argv)
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
     // 0=mode classique, 1=mode thorique
     int mode = 0;
 
-    int mouseX = 0, mouseY = 0, arretEvent = 0, cycles = 0,pause = 0;
+    int mouseX = 0, mouseY = 0, arretEvent = 0, cycles = 0, pause = 0;
     int **nouv = NULL, **anc = NULL, erreur = 0;
 
     int tailleX = WINDOWW / CELLSIZE;
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
                     arretEvent = 1;
                     break;
                 case SDLK_m:
-                    mode=!mode;
+                    mode = !mode;
                     arretEvent = 1;
                     break;
                 case SDLK_LEFT:
@@ -199,9 +199,9 @@ int main(int argc, char **argv)
                     }
                     break;
                 case SDLK_SPACE:
-					pause = !pause;
+                    pause = !pause;
                     arretEvent = 1;
-					break;
+                    break;
                 default:
                     break;
                 }
@@ -234,6 +234,7 @@ int main(int argc, char **argv)
         {
             cycles = 0;
             cycle(nouv, anc, tailleX, tailleY, mode);
+            detection_etat_stable(anc, nouv, tailleX, tailleY);
             int **tmp = anc;
             anc = nouv;
             nouv = tmp;

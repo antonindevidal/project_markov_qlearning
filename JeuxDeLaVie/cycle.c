@@ -19,7 +19,7 @@ int nbVoisin(int i, int j, int tailleX, int tailleY, int **cour, int mode)
         if (bas)
             nbVoisin += cour[i + 1][j];
         if (gauche)
-            nbVoisin += cour[i][j - j];
+            nbVoisin += cour[i][j - 1];
         if (droite)
             nbVoisin += cour[i][j + 1];
         if (haut && gauche)
