@@ -86,7 +86,7 @@ void libererGrille(int **tab, int tailleY)
 }
 
 void poserCase(int caseX, int caseY, int **nouv, int tailleX, int tailleY)
-{
+{ //Pose/enlève une case au clic
     if (caseX < tailleX && caseY < tailleY)
     {
         nouv[caseY][caseX] = !nouv[caseY][caseX];
@@ -131,6 +131,7 @@ int main(int argc, char **argv)
     if (erreur)
         end_sdl(0, "ERROR INIT GRILLE", window, renderer);
 
+    /* Un vaisseau */
     anc[10][11] = 1;
     anc[11][12] = 1;
     anc[12][10] = 1;
