@@ -19,4 +19,4 @@ Le prévisionnel des tâches y est disponible [ici](https://docs.google.com/spre
 ![imagePlanningReel](/Doc/planning_reel.png)
 
 ## Jeu de la vie
-Le README.md du jeu de la vie est disponible [ici](/JeuxDeLaVie)
+Le README.md du jeu de la vie est disponible [ici](/JeuxDeLaVie/README.md)
