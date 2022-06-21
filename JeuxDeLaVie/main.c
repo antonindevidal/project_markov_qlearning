@@ -88,9 +88,9 @@ void libererGrille(int **tab, int tailleY)
 
 void poserCase(int caseX, int caseY, int **nouv, int tailleX, int tailleY)
 {
-	if (caseX < tailleX - 1 && caseY < tailleY - 1)
+	if (caseX < tailleX && caseY < tailleY)
 	{
-		nouv[caseY][caseX] = !nouv[caseY][caseX] ;
+		nouv[caseY][caseX] = !nouv[caseY][caseX];
 	}
 }
 
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	int mouseX = 0, mouseY = 0, arretEvent = 0, cycles = 0;
+	int mouseX = 0, mouseY = 0, arretEvent = 0, cycles = 0,pause = 0;
 	int **nouv = NULL, **anc = NULL, erreur = 0;
 
 	int tailleX = WINDOWW / CELLSIZE;
@@ -168,13 +168,16 @@ int main(int argc, char **argv)
 					program_on = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
 					arretEvent = 1;
 					break;
-                case SDLK_s:
-                    saveConfig("config.txt", nouv, tailleX, tailleY);
-                    break;
+				case SDLK_s:
+					saveConfig("config.txt", nouv, tailleX, tailleY);
+					break;
 
-                case SDLK_c:
-                    chargerConfig("config.txt", anc, &tailleX, &tailleY);
-                    break;
+				case SDLK_c:
+					chargerConfig("config.txt", anc, &tailleX, &tailleY);
+					break;
+				case SDLK_SPACE:
+					pause = !pause;
+					break;
 				default:
 					break;
 				}
@@ -182,7 +185,7 @@ int main(int argc, char **argv)
 			case SDL_MOUSEBUTTONDOWN:
 				if (SDL_GetMouseState(&mouseX, &mouseY) &
 					SDL_BUTTON(SDL_BUTTON_LEFT))
-				{ // Si c'est un click gauche
+				{																			// Si c'est un click gauche
 					poserCase(mouseX / CELLSIZE, mouseY / CELLSIZE, anc, tailleX, tailleY); // Fonction à éxécuter lors d'un click gauche
 				}
 				else if (SDL_GetMouseState(NULL, NULL) &
@@ -203,7 +206,7 @@ int main(int argc, char **argv)
 		afficherGrille(anc, tailleX, tailleY, CELLSIZE, renderer);
 
 		// Update cycle
-		if (cycles >= NBCYCLES)
+		if (cycles >= NBCYCLES && !pause)
 		{
 			cycles = 0;
 			cycle(nouv, anc, tailleX, tailleY, 1);
