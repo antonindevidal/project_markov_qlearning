@@ -207,6 +207,7 @@ int main(int argc, char **argv)
 		{
 			cycles = 0;
 			cycle(nouv, anc, tailleX, tailleY, 1);
+            detection_etat_stable(anc, nouv, tailleX, tailleY);
 			int **tmp = anc;
 			anc = nouv;
 			nouv = tmp;
