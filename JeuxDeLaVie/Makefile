@@ -1,4 +1,4 @@
-SRC=main.c affichage.c cycle.c
+SRC=main.c affichage.c cycle.c save.c
 EXE=main.out
 
 CC=gcc
