@@ -11,15 +11,15 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
-    int nbCycles = 1;
+    int nbCycles = 3;
 
     /* Ennemis */
     ennemis_t ennemis;
     initEnnemi(&ennemis);
-    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 20);
-    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 20);
-    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 20);
-    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 20);
+    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 40);
 
     SDL_bool programON = SDL_TRUE; 
     SDL_Event event;              
