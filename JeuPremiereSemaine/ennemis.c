@@ -20,7 +20,7 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h)
     { // Allocation Ok
         nouv_ennemi->ennemi_suivant = NULL;
         info_ennemi_t *info_nouv;
-        info_nouv = (int *)malloc(sizeof(int) * 4);
+        info_nouv = (info_ennemi_t *)malloc(sizeof(info_ennemi_t));
         if (!info_nouv)
         { // Allocation Ok
             info_nouv->x = x;
@@ -77,8 +77,12 @@ void afficher_ennemis(ennemis_t *tf)
 {
 }
 
-void liberation_ennemis(ennemis_t *tf)
-{
+void liberation_ennemis(ennemi_t *tf)
+{ // Il faudra mettre tf->tete en paramètre.
+    if (tf->ennemi_suivant != NULL) {
+        liberation_ennemis(tf->ennemi_suivant);
+    }
+    free(tf);
 }
 
 void nouveau_theta(float *theta)
