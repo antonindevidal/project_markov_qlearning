@@ -17,9 +17,12 @@ int main(int argc, char **argv)
     ennemis_t ennemis;
     init_ennemi(&ennemis);
     ajout_ennemi(&ennemis, 50, 50, 20, 20, 10, 20);
+    ajout_ennemi(&ennemis, 150, 50, 20, 20, 10, 20);
+    ajout_ennemi(&ennemis, 250, 50, 20, 20, 10, 20);
+    ajout_ennemi(&ennemis, 50, 150, 20, 20, 10, 20);
 
-    SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-    SDL_Event event;                // c'est le type IMPORTANT !!
+    SDL_bool program_on = SDL_TRUE; 
+    SDL_Event event;              
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -93,7 +96,7 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(16);
-        afficher_ennemis(&ennemis, ufoBlue, renderer);
+        //afficher_ennemis(&ennemis, ufoBlue, renderer);
 
         // Update cycle
         if (cycles >= nbCycles)

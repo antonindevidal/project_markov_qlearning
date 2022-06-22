@@ -19,7 +19,7 @@ typedef struct ennemi
 {
     info_ennemi_t *info_ennemi;
     struct ennemi *ennemi_suivant;
-} ennemi_t;
+} ennemi_t,*listE_t;
 
 typedef struct ennemis
 {

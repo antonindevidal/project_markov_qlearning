@@ -18,7 +18,7 @@ void deplacement_ennemi(int *x, int *y, int theta, float vitesseX, float vitesse
 
 void deplacement_ennemis(ennemis_t *tf)
 {
-    if (!tf)
+    if (tf->tete != NULL)
     { // S'il existe des ennemis
         ennemi_t *courant;
         courant = tf->tete;
@@ -46,12 +46,12 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h, int vitesseX, int v
 {
     ennemi_t *nouv_ennemi;
     nouv_ennemi = (ennemi_t *)malloc(sizeof(ennemi_t));
-    if (!nouv_ennemi)
+    if (nouv_ennemi != NULL)
     { // Allocation Ok
         nouv_ennemi->ennemi_suivant = NULL;
         info_ennemi_t *info_nouv;
         info_nouv = (info_ennemi_t *)malloc(sizeof(info_ennemi_t));
-        if (!info_nouv)
+        if (info_nouv != NULL)
         { // Allocation Ok
             info_nouv->x = x;
             info_nouv->y = y;
@@ -71,7 +71,7 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h, int vitesseX, int v
     {
         printf("Erreur d'allocation ennemi\n");
     }
-    if (!tf->tete)
+    if (tf->tete == NULL)
     { // Si la liste vide
         tf->tete = nouv_ennemi;
     }
@@ -79,11 +79,12 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h, int vitesseX, int v
     { // Il existe déjà au moins un ennemi
         ennemi_t *courant;
         courant = tf->tete;
-        while (!courant->ennemi_suivant)
+        while (courant->ennemi_suivant != NULL)
         { // ennemi_suivant non NULL
             courant = courant->ennemi_suivant;
         }
         courant->ennemi_suivant = nouv_ennemi;
+        courant = courant->ennemi_suivant;
     }
 }
 
@@ -95,7 +96,7 @@ void mort_ennemi(ennemis_t *tf, ennemi_t *ennemi_a_tuer)
     { // On cherche l'ennemi précédent
         prec = prec->ennemi_suivant;
     }
-    if (!ennemi_a_tuer->ennemi_suivant)
+    if (ennemi_a_tuer->ennemi_suivant != NULL)
     { // Il existe un ennemi après celui qu'on tue
         prec->ennemi_suivant = ennemi_a_tuer->ennemi_suivant;
     }
@@ -112,7 +113,7 @@ ennemis_t *ennemi_toucher(ennemis_t *tf, int tir_x, int tir_y, int tir_w, int ti
 
 void afficher_ennemis(ennemis_t *tf, SDL_Texture *texture, SDL_Renderer *renderer)
 {
-    if (!tf->tete)
+    if (tf->tete != NULL)
     { // S'il existe des ennemis
         ennemi_t *courant;
         courant = tf->tete;
@@ -124,6 +125,7 @@ void afficher_ennemis(ennemis_t *tf, SDL_Texture *texture, SDL_Renderer *rendere
             w = courant->info_ennemi->w;
             h = courant->info_ennemi->h;
             afficher_texture(texture, renderer, w, h, x, y);
+            courant = courant->ennemi_suivant;
         } while (courant->ennemi_suivant != NULL);
     }
 }
