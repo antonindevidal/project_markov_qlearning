@@ -11,15 +11,15 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
-    int nbCycles = 2;
+    int nbCycles = 1;
 
     /* Ennemis */
     ennemis_t ennemis;
     initEnnemi(&ennemis);
-    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 2, 4);
-    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 2, 1);
-    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 3, 3);
-    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 4, 5);
+    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 20);
+    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 20);
+    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 20);
+    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 20);
 
     SDL_bool programON = SDL_TRUE; 
     SDL_Event event;              
@@ -95,7 +95,8 @@ int main(int argc, char **argv)
         }
         arretEvent = 0;
         cycles++;
-        SDL_Delay(16);
+        SDL_Delay(50);
+        SDL_RenderClear(renderer);
         afficherEnnemis(&ennemis, ufoBlue, renderer);
 
         // Update cycle

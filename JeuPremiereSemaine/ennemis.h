@@ -2,6 +2,7 @@
 #define __ENNEMIS_H__
 #include <math.h>
 #include "fonctionsSDL.h"
+#define TAILLE_MARKOV 5
 
 /* Structure ennemis */
 typedef struct infoEnnemi
@@ -19,7 +20,7 @@ typedef struct ennemi
 {
     infoEnnemi_t *infoEnnemi;
     struct ennemi *ennemiSuivant;
-} ennemi_t, *listE_t;
+} ennemi_t, *listEnnemis_t;
 
 typedef struct ennemis
 {
