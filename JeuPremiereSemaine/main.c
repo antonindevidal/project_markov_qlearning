@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <SDL2/SDL_image.h>
+#include "ennemis.h"
 
 #define WINDOWH 400
 #define WINDOWW 500
@@ -41,6 +42,39 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
     { // On quitte si cela ne va pas
         exit(EXIT_FAILURE);
     }
+}
+
+SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Window *window, SDL_Renderer *renderer)
+{
+    SDL_Surface *mon_image = NULL;  // Variable de passage
+    SDL_Texture *ma_texture = NULL; // La texture
+
+    mon_image = IMG_Load(file_image_name); // Chargement de l'image dans la surface
+                                           // image=SDL_LoadBMP(file_image_name); fonction standard de la SDL,
+                                           // uniquement possible si l'image est au format bmp */
+    if (mon_image == NULL)
+        end_sdl(0, "Chargement de l'image impossible", window, renderer);
+
+    ma_texture = SDL_CreateTextureFromSurface(renderer, mon_image);
+    SDL_FreeSurface(mon_image);
+    if (ma_texture == NULL)
+        end_sdl(0, "Echec de la transformation de la surface en texture", window, renderer);
+
+    return ma_texture;
+}
+
+void afficher_texture(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer *renderer, int w, int h, int x, int y)
+{
+    SDL_Rect source = {0}, destination = {0};
+
+    SDL_QueryTexture(ma_texture, NULL, NULL, &source.w, &source.h);
+
+    destination.w = w;
+    destination.h = h;
+    destination.x = x;
+    destination.y = y;
+
+    SDL_RenderCopy(renderer, ma_texture, &source, &destination);
 }
 
 int main(int argc, char **argv)
@@ -82,6 +116,9 @@ int main(int argc, char **argv)
     if (renderer == NULL)
         end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
 
+    /* Création des textures */
+    SDL_Texture *ufoBlue = load_texture_from_image("resources/ennemis/ufoBlue.png", window, renderer);
+    
     while (program_on)
     {
         SDL_FlushEvent(SDL_MOUSEMOTION);
@@ -124,7 +161,8 @@ int main(int argc, char **argv)
 
         SDL_RenderPresent(renderer); // affichage
     }
-
+    
+    SDL_DestroyTexture(ufoBlue);
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();
     return EXIT_SUCCESS;

@@ -2,8 +2,8 @@
 
 void deplacement(int *x, int *y, float theta, float vitesseX, float vitesseY) {
     /* Calcul la nouvelle position de l'ennemis */
-    x = *x + cos(theta *  M_PI / 180) * vitesseX;
-    y = *y + sin(theta * M_PI / 180) * vitesseY;
+    *x = *x + cos(theta *  M_PI / 180) * vitesseX;
+    *y = *y + sin(theta * M_PI / 180) * vitesseY;
 }
 
 void nouveau_theta(float *theta) {
