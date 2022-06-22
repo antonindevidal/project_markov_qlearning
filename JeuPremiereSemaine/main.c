@@ -63,7 +63,7 @@ SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Window *window, 
     return ma_texture;
 }
 
-void afficher_texture(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer *renderer, int w, int h, int x, int y)
+void afficher_texture(SDL_Texture *ma_texture, SDL_Renderer *renderer, int w, int h, int x, int y)
 {
     SDL_Rect source = {0}, destination = {0};
 
@@ -71,8 +71,8 @@ void afficher_texture(SDL_Texture *ma_texture, SDL_Window *window, SDL_Renderer 
 
     destination.w = w;
     destination.h = h;
-    destination.x = x;
-    destination.y = y;
+    destination.x = x - w/2;
+    destination.y = y - h/2;
 
     SDL_RenderCopy(renderer, ma_texture, &source, &destination);
 }
@@ -81,7 +81,13 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int arretEvent=0,mouseX=0,mouseY=0;
+    int arretEvent=0,mouseX=0,mouseY=0,cycles=0;
+    int nbCycles=1;
+
+    /* Ennemis */
+    int x_ufoBlue=250, y_ufoBlue=200, w_ufoBlue=50, h_ufoBlue=50;
+    int theta=0;
+    int vitesseX=10, vitesseY=5;
 
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
@@ -118,7 +124,7 @@ int main(int argc, char **argv)
 
     /* Création des textures */
     SDL_Texture *ufoBlue = load_texture_from_image("resources/ennemis/ufoBlue.png", window, renderer);
-    
+
     while (program_on)
     {
         SDL_FlushEvent(SDL_MOUSEMOTION);
@@ -153,9 +159,17 @@ int main(int argc, char **argv)
             }
         }
         arretEvent = 0;
+        cycles++;
         SDL_Delay(16);
+        afficher_texture(ufoBlue, renderer, w_ufoBlue, h_ufoBlue, x_ufoBlue, y_ufoBlue);
 
         // Update cycle
+        if (cycles >= nbCycles) 
+        {
+            cycles = 0;
+            deplacement(&x_ufoBlue, &y_ufoBlue, theta, vitesseX, vitesseY);
+            theta += 10;
+        }
 
         // Draw Frame
 
