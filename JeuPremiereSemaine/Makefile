@@ -1,4 +1,4 @@
-SRC=main.c
+SRC=main.c player/player.c player/playerAffichage.c player/bullet.c
 EXE=main.out
 
 CC=gcc

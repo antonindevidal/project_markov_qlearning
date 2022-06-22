@@ -4,8 +4,11 @@
 #include <string.h>
 #include <SDL2/SDL_image.h>
 
-#define WINDOWH 400
-#define WINDOWW 500
+#include "const.h"
+#include "player/player.h"
+#include "player/playerAffichage.h"
+
+
 
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
@@ -47,8 +50,9 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int arretEvent=0,mouseX=0,mouseY=0;
+    int arretEvent = 0, mouseX = 0, mouseY = 0;
 
+    player_t *player;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -65,7 +69,6 @@ int main(int argc, char **argv)
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
-
     /* Création de la fenêtre */
     window = SDL_CreateWindow("Premier dessin",
                               SDL_WINDOWPOS_CENTERED,
@@ -81,6 +84,15 @@ int main(int argc, char **argv)
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
         end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
+
+    player = malloc(sizeof(player_t));
+    if (player == NULL)
+    {
+        end_sdl(0, "ERROR MALLOC PLAYER", window, renderer);
+    }
+    player->x = 100;
+    player->y = 100;
+    loadPlayerTexture(renderer, player);
 
     while (program_on)
     {
@@ -100,6 +112,14 @@ int main(int argc, char **argv)
                     program_on = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
                     arretEvent = 1;
                     break;
+                case SDLK_s:
+                    movePlayerDown(player); // Fermeture du programme à l'appuie sur la touche ECHAP
+                    arretEvent = 1;
+                    break;
+                case SDLK_z:
+                    movePlayerUp(player); // Fermeture du programme à l'appuie sur la touche ECHAP
+                    arretEvent = 1;
+                    break;
                 default:
                     break;
                 }
@@ -107,7 +127,7 @@ int main(int argc, char **argv)
             case SDL_MOUSEBUTTONDOWN:
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
-                {                                                                           // Si c'est un click gauche
+                { // Si c'est un click gauche
                 }
                 arretEvent = 1;
                 break;
@@ -121,10 +141,11 @@ int main(int argc, char **argv)
         // Update cycle
 
         // Draw Frame
-
+        afficherVaisseau(renderer, player);
         SDL_RenderPresent(renderer); // affichage
     }
-
+    destroyPlayerTexture(player);
+    destroyPlayer(player);
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();
     return EXIT_SUCCESS;
