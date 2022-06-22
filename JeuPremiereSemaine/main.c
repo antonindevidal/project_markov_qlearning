@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(16);
-        //afficher_ennemis(&ennemis, ufoBlue, renderer);
+        afficher_ennemis(&ennemis, ufoBlue, renderer);
 
         // Update cycle
         if (cycles >= nbCycles)

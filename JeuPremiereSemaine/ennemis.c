@@ -33,7 +33,17 @@ void deplacement_ennemis(ennemis_t *tf)
             nouveau_theta(courant->info_ennemi->theta);
             theta = courant->info_ennemi->theta;
             deplacement_ennemi(x, y, theta, vitesseX, vitesseY);
+            courant = courant->ennemi_suivant;
         } while (courant->ennemi_suivant != NULL);
+        x = courant->info_ennemi->x;
+        y = courant->info_ennemi->y;
+        w = courant->info_ennemi->w;
+        h = courant->info_ennemi->h;
+        vitesseX = courant->info_ennemi->vitesseX;
+        vitesseY = courant->info_ennemi->vitesseY;
+        nouveau_theta(courant->info_ennemi->theta);
+        theta = courant->info_ennemi->theta;
+        deplacement_ennemi(x, y, theta, vitesseX, vitesseY);
     }
 }
 
@@ -127,6 +137,11 @@ void afficher_ennemis(ennemis_t *tf, SDL_Texture *texture, SDL_Renderer *rendere
             afficher_texture(texture, renderer, w, h, x, y);
             courant = courant->ennemi_suivant;
         } while (courant->ennemi_suivant != NULL);
+        x = courant->info_ennemi->x;
+        y = courant->info_ennemi->y;
+        w = courant->info_ennemi->w;
+        h = courant->info_ennemi->h;
+        afficher_texture(texture, renderer, w, h, x, y);
     }
 }
 
