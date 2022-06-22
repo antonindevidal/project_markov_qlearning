@@ -6,6 +6,7 @@
 
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;

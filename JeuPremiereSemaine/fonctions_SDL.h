@@ -1,6 +1,7 @@
 #ifndef __FONCTIONS_SDL_H__
 #define __FONCTIONS_SDL_H__
 #include <stdio.h>
+#include <string.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 

@@ -1,6 +1,15 @@
 #include "ennemis.h"
 
-void deplacement_ennemi(int *x, int *y, float theta, float vitesseX, float vitesseY)
+int valeursTheta[5]={-20,10,0,10,20};
+float matriceTheta[5][5]={
+//        -20  -10   0   +10  +20
+/*-20*/  {0.6, 0.3, 0.1, 0.0, 0.0},
+/*-10*/  {0.3, 0.6, 0.1, 0.0, 0.0},
+/*  0*/  {0.3, 0.1, 0.2, 0.1, 0.3},
+/*+10*/  {0.0, 0.0, 0.1, 0.6, 0.3}, 
+/*+20*/  {0.0, 0.0, 0.1, 0.3, 0.6}};
+
+void deplacement_ennemi(int *x, int *y, int theta, float vitesseX, float vitesseY)
 {
     /* Calcul la nouvelle position de l'ennemis */
     *x = *x + cos(theta * M_PI / 180) * vitesseX;
@@ -130,5 +139,16 @@ void liberation_ennemis(ennemi_t *tf)
 
 void nouveau_theta(int *theta)
 {
-    /* Calcul le nouveau theta à l'aide des chaînes de Markov */
+    int proba = rand()%101;
+    int i=0;
+    int thetaActuel=(*theta/10)+2;
+
+    float sommeProba=matriceTheta[thetaActuel][i]*100;
+
+    while(proba>sommeProba){
+        i++;
+        sommeProba+=matriceTheta[thetaActuel][i]*100;
+    }
+
+    *theta=valeursTheta[i];
 }
