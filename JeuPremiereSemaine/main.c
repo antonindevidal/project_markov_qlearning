@@ -143,7 +143,6 @@ int main(int argc, char **argv)
                   {
                       destroyBullet(&bullet);
                   }
-                  printf("Bulett go brrrr\n");
                   bullet = createBullet(player->x, player->y);
                   if (bullet == NULL)
                   {
@@ -170,7 +169,6 @@ int main(int argc, char **argv)
         }
         if (bullet != NULL)
         {
-            printf("%d %d\n", bullet->x,bullet->y);
             afficherBullet(renderer, bullet, bulletTexture);
         }
         SDL_RenderPresent(renderer); // affichage

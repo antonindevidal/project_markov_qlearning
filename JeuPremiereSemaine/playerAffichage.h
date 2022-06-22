@@ -4,7 +4,7 @@
 #include "player.h"
 
 #define SPRITE_PLAYER "resources/player/playerShip.png"
-#define SCALE 0.8
+#define SCALE 1
 
 int loadPlayerTexture(SDL_Renderer *renderer, player_t *player);
 void destroyPlayerTexture(player_t *player);
