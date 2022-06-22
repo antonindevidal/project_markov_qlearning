@@ -6,18 +6,23 @@
 #include <math.h>
 
 /* Structure ennemis */
-typedef struct ennemi
+typedef struct info_ennemi
 {
     int x;
     int y;
     int w;
     int h;
-} ennemi_t;
+} info_ennemi_t;
 
-typedef struct ennemis
+typedef struct ennemi
 {
     ennemi *info_ennemi;
     struct ennemis *ennemi_suivant;
+} ennemi_t;
+
+typedef struct ennemis 
+{
+    ennemi_t *tete;
 } ennemis_t;
 
 /* Déclaration des prototypes */

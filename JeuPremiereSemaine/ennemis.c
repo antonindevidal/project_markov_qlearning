@@ -9,7 +9,7 @@ void deplacement(int *x, int *y, float theta, float vitesseX, float vitesseY)
 
 void init_ennemi(ennemis_t * tf)
 {
-    
+    tf->info_ennemi
 }
 
 void ajout_ennemi(ennemis_t * tf, int x, int y, int w, int h)
