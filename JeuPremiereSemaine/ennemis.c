@@ -22,10 +22,8 @@ void deplacement_ennemis(ennemis_t *tf)
     { // S'il existe des ennemis
         ennemi_t *courant;
         courant = tf->tete;
-        int x, y, w, h, vitesseX, vitesseY, theta;
+        int vitesseX, vitesseY, theta;
         do {
-            w = courant->info_ennemi->w;
-            h = courant->info_ennemi->h;
             vitesseX = courant->info_ennemi->vitesseX;
             vitesseY = courant->info_ennemi->vitesseY;
             nouveau_theta(&(courant->info_ennemi->theta));
@@ -33,8 +31,6 @@ void deplacement_ennemis(ennemis_t *tf)
             deplacement_ennemi(&courant->info_ennemi->x, &courant->info_ennemi->y, theta, vitesseX, vitesseY);
             courant = courant->ennemi_suivant;
         } while (courant->ennemi_suivant != NULL);
-        w = courant->info_ennemi->w;
-        h = courant->info_ennemi->h;
         vitesseX = courant->info_ennemi->vitesseX;
         vitesseY = courant->info_ennemi->vitesseY;
         nouveau_theta(&(courant->info_ennemi->theta));

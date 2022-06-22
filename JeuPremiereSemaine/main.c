@@ -111,6 +111,7 @@ int main(int argc, char **argv)
         SDL_RenderPresent(renderer); // affichage
     }
 
+    liberation_ennemis((&ennemis)->tete);
     SDL_DestroyTexture(ufoBlue);
     SDL_DestroyTexture(ufoGreen);
     SDL_DestroyTexture(ufoRed);
