@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
-#include <math.h>
-#include <stdio.h>
+//#include <math.h>
+//#include <stdio.h>
 #include <string.h>
-#include <SDL2/SDL_image.h>
+//#include <SDL2/SDL_image.h>
 #include "ennemis.h"
 
 #define WINDOWH 400
@@ -79,6 +79,7 @@ void afficher_texture(SDL_Texture *ma_texture, SDL_Renderer *renderer, int w, in
 
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     (void)argc;
     (void)argv;
     int arretEvent=0,mouseX=0,mouseY=0,cycles=0;
