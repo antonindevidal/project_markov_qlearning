@@ -12,8 +12,8 @@ float matriceTheta[5][5]={
 void deplacement_ennemi(int *x, int *y, int theta, float vitesseX, float vitesseY)
 {
     /* Calcul la nouvelle position de l'ennemis */
-    *x = *x + cos(theta * M_PI / 180) * vitesseX;
-    *y = *y + sin(theta * M_PI / 180) * vitesseY;
+    *x = *x + cos(theta * M_PI / 180 + M_PI) * vitesseX;
+    *y = *y + sin(theta * M_PI / 180 + M_PI) * vitesseY;
 }
 
 void deplacement_ennemis(ennemis_t *tf)
@@ -24,26 +24,22 @@ void deplacement_ennemis(ennemis_t *tf)
         courant = tf->tete;
         int x, y, w, h, vitesseX, vitesseY, theta;
         do {
-            x = courant->info_ennemi->x;
-            y = courant->info_ennemi->y;
             w = courant->info_ennemi->w;
             h = courant->info_ennemi->h;
             vitesseX = courant->info_ennemi->vitesseX;
             vitesseY = courant->info_ennemi->vitesseY;
-            nouveau_theta(courant->info_ennemi->theta);
+            nouveau_theta(&(courant->info_ennemi->theta));
             theta = courant->info_ennemi->theta;
-            deplacement_ennemi(x, y, theta, vitesseX, vitesseY);
+            deplacement_ennemi(&courant->info_ennemi->x, &courant->info_ennemi->y, theta, vitesseX, vitesseY);
             courant = courant->ennemi_suivant;
         } while (courant->ennemi_suivant != NULL);
-        x = courant->info_ennemi->x;
-        y = courant->info_ennemi->y;
         w = courant->info_ennemi->w;
         h = courant->info_ennemi->h;
         vitesseX = courant->info_ennemi->vitesseX;
         vitesseY = courant->info_ennemi->vitesseY;
-        nouveau_theta(courant->info_ennemi->theta);
+        nouveau_theta(&(courant->info_ennemi->theta));
         theta = courant->info_ennemi->theta;
-        deplacement_ennemi(x, y, theta, vitesseX, vitesseY);
+        deplacement_ennemi(&courant->info_ennemi->x, &courant->info_ennemi->y, theta, vitesseX, vitesseY);
     }
 }
 
@@ -69,7 +65,7 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h, int vitesseX, int v
             info_nouv->h = h;
             info_nouv->vitesseX = vitesseX;
             info_nouv->vitesseY = vitesseY;
-            info_nouv->theta = 0; //On suppose que l'ennemi va tout droit au départ;
+            info_nouv->theta = 10; //On suppose que l'ennemi va tout droit au départ;
         }
         else
         {
@@ -155,11 +151,10 @@ void liberation_ennemis(ennemi_t *tf)
 }
 
 void nouveau_theta(int *theta)
-{
+{ 
     int proba = rand()%101;
     int i=0;
-    int thetaActuel=(*theta/10)+2;
-
+    int thetaActuel=((*theta)/10)+2;
     float sommeProba=matriceTheta[thetaActuel][i]*100;
 
     while(proba>sommeProba){

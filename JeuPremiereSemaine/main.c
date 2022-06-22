@@ -11,15 +11,15 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
-    int nbCycles = 1;
+    int nbCycles = 2;
 
     /* Ennemis */
     ennemis_t ennemis;
     init_ennemi(&ennemis);
-    ajout_ennemi(&ennemis, 50, 50, 20, 20, 10, 20);
-    ajout_ennemi(&ennemis, 150, 50, 20, 20, 10, 20);
-    ajout_ennemi(&ennemis, 250, 50, 20, 20, 10, 20);
-    ajout_ennemi(&ennemis, 50, 150, 20, 20, 10, 20);
+    ajout_ennemi(&ennemis, 50, 50, 20, 20, 2, 4);
+    ajout_ennemi(&ennemis, 150, 50, 20, 20, 2, 1);
+    ajout_ennemi(&ennemis, 250, 50, 20, 20, 3, 3);
+    ajout_ennemi(&ennemis, 50, 150, 20, 20, 4, 5);
 
     SDL_bool program_on = SDL_TRUE; 
     SDL_Event event;              
@@ -102,6 +102,7 @@ int main(int argc, char **argv)
         if (cycles >= nbCycles)
         {
             cycles = 0;
+            deplacement_ennemis(&ennemis);
             
         }
 
