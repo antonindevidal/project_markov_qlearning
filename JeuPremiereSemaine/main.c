@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 #include "ennemis.h"
 
 #define WINDOWH 400
