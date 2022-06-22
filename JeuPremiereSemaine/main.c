@@ -85,9 +85,10 @@ int main(int argc, char **argv)
     int nbCycles=1;
 
     /* Ennemis */
-    int x_ufoBlue=250, y_ufoBlue=200, w_ufoBlue=50, h_ufoBlue=50;
+    int x_ufoBlue=250, y_ufoBlue=300;
+    int w_ufo=30, h_ufo=30;
     int theta=0;
-    int vitesseX=10, vitesseY=5;
+    int vitesseX_ufo=35, vitesseY_ufo=5;
 
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
@@ -124,6 +125,11 @@ int main(int argc, char **argv)
 
     /* Création des textures */
     SDL_Texture *ufoBlue = load_texture_from_image("resources/ennemis/ufoBlue.png", window, renderer);
+    SDL_Texture *ufoGreen = load_texture_from_image("resources/ennemis/ufoGreen.png", window, renderer);
+    SDL_Texture *ufoRed = load_texture_from_image("resources/ennemis/ufoRed.png", window, renderer);
+    SDL_Texture *ufoYellow = load_texture_from_image("resources/ennemis/ufoYellow.png", window, renderer);
+    SDL_Texture *meteorBrown_big1 = load_texture_from_image("resources/ennemis/meteorBrown_big1.png", window, renderer);
+    SDL_Texture *meteorBrown_small1 = load_texture_from_image("resources/ennemis/meteorBrown_small1.png", window, renderer);
 
     while (program_on)
     {
@@ -161,13 +167,13 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(16);
-        afficher_texture(ufoBlue, renderer, w_ufoBlue, h_ufoBlue, x_ufoBlue, y_ufoBlue);
+        afficher_texture(ufoBlue, renderer, w_ufo, h_ufo, x_ufoBlue, y_ufoBlue);
 
         // Update cycle
         if (cycles >= nbCycles) 
         {
             cycles = 0;
-            deplacement(&x_ufoBlue, &y_ufoBlue, theta, vitesseX, vitesseY);
+            deplacement(&x_ufoBlue, &y_ufoBlue, theta, vitesseX_ufo, vitesseY_ufo);
             theta += 10;
         }
 
@@ -177,6 +183,11 @@ int main(int argc, char **argv)
     }
     
     SDL_DestroyTexture(ufoBlue);
+    SDL_DestroyTexture(ufoGreen);
+    SDL_DestroyTexture(ufoRed);
+    SDL_DestroyTexture(ufoYellow);
+    SDL_DestroyTexture(meteorBrown_big1);
+    SDL_DestroyTexture(meteorBrown_small1);
     end_sdl(1, "Normal ending", window, renderer);
     SDL_Quit();
     return EXIT_SUCCESS;
