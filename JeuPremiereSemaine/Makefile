@@ -1,4 +1,4 @@
-SRC=main.c
+SRC=main.c ennemis.c
 EXE=main.out
 
 CC=gcc
