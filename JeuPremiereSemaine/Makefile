@@ -1,4 +1,4 @@
-SRC=main.c ennemis.c
+SRC=main.c ennemis.c fonctions_SDL.c
 EXE=main.out
 
 CC=gcc

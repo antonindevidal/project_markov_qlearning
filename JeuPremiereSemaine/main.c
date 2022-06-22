@@ -1,95 +1,20 @@
-#include <SDL2/SDL.h>
-#include <math.h>
-#include <stdio.h>
 #include <string.h>
-#include <SDL2/SDL_image.h>
 #include "ennemis.h"
 
 #define WINDOWH 400
 #define WINDOWW 500
 
-void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
-             char const *msg,    // message à afficher
-             SDL_Window *window, // fenêtre à fermer
-             SDL_Renderer *renderer)
-{ // renderer à fermer
-    char msg_formated[255];
-    int l;
-
-    if (!ok)
-    { // Affichage de ce qui ne va pas
-        strncpy(msg_formated, msg, 250);
-        l = strlen(msg_formated);
-        strcpy(msg_formated + l, " : %s\n");
-
-        SDL_Log(msg_formated, SDL_GetError());
-    }
-
-    if (renderer != NULL)
-    {                                  // Destruction si nécessaire du renderer
-        SDL_DestroyRenderer(renderer); // Attention : on suppose que les NULL sont maintenus !!
-        renderer = NULL;
-    }
-    if (window != NULL)
-    {                              // Destruction si nécessaire de la fenêtre
-        SDL_DestroyWindow(window); // Attention : on suppose que les NULL sont maintenus !!
-        window = NULL;
-    }
-
-    SDL_Quit();
-
-    if (!ok)
-    { // On quitte si cela ne va pas
-        exit(EXIT_FAILURE);
-    }
-}
-
-SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Window *window, SDL_Renderer *renderer)
-{
-    SDL_Surface *mon_image = NULL;  // Variable de passage
-    SDL_Texture *ma_texture = NULL; // La texture
-
-    mon_image = IMG_Load(file_image_name); // Chargement de l'image dans la surface
-                                           // image=SDL_LoadBMP(file_image_name); fonction standard de la SDL,
-                                           // uniquement possible si l'image est au format bmp */
-    if (mon_image == NULL)
-        end_sdl(0, "Chargement de l'image impossible", window, renderer);
-
-    ma_texture = SDL_CreateTextureFromSurface(renderer, mon_image);
-    SDL_FreeSurface(mon_image);
-    if (ma_texture == NULL)
-        end_sdl(0, "Echec de la transformation de la surface en texture", window, renderer);
-
-    return ma_texture;
-}
-
-void afficher_texture(SDL_Texture *ma_texture, SDL_Renderer *renderer, int w, int h, int x, int y)
-{
-    SDL_Rect source = {0}, destination = {0};
-
-    SDL_QueryTexture(ma_texture, NULL, NULL, &source.w, &source.h);
-
-    destination.w = w;
-    destination.h = h;
-    destination.x = x - w/2;
-    destination.y = y - h/2;
-
-    SDL_RenderCopy(renderer, ma_texture, &source, &destination);
-}
-
 int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int arretEvent=0,mouseX=0,mouseY=0,cycles=0;
-    int nbCycles=1;
+    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
+    int nbCycles = 1;
 
     /* Ennemis */
-    int x_ufoBlue=250, y_ufoBlue=300;
-    int w_ufo=30, h_ufo=30;
-    int theta=0;
-    int vitesseX_ufo=35, vitesseY_ufo=5;
-
+    ennemis_t ennemis;
+    init_ennemi(&ennemis);
+    ajout_ennemi(&ennemis, 50, 50, 20, 20, 10, 20);
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -105,7 +30,6 @@ int main(int argc, char **argv)
         end_sdl(0, "ERROR SDL INIT", window, renderer);
 
     SDL_GetCurrentDisplayMode(0, &screen);
-
 
     /* Création de la fenêtre */
     window = SDL_CreateWindow("Premier dessin",
@@ -156,7 +80,7 @@ int main(int argc, char **argv)
             case SDL_MOUSEBUTTONDOWN:
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
-                {                                                                           // Si c'est un click gauche
+                { // Si c'est un click gauche
                 }
                 arretEvent = 1;
                 break;
@@ -167,21 +91,20 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(16);
-        afficher_texture(ufoBlue, renderer, w_ufo, h_ufo, x_ufoBlue, y_ufoBlue);
+        afficher_ennemis(&ennemis, ufoBlue, renderer);
 
         // Update cycle
-        if (cycles >= nbCycles) 
+        if (cycles >= nbCycles)
         {
             cycles = 0;
-            deplacement(&x_ufoBlue, &y_ufoBlue, theta, vitesseX_ufo, vitesseY_ufo);
-            theta += 10;
+            
         }
 
         // Draw Frame
 
         SDL_RenderPresent(renderer); // affichage
     }
-    
+
     SDL_DestroyTexture(ufoBlue);
     SDL_DestroyTexture(ufoGreen);
     SDL_DestroyTexture(ufoRed);
