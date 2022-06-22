@@ -15,13 +15,13 @@ int main(int argc, char **argv)
 
     /* Ennemis */
     ennemis_t ennemis;
-    init_ennemi(&ennemis);
-    ajout_ennemi(&ennemis, 50, 50, 20, 20, 2, 4);
-    ajout_ennemi(&ennemis, 150, 50, 20, 20, 2, 1);
-    ajout_ennemi(&ennemis, 250, 50, 20, 20, 3, 3);
-    ajout_ennemi(&ennemis, 50, 150, 20, 20, 4, 5);
+    initEnnemi(&ennemis);
+    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 2, 4);
+    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 2, 1);
+    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 3, 3);
+    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 4, 5);
 
-    SDL_bool program_on = SDL_TRUE; 
+    SDL_bool programON = SDL_TRUE; 
     SDL_Event event;              
 
     SDL_Window *window = NULL;
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     /*********************************************************************************************************************/
     /*                         Initialisation de la SDL  + gestion de l'échec possible                                   */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
-        end_sdl(0, "ERROR SDL INIT", window, renderer);
+        endSDL(0, "ERROR SDL INIT", window, renderer);
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
@@ -44,23 +44,23 @@ int main(int argc, char **argv)
                               WINDOWH,
                               SDL_WINDOW_OPENGL);
     if (window == NULL)
-        end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
+        endSDL(0, "ERROR WINDOW CREATION", window, renderer);
 
     /* Création du renderer */
     renderer = SDL_CreateRenderer(window, -1,
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
-        end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
+        endSDL(0, "ERROR RENDERER CREATION", window, renderer);
 
     /* Création des textures */
-    SDL_Texture *ufoBlue = load_texture_from_image("resources/ennemis/ufoBlue.png", window, renderer);
-    SDL_Texture *ufoGreen = load_texture_from_image("resources/ennemis/ufoGreen.png", window, renderer);
-    SDL_Texture *ufoRed = load_texture_from_image("resources/ennemis/ufoRed.png", window, renderer);
-    SDL_Texture *ufoYellow = load_texture_from_image("resources/ennemis/ufoYellow.png", window, renderer);
-    SDL_Texture *meteorBrown_big1 = load_texture_from_image("resources/ennemis/meteorBrown_big1.png", window, renderer);
-    SDL_Texture *meteorBrown_small1 = load_texture_from_image("resources/ennemis/meteorBrown_small1.png", window, renderer);
+    SDL_Texture *ufoBlue = loadTextureFromImage("resources/ennemis/ufoBlue.png", window, renderer);
+    SDL_Texture *ufoGreen = loadTextureFromImage("resources/ennemis/ufoGreen.png", window, renderer);
+    SDL_Texture *ufoRed = loadTextureFromImage("resources/ennemis/ufoRed.png", window, renderer);
+    SDL_Texture *ufoYellow = loadTextureFromImage("resources/ennemis/ufoYellow.png", window, renderer);
+    SDL_Texture *meteorBrownBig1 = loadTextureFromImage("resources/ennemis/meteorBrownBig1.png", window, renderer);
+    SDL_Texture *meteorBrownSmall1 = loadTextureFromImage("resources/ennemis/meteorBrownSmall1.png", window, renderer);
 
-    while (program_on)
+    while (programON)
     {
         SDL_FlushEvent(SDL_MOUSEMOTION);
         while (SDL_PollEvent(&event) && !arretEvent)
@@ -68,14 +68,14 @@ int main(int argc, char **argv)
             switch (event.type)
             {                           // En fonction de la valeur du type de cet évènement
             case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
-                program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+                programON = SDL_FALSE; // Il est temps d'arrêter le programme
                 arretEvent = 1;
                 break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
-                    program_on = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                    programON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
                     arretEvent = 1;
                     break;
                 default:
@@ -96,13 +96,13 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(16);
-        afficher_ennemis(&ennemis, ufoBlue, renderer);
+        afficherEnnemis(&ennemis, ufoBlue, renderer);
 
         // Update cycle
         if (cycles >= nbCycles)
         {
             cycles = 0;
-            deplacement_ennemis(&ennemis);
+            deplacementEnnemis(&ennemis);
             
         }
 
@@ -111,14 +111,14 @@ int main(int argc, char **argv)
         SDL_RenderPresent(renderer); // affichage
     }
 
-    liberation_ennemis((&ennemis)->tete);
+    liberationEnnemis((&ennemis)->tete);
     SDL_DestroyTexture(ufoBlue);
     SDL_DestroyTexture(ufoGreen);
     SDL_DestroyTexture(ufoRed);
     SDL_DestroyTexture(ufoYellow);
-    SDL_DestroyTexture(meteorBrown_big1);
-    SDL_DestroyTexture(meteorBrown_small1);
-    end_sdl(1, "Normal ending", window, renderer);
+    SDL_DestroyTexture(meteorBrownBig1);
+    SDL_DestroyTexture(meteorBrownSmall1);
+    endSDL(1, "Normal ending", window, renderer);
     SDL_Quit();
     return EXIT_SUCCESS;
 }
