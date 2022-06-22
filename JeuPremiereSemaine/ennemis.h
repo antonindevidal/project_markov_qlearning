@@ -16,8 +16,8 @@ typedef struct info_ennemi
 
 typedef struct ennemi
 {
-    ennemi *info_ennemi;
-    struct ennemis *ennemi_suivant;
+    info_ennemi_t *info_ennemi;
+    struct ennemi *ennemi_suivant;
 } ennemi_t;
 
 typedef struct ennemis 
@@ -27,8 +27,8 @@ typedef struct ennemis
 
 /* Déclaration des prototypes */
 void deplacement(int *x, int *y, float theta, float vitesseX, float vitesseY);
-void init_ennemi(ennemis_t * tf)
-void ajout_ennemi(ennemis_t * tf, int x, int y, int w, int h)
+void init_ennemi(ennemis_t * tf);
+void ajout_ennemi(ennemis_t * tf, int x, int y, int w, int h);
 void mort_ennemi(ennemis_t * tf, ennemi_t * ennemi_a_tuer);
 ennemis_t * ennemi_toucher(ennemis_t * tf, int tir_x, int tir_y, int tir_w, int tir_h); //Retourne l'ennemi à tuer
 void afficher_ennemis(ennemis_t * tf);
