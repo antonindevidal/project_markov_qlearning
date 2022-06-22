@@ -54,8 +54,19 @@ void ajout_ennemi(ennemis_t *tf, int x, int y, int w, int h)
     }
 }
 
-void mort_ennemi(ennemis_t *tf, ennemis_t *ennemi_a_tuer)
+void mort_ennemi(ennemis_t *tf, ennemi_t *ennemi_a_tuer)
 {
+    ennemi_t * prec;
+    prec = tf->tete;
+    while (prec->ennemi_suivant != ennemi_a_tuer) { //On cherche l'ennemi précédent
+        prec = prec->ennemi_suivant;
+    }
+    if (!ennemi_a_tuer->ennemi_suivant) {// Il existe un ennemi après celui qu'on tue
+        prec->ennemi_suivant = ennemi_a_tuer->ennemi_suivant;
+    } else {
+        prec->ennemi_suivant = NULL;
+    }
+    free(ennemi_a_tuer);
 }
 
 ennemis_t *ennemi_toucher(ennemis_t *tf, int tir_x, int tir_y, int tir_w, int tir_h)
