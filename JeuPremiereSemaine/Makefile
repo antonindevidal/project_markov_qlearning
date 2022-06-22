@@ -1,4 +1,4 @@
-SRC=main.c player/player.c player/playerAffichage.c player/bullet.c
+SRC=main.c player.c playerAffichage.c bullet.c bulletAffichage.c
 EXE=main.out
 
 CC=gcc
@@ -10,6 +10,7 @@ OBJ=$(addprefix build/,$(SRC:.c=.o))
 DEP=$(addprefix build/,$(SRC:.c=.d))
 
 all: $(OBJ) 
+	echo OBJ
 	$(CC) -o $(EXE) $^ $(LDFLAGS)
 
 build/%.o: %.c

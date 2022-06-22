@@ -32,7 +32,6 @@ void afficherVaisseau(SDL_Renderer *renderer, player_t *player)
     destination.x = player->x - source.w / 2;
     destination.y = player->y - source.h / 2;
 
-    SDL_RenderClear(renderer);                // Effacer l'image précédente avant de dessiner la nouvelle
     SDL_RenderCopy(renderer, player->texture, // Préparation de l'affichage
                    &source,
                    &destination);

@@ -5,10 +5,10 @@
 #include <SDL2/SDL_image.h>
 
 #include "const.h"
-#include "player/player.h"
-#include "player/playerAffichage.h"
-
-
+#include "player.h"
+#include "playerAffichage.h"
+#include "bullet.h"
+#include "bulletAffichage.h"
 
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
@@ -53,6 +53,7 @@ int main(int argc, char **argv)
     int arretEvent = 0, mouseX = 0, mouseY = 0;
 
     player_t *player;
+    bullet_t *bullet = NULL;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -92,7 +93,17 @@ int main(int argc, char **argv)
     }
     player->x = 100;
     player->y = 100;
-    loadPlayerTexture(renderer, player);
+    if (loadPlayerTexture(renderer, player))
+    {
+        end_sdl(0, "ERROR Loading texture PLAYER", window, renderer);
+    }
+
+    SDL_Texture *bulletTexture = NULL;
+    if (loadBulletTexture(renderer, &bulletTexture))
+    {
+        end_sdl(0, "ERROR Loading texture Bullet", window, renderer);
+    }
+
 
     while (program_on)
     {
@@ -128,6 +139,16 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
+                  if (bullet != NULL)
+                  {
+                      destroyBullet(&bullet);
+                  }
+                  printf("Bulett go brrrr\n");
+                  bullet = createBullet(player->x, player->y);
+                  if (bullet == NULL)
+                  {
+                      end_sdl(0, "ERROR MALLOC PLAYER", window, renderer);
+                  }
                 }
                 arretEvent = 1;
                 break;
@@ -141,7 +162,17 @@ int main(int argc, char **argv)
         // Update cycle
 
         // Draw Frame
+        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         afficherVaisseau(renderer, player);
+        if(bullet != NULL)
+        {
+            moveBullet(&bullet);
+        }
+        if (bullet != NULL)
+        {
+            printf("%d %d\n", bullet->x,bullet->y);
+            afficherBullet(renderer, bullet, bulletTexture);
+        }
         SDL_RenderPresent(renderer); // affichage
     }
     destroyPlayerTexture(player);
