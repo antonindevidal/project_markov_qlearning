@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     SDL_GetCurrentDisplayMode(0, &screen);
 
     /* Création de la fenêtre */
-    window = SDL_CreateWindow("Premier dessin",
+    window = SDL_CreateWindow("PioupioubrbgbrbrbgbrPPFFPPFFPFPFFPFFFFFFFF",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED,
                               WINDOWW,
