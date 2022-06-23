@@ -186,7 +186,7 @@ int main(int argc, char **argv)
         if (cycles >= nbCycles)
         {
             cycles = 0;
-            deplacementEnnemis(&ennemis);
+            deplacementEnnemis(&ennemis, &finON, &programON);
         }
 
         // Draw Frame

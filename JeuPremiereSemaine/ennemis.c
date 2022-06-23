@@ -64,7 +64,7 @@ int valeursTheta[TAILLE_MARKOV] = {-20, -10, 0, 10, 20};
 //     /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
 //     /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
 
-void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY)
+void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY, SDL_bool *finON, SDL_bool *programON)
 {
     /* Calcul la nouvelle position de l'ennemis */
     //    if(theta<=60 && theta>=-60)
@@ -75,6 +75,8 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     }
     else if (*x < 0)
     {
+        *finON = SDL_TRUE;
+        *programON = SDL_FALSE;
         *theta = 180;
     }
     else if (*y < 0)
@@ -89,30 +91,26 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     *y = *y - sin(*theta * M_PI / 180 + M_PI) * vitesseY;
 }
 
-void deplacementEnnemis(listEnnemis_t *tf)
+void deplacementEnnemis(listEnnemis_t *tf, SDL_bool *finON, SDL_bool *programON)
 {
     if (tf != NULL)
     { // S'il existe des ennemis
         ennemi_t *courant;
         courant = *tf;
-        int vitesseX, vitesseY, theta;
+        int vitesseX, vitesseY;
         do
         {
             vitesseX = courant->infoEnnemi->vitesseX;
             vitesseY = courant->infoEnnemi->vitesseY;
             nouveauTheta(&(courant->infoEnnemi->theta));
             courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
-
-            // theta = courant->infoEnnemi->sommeTheta;
-            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
             courant = courant->ennemiSuivant;
         } while (courant->ennemiSuivant != NULL);
         vitesseX = courant->infoEnnemi->vitesseX;
         vitesseY = courant->infoEnnemi->vitesseY;
         nouveauTheta(&(courant->infoEnnemi->theta));
         courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
-        // theta = courant->infoEnnemi->sommeTheta;
-        deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
+        deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY, finON, programON);
     }
 }
 
