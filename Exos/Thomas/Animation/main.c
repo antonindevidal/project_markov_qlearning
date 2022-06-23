@@ -47,6 +47,7 @@ int main(int argc, char **argv)
     SDL_Event event;
     while (en_cours)
     { // Boucle événementielle
+        SDL_FlushEvent(SDL_MOUSEMOTION);
         if (SDL_PollEvent(&event))
         {
             switch (event.type)
