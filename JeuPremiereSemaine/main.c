@@ -197,6 +197,7 @@ int main(int argc, char **argv)
         if(!IsVideB(listeBullet))
         {
             moveAllBullet(&listeBullet);
+            collision(&listeBullet, &ennemis, &score);
             afficherAllBullet(renderer, listeBullet, bulletTexture);
         }
 

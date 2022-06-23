@@ -2,6 +2,7 @@
 #define BULLET_LIST
 
 #include "bulletAffichage.h"
+#include "ennemis.h"
 
 typedef struct bulletList
 {
@@ -15,5 +16,6 @@ void ajoutEnTeteBullet(int x,int y, listB_t *tete);
 void supprimerEnTeteListeB(listB_t *tete);
 void moveAllBullet(listB_t *tete);
 void afficherAllBullet(SDL_Renderer *renderer, listB_t tete,SDL_Texture *texture);
+void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score);
 
 #endif

@@ -12,40 +12,39 @@ void ajoutEnTeteBullet(int x, int y, listB_t *tete)
     *tete = nouv;
 }
 
-
 void suppressionBulletFromList(listB_t *tete, maillonB_t *elmt)
 {
-    maillonB_t **cour = tete,**prec = tete;
-    while(*cour != NULL && *cour != elmt)
+    maillonB_t **cour = tete, **prec = tete;
+    while (*cour != NULL && *cour != elmt)
     {
         prec = &(*prec)->suiv;
         cour = &((*cour)->suiv);
     }
     if (*cour != NULL)
     {
-        bullet_t * a = (*cour)->bullet;
-        maillonB_t * b;
+        bullet_t *a = (*cour)->bullet;
+        maillonB_t *b;
         b = *cour;
-        *prec = (*cour)-> suiv;
+        *prec = (*cour)->suiv;
         free(a);
         free(b);
     }
-
 }
 
 void moveAllBullet(listB_t *tete)
 {
 
-    maillonB_t *cour = *tete,*temp =NULL;
+    maillonB_t *cour = *tete, *temp = NULL;
     while (cour != NULL)
     {
         if (moveBullet(cour->bullet))
         {
             // Suppression
             temp = cour->suiv;
-            suppressionBulletFromList(tete,cour);
+            suppressionBulletFromList(tete, cour);
             cour = temp;
-        }else
+        }
+        else
         {
             cour = cour->suiv;
         }
@@ -59,5 +58,39 @@ void afficherAllBullet(SDL_Renderer *renderer, listB_t tete, SDL_Texture *textur
     {
         afficherBullet(renderer, cour->bullet, texture);
         cour = cour->suiv;
+    }
+}
+
+// gére les collisions
+void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
+{
+    ennemi_t *ennemiCour = *listeEnnemi, *tmpEnnemi;
+    maillonB_t *bulletCour;
+    int distance = 0, diametre = 0;
+    while (ennemiCour != NULL && listeBullet!=NULL)
+    {
+        bulletCour = *listeBullet;
+        diametre = ennemiCour->infoEnnemi->w / 2 + bulletCour->bullet->h / 2;
+        while (bulletCour != NULL)
+        {
+            // distance entre les deux entités
+            distance = sqrt(pow(bulletCour->bullet->x - ennemiCour->infoEnnemi->x, 2) + pow(bulletCour->bullet->y - ennemiCour->infoEnnemi->y, 2));
+            // collison
+            if (distance < diametre)
+            {
+                (*score)++;
+                suppressionBulletFromList(listeBullet, bulletCour);
+                tmpEnnemi = ennemiCour->ennemiSuivant;
+                mortEnnemi(listeEnnemi,ennemiCour);
+                ennemiCour = tmpEnnemi;
+                bulletCour = NULL;
+            }
+            else
+            {
+                bulletCour = bulletCour->suiv;
+            }
+        }
+        if (ennemiCour != NULL)
+            ennemiCour = ennemiCour->ennemiSuivant;
     }
 }
