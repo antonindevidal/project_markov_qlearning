@@ -1,4 +1,4 @@
-SRC=main.c player.c playerAffichage.c bullet.c bulletAffichage.c
+SRC=main.c player.c playerAffichage.c bullet.c bulletAffichage.c bulletList.c
 EXE=main.out
 
 CC=gcc
