@@ -19,4 +19,11 @@ Le prévisionnel des tâches y est disponible [ici](https://docs.google.com/spre
 ![imagePlanningReel](/Doc/planning_reel.png)
 
 ## Jeu de la vie
-Le README.md du jeu de la vie est disponible [ici](/JeuxDeLaVie/README.md)
+Le README.md du jeu de la vie est disponible [ici](/JeuxDeLaVie/README.md).<br/>
+La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/projet-zz1-site-web/JeuDeLaVie.html).<br/>
+
+## Le Chef d'oeuvre
+La description est diponible sur le site [ici](https://perso.isima.fr/~andevidal/projet-zz1-site-web/ChefOeuvre.html).<br/>
+
+
+
