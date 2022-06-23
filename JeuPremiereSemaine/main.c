@@ -11,6 +11,8 @@
 
 #include "bulletList.h"
 
+
+
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
              SDL_Window *window, // fenêtre à fermer
@@ -49,11 +51,10 @@ void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
 
 int main(int argc, char **argv)
 {
-    srand(time(NULL));
+    srand(time(0));
     (void)argc;
     (void)argv;
-    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
-    int nbCycles = 1;
+    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, spawnEnnemis =0;
     int score = 0;
 
     /* Player */
@@ -62,16 +63,16 @@ int main(int argc, char **argv)
     /* Ennemis */
     listEnnemis_t ennemis;
     initEnnemi(&ennemis);
-    ajoutEnnemi(&ennemis, 550, 50, 20, 20, 15, -15);
-    ajoutEnnemi(&ennemis, 550, 250, 20, 20, 15, -15);
-    ajoutEnnemi(&ennemis, 550, 300, 20, 20, 15, 15);
-    ajoutEnnemi(&ennemis, 550, 150, 20, 20, 15, 15);
+    ajoutEnnemi(&ennemis, 550, 50, 73, 73, 6, -10);
+    ajoutEnnemi(&ennemis, 550, 250, 73, 73, 6, -10);
+    ajoutEnnemi(&ennemis, 550, 300, 73, 73, 6, 10);
+    ajoutEnnemi(&ennemis, 550, 150, 73, 73, 6, 10);
 
     SDL_bool programON = SDL_TRUE;
     SDL_bool finON = SDL_FALSE;
-    SDL_Event event;       
+    SDL_Event event;
     listB_t listeBullet;
-    listeBullet=initListeBullet();
+    listeBullet = initListeBullet();
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -170,7 +171,7 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
-                    ajoutEnTeteBullet(player->x,player->y,&listeBullet);
+                    ajoutEnTeteBullet(player->x, player->y, &listeBullet);
                 }
                 arretEvent = 1;
                 break;
@@ -179,22 +180,24 @@ int main(int argc, char **argv)
             }
         }
         arretEvent = 0;
-        cycles++;
-        SDL_Delay(50);
+        cycles = (cycles + 1) % NBCYCLESENNEMIS;
+        SDL_Delay(20);
 
-        // Update cycle
-        if (cycles >= nbCycles)
+        spawnEnnemis = (spawnEnnemis +1 ) %NBCYCLESENNEMIS;
+        if(spawnEnnemis == 0)
         {
-            cycles = 0;
-            deplacementEnnemis(&ennemis);
+            spawnEnnemi(&ennemis);
         }
+        // Update cycle
+
+        deplacementEnnemis(&ennemis, cycles == 0);
 
         // Draw Frame
         SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
         afficherScore(score, font, window, renderer);
-        if(!IsVideB(listeBullet))
+        if (!IsVideB(listeBullet))
         {
             moveAllBullet(&listeBullet);
             afficherAllBullet(renderer, listeBullet, bulletTexture);
@@ -209,8 +212,8 @@ int main(int argc, char **argv)
         while (SDL_PollEvent(&event) && !arretEvent)
         {
             switch (event.type)
-            {                          // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
+            {                      // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:         // Un évènement simple, on a cliqué sur la x de la fenêtre
                 finON = SDL_FALSE; // Il est temps d'arrêter le programme
                 arretEvent = 1;
                 break;
@@ -229,7 +232,7 @@ int main(int argc, char **argv)
                     break;
                 }
                 break;
-            default: 
+            default:
                 break;
             }
         }
@@ -246,7 +249,6 @@ int main(int argc, char **argv)
 
     destroyPlayerTexture(player);
     destroyPlayer(player);
-
     liberationEnnemis(ennemis);
     SDL_DestroyTexture(ufoBlue);
     SDL_DestroyTexture(ufoGreen);
@@ -254,6 +256,7 @@ int main(int argc, char **argv)
     SDL_DestroyTexture(ufoYellow);
     SDL_DestroyTexture(meteorBrownBig1);
     SDL_DestroyTexture(meteorBrownSmall1);
+    TTF_CloseFont(font);
     endSDL(1, "Normal ending", window, renderer);
     TTF_Quit();
     IMG_Quit();
