@@ -23,7 +23,7 @@ void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *
         endSDL(0, "Création texture impossible", window, renderer);
     SDL_FreeSurface(texteScore);
 
-    SDL_Rect position = {20, 540, 0, 0};
+    SDL_Rect position = {20, WINDOWH-60, 0, 0};
     SDL_QueryTexture(texteTexture, NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(renderer, texteTexture, NULL, &position);
     SDL_DestroyTexture(texteTexture);
@@ -35,7 +35,7 @@ void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *
         endSDL(0, "Création texture impossible", window, renderer);
     SDL_FreeSurface(scoreAct);
 
-    SDL_Rect position2 = {270, 540, 0, 0};
+    SDL_Rect position2 = {270, WINDOWH-60, 0, 0};
     SDL_QueryTexture(texteTexture2, NULL, NULL, &position2.w, &position2.h);
     SDL_RenderCopy(renderer, texteTexture2, NULL, &position2);
     SDL_DestroyTexture(texteTexture2);
