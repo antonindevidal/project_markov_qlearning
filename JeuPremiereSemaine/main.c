@@ -1,12 +1,13 @@
 #include <string.h>
 #include <time.h>
-#include "ennemis.h"
 
+#include "ennemis.h"
 #include "const.h"
 #include "player.h"
 #include "playerAffichage.h"
 #include "bullet.h"
 #include "bulletAffichage.h"
+#include "score.h"
 
 int main(int argc, char **argv)
 {
@@ -15,6 +16,7 @@ int main(int argc, char **argv)
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
     int nbCycles = 1;
+    int score=0;
 
     /* Player */
     player_t *player;
@@ -58,6 +60,15 @@ int main(int argc, char **argv)
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
         endSDL(0, "ERROR RENDERER CREATION", window, renderer);
+
+    /* Initialisation Font */
+    if (TTF_Init() < 0) 
+        endSDL(0, "Erreur initialisation SDL TTF", window, renderer);
+
+    TTF_Font *font = NULL;
+    font = TTF_OpenFont("./resources/font/kenvector_future.ttf", 45);
+    if (font == NULL)
+        endSDL(0, "Erreur chargement Font", window, renderer);
 
     /* Création des textures */
     SDL_Texture *ufoBlue = loadTextureFromImage("resources/ennemis/ufoBlue.png", window, renderer);
@@ -151,6 +162,7 @@ int main(int argc, char **argv)
         SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
+        afficherScore(score, font, window, renderer);
         if(bullet != NULL)
         {
             moveBullet(&bullet);
@@ -173,6 +185,8 @@ int main(int argc, char **argv)
     SDL_DestroyTexture(meteorBrownBig1);
     SDL_DestroyTexture(meteorBrownSmall1);
     endSDL(1, "Normal ending", window, renderer);
+    TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
     return EXIT_SUCCESS;
 }
