@@ -56,13 +56,21 @@ int valeursTheta[TAILLE_MARKOV] = {-20, -10, 0, 10, 20};
 //      /*+20*/ {0.0, 0.0, 0.05, 0.25, 0.7}};
 
 // //Test avec compensation de theta
+// float matriceTheta[5][5] = {
+//     //        -20  -10   0   +10  +20
+//     /*-20*/ {0.3, 0.05, 0.2, 0.25, 0.2},
+//     /*-10*/ {0.3, 0.1, 0.2, 0.3, 0.1},
+//     /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
+//     /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
+//     /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
+
 float matriceTheta[5][5] = {
     //        -20  -10   0   +10  +20
-    /*-20*/ {0.3, 0.05, 0.2, 0.25, 0.2},
-    /*-10*/ {0.3, 0.1, 0.2, 0.3, 0.1},
+    /*-20*/ {0.24, 0.01, 0.4, 0.2, 0.15},
+    /*-10*/ {0.25, 0.05, 0.4, 0.25, 0.05},
     /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
-    /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
-    /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
+    /*+10*/ {0.05, 0.25, 0.4, 0.05, 0.25},
+    /*+20*/ {0.15, 0.2, 0.4, 0.01, 0.24}};
 
 void deplacementEnnemi(int *x, int *y, int *theta,int *thetaActuel, float vitesseX, float vitesseY, int *retour)
 {
@@ -82,15 +90,15 @@ void deplacementEnnemi(int *x, int *y, int *theta,int *thetaActuel, float vitess
     }
     else if (*y < 0)
     {
-        *theta = -20;
+        *theta = -21;
         *thetaActuel = -20;
-        *y = 20;
+        *y = 22;
     }
     else if (*y > WINDOWH)
     {
-        *theta = 20;
+        *theta = 21;
         *thetaActuel=20;
-        *y = WINDOWH - 20;
+        *y = WINDOWH - 22;
     }
     *x = *x + cos(*theta * M_PI / 180 + M_PI) * vitesseX;
     *y = *y + sin(*theta * M_PI / 180 + M_PI) * vitesseY;
