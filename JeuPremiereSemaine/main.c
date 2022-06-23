@@ -64,8 +64,7 @@ int main(int argc, char **argv)
     /* Ennemis */
     listEnnemis_t ennemis;
     initEnnemi(&ennemis);
-    ajoutEnnemi(&ennemis, 550, 50, 73, 73, 6, -10);
-    SDL_bool programON = SDL_TRUE;
+        SDL_bool programON = SDL_TRUE;
     SDL_Event event;
 
     listB_t listeBullet;
