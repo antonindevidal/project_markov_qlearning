@@ -174,21 +174,6 @@ void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, in
 
 void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer)
 {
-    // ennemi_t *prec;
-    // prec = *tf;
-    // while (prec->ennemiSuivant != ennemiATuer)
-    // { // On cherche l'ennemi précédent
-    //     prec = prec->ennemiSuivant;
-    // }
-    // if (ennemiATuer->ennemiSuivant != NULL)
-    // { // Il existe un ennemi après celui qu'on tue
-    //     prec->ennemiSuivant = ennemiATuer->ennemiSuivant;
-    // }
-    // else
-    // {
-    //     prec->ennemiSuivant = NULL;
-    // }
-    // free(ennemiATuer);
     ennemi_t **cour = tf, **prec = tf;
     while (*cour != NULL && *cour != ennemiATuer)
     {
@@ -227,7 +212,11 @@ void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *rende
 }
 
 void liberationEnnemis(listEnnemis_t tf)
-{ // Il faudra mettre tf en paramètre
+{ 
+    if(tf == NULL)
+    {
+        return;
+    }
     if (tf->ennemiSuivant != NULL)
     {
         liberationEnnemis(tf->ennemiSuivant);

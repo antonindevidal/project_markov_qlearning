@@ -11,8 +11,6 @@
 
 #include "bulletList.h"
 
-
-
 void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
              char const *msg,    // message à afficher
              SDL_Window *window, // fenêtre à fermer
@@ -54,7 +52,7 @@ int main(int argc, char **argv)
     srand(time(0));
     (void)argc;
     (void)argv;
-    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, spawnEnnemis =0;
+    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, spawnEnnemis = 0;
     int score = 0;
     int etat = 0;
 
@@ -64,7 +62,7 @@ int main(int argc, char **argv)
     /* Ennemis */
     listEnnemis_t ennemis;
     initEnnemi(&ennemis);
-        SDL_bool programON = SDL_TRUE;
+    SDL_bool programON = SDL_TRUE;
     SDL_Event event;
 
     listB_t listeBullet;
@@ -134,7 +132,9 @@ int main(int argc, char **argv)
     }
 
     while (programON)
-    { // Boucle événementielle du programme
+    {                              // Boucle événementielle du programme
+        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+
         SDL_FlushEvent(SDL_MOUSEMOTION);
         switch (etat)
         {
@@ -181,19 +181,17 @@ int main(int argc, char **argv)
             arretEvent = 0;
             cycles = (cycles + 1) % NBCYCLESENNEMIS;
 
-            spawnEnnemis = (spawnEnnemis +1 ) %NBCYCLESENNEMIS;
-            if(spawnEnnemis == 0)
+            spawnEnnemis = (spawnEnnemis + 1) % NBCYCLESENNEMIS;
+            if (spawnEnnemis == 0)
             {
                 spawnEnnemi(&ennemis);
             }
 
-
-            if (!deplacementEnnemis(&ennemis, cycles ==0))
+            if (!deplacementEnnemis(&ennemis, cycles == 0))
             {
                 etat = 1;
             }
-            
-            SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+
             afficherVaisseau(renderer, player);
             afficherEnnemis(ennemis, ufoBlue, renderer);
             afficherScore(score, font, window, renderer);
@@ -208,8 +206,8 @@ int main(int argc, char **argv)
             while (SDL_PollEvent(&event) && !arretEvent)
             {
                 switch (event.type)
-                {                      // En fonction de la valeur du type de cet évènement
-                case SDL_QUIT:         // Un évènement simple, on a cliqué sur la x de la fenêtre
+                {              // En fonction de la valeur du type de cet évènement
+                case SDL_QUIT: // Un évènement simple, on a cliqué sur la x de la fenêtre
                     programON = SDL_FALSE;
                     arretEvent = 1;
                     break;
@@ -224,6 +222,8 @@ int main(int argc, char **argv)
                         score = 0;
                         arretEvent = 1;
                         etat = 0;
+                        reset(&ennemis,&listeBullet,player);
+                        break;
                     default:
                         break;
                     }
@@ -234,7 +234,6 @@ int main(int argc, char **argv)
             }
             arretEvent = 0;
             // Draw Frame
-            SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
             texteFin(score, font, window, renderer);
             break;
         default:

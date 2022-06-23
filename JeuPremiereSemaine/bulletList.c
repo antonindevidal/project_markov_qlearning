@@ -94,3 +94,19 @@ void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
             ennemiCour = ennemiCour->ennemiSuivant;
     }
 }
+
+void liberationBullets(listB_t tf)
+{
+    if(tf == NULL)
+    {
+        return;
+    }
+    if (tf->suiv != NULL)
+    {
+        liberationBullets(tf->suiv);
+    }
+    bullet_t *t = tf->bullet;
+    free(t);
+    free(tf);
+
+}
