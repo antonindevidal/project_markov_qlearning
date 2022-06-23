@@ -73,6 +73,7 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     if (*x > WINDOWW)
     {
         *theta = 0;
+        *x = WINDOWW - 10;
     }
     else if (*x < 100)
     {
@@ -81,24 +82,29 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     else if (*y < 0)
     {
         *theta = 40;
+        *y = 10;
     }
     else if (*y > WINDOWH)
     {
         *theta = -40;
+        *y = WINDOWH - 10;
     }
     *x = *x + cos(*theta * M_PI / 180 + M_PI) * vitesseX;
     *y = *y + sin(*theta * M_PI / 180 + M_PI) * vitesseY;
 }
 
-int deplacementEnnemis(listEnnemis_t *tf)
+int deplacementEnnemis(listEnnemis_t *tf,int calculAngle)
 {
-    if (tf != NULL)
+
+    int retour = 1;
+    if (*tf != NULL)
     { // S'il existe des ennemis
         // Retour = 0 si dépasse le côté gauche, Retour = 1 sinon
         ennemi_t *courant;
         courant = *tf;
-        int vitesseX, vitesseY, theta, retour = 1;
-        do
+        int vitesseX, vitesseY, theta;
+
+        while (courant != NULL)
         {
             vitesseX = courant->infoEnnemi->vitesseX;
             vitesseY = courant->infoEnnemi->vitesseY;
@@ -109,17 +115,9 @@ int deplacementEnnemis(listEnnemis_t *tf)
             courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
             deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY, &retour);
             courant = courant->ennemiSuivant;
-        } while (courant->ennemiSuivant != NULL);
-        vitesseX = courant->infoEnnemi->vitesseX;
-        vitesseY = courant->infoEnnemi->vitesseY;
-        if (calculAngle)
-        {
-            nouveauTheta(&(courant->infoEnnemi->theta));
         }
-        courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
-        deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY, &retour);
-        return retour;
     }
+    return retour;
 }
 
 void initEnnemi(listEnnemis_t *tf)
@@ -204,7 +202,7 @@ void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *rende
         ennemi_t *courant;
         courant = tf;
         int x, y, w, h;
-        do
+        while (courant != NULL)
         {
             x = courant->infoEnnemi->x;
             y = courant->infoEnnemi->y;
@@ -212,12 +210,7 @@ void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *rende
             h = courant->infoEnnemi->h;
             afficherTexture(texture, renderer, w, h, x, y);
             courant = courant->ennemiSuivant;
-        } while (courant->ennemiSuivant != NULL);
-        x = courant->infoEnnemi->x;
-        y = courant->infoEnnemi->y;
-        w = courant->infoEnnemi->w;
-        h = courant->infoEnnemi->h;
-        afficherTexture(texture, renderer, w, h, x, y);
+        }
     }
 }
 
@@ -250,7 +243,6 @@ void nouveauTheta(int *theta)
     }
     *theta = valeursTheta[i];
 }
-<<<<<<< HEAD
 
 void spawnEnnemi(listEnnemis_t *l)
 {
@@ -258,5 +250,3 @@ void spawnEnnemi(listEnnemis_t *l)
                 (rand() % (WINDOWH - 40)) + 20,
                 TAILLEENNEMI, TAILLEENNEMI, 8, 10);
 }
-=======
->>>>>>> ec5c1b28f0eb34e84aed9ccdb9dde1f7ce36548c

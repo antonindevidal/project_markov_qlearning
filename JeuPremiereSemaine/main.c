@@ -65,10 +65,6 @@ int main(int argc, char **argv)
     listEnnemis_t ennemis;
     initEnnemi(&ennemis);
     ajoutEnnemi(&ennemis, 550, 50, 73, 73, 6, -10);
-    ajoutEnnemi(&ennemis, 550, 250, 73, 73, 6, -10);
-    ajoutEnnemi(&ennemis, 550, 300, 73, 73, 6, 10);
-    ajoutEnnemi(&ennemis, 550, 150, 73, 73, 6, 10);
-
     SDL_bool programON = SDL_TRUE;
     SDL_Event event;
 
@@ -193,7 +189,7 @@ int main(int argc, char **argv)
             }
 
 
-            if (!deplacementEnnemis(&ennemis))
+            if (!deplacementEnnemis(&ennemis, cycles ==0))
             {
                 etat = 1;
             }
