@@ -1,12 +1,13 @@
 #include "bullet.h"
 
-void moveBullet(bullet_t **bullet)
+int moveBullet(bullet_t *bullet)
 {
-    (*bullet)->x += BULLET_SPEED;
-    if ((*bullet)->x > WINDOWW)
+    bullet->x += BULLET_SPEED;
+    if (bullet->x > WINDOWW)
     {
-        destroyBullet(bullet);
+        return 1;
     }
+    return 0;
 }
 void destroyBullet(bullet_t **bullet)
 {
@@ -18,7 +19,7 @@ void destroyBullet(bullet_t **bullet)
 }
 bullet_t *createBullet(int x, int y)
 {
-    bullet_t *bullet = malloc(sizeof(bullet_t));
+    bullet_t *bullet = (bullet_t*)malloc(sizeof(bullet_t));
     if (bullet != NULL)
     {
         bullet->h = BULLET_HEIGHT; // Constant for the moment but may change if we implement bonuses

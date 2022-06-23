@@ -9,6 +9,44 @@
 #include "bulletAffichage.h"
 #include "score.h"
 
+#include "bulletList.h"
+
+void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
+             char const *msg,    // message à afficher
+             SDL_Window *window, // fenêtre à fermer
+             SDL_Renderer *renderer)
+{ // renderer à fermer
+    char msg_formated[255];
+    int l;
+
+    if (!ok)
+    { // Affichage de ce qui ne va pas
+        strncpy(msg_formated, msg, 250);
+        l = strlen(msg_formated);
+        strcpy(msg_formated + l, " : %s\n");
+
+        SDL_Log(msg_formated, SDL_GetError());
+    }
+
+    if (renderer != NULL)
+    {                                  // Destruction si nécessaire du renderer
+        SDL_DestroyRenderer(renderer); // Attention : on suppose que les NULL sont maintenus !!
+        renderer = NULL;
+    }
+    if (window != NULL)
+    {                              // Destruction si nécessaire de la fenêtre
+        SDL_DestroyWindow(window); // Attention : on suppose que les NULL sont maintenus !!
+        window = NULL;
+    }
+
+    SDL_Quit();
+
+    if (!ok)
+    { // On quitte si cela ne va pas
+        exit(EXIT_FAILURE);
+    }
+}
+
 int main(int argc, char **argv)
 {
     srand(time(NULL));
@@ -20,7 +58,6 @@ int main(int argc, char **argv)
 
     /* Player */
     player_t *player;
-    bullet_t *bullet = NULL;
 
     /* Ennemis */
     listEnnemis_t ennemis;
@@ -32,6 +69,9 @@ int main(int argc, char **argv)
 
     SDL_bool programON = SDL_TRUE; 
     SDL_Event event;              
+    listB_t listeBullet;
+    listeBullet=initListeBullet();
+    
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -130,15 +170,7 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
-                  if (bullet != NULL)
-                  {
-                      destroyBullet(&bullet);
-                  }
-                  bullet = createBullet(player->x, player->y);
-                  if (bullet == NULL)
-                  {
-                      endSDL(0, "ERROR MALLOC PLAYER", window, renderer);
-                  }
+                  ajoutEnTeteBullet(player->x,player->y,&listeBullet);
                 }
                 arretEvent = 1;
                 break;
@@ -163,14 +195,13 @@ int main(int argc, char **argv)
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
         afficherScore(score, font, window, renderer);
-        if(bullet != NULL)
+        //printf("%d \n",IsVideB(listeBullet));
+        if(!IsVideB(listeBullet))
         {
-            moveBullet(&bullet);
+            moveAllBullet(&listeBullet);
+            afficherAllBullet(renderer, listeBullet, bulletTexture);
         }
-        if (bullet != NULL)
-        {
-            afficherBullet(renderer, bullet, bulletTexture);
-        }
+
         SDL_RenderPresent(renderer); // affichage
     }
 
