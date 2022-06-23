@@ -34,12 +34,12 @@ void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *
 void finScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
 {
     /* Texte Score */
-    creationTexte("Score: ", 20, WINDOWH-60, font, window, renderer);
+    creationTexte("Score: ", 215, WINDOWH/2-200, font, window, renderer);
 
     /* Valeur du score */
     char scoreChar[10];
     sprintf(scoreChar, "%d", score);
-    creationTexte(scoreChar, WINDOWW/2+70, WINDOWH/2-200, font, window, renderer)
+    creationTexte(scoreChar, WINDOWW/2+60, WINDOWH/2-200, font, window, renderer);
 }
 
 void texteFin(TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer) {
