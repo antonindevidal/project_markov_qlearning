@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
     int nbCycles = 1;
-    int score=0;
+    int score = 0;
 
     /* Player */
     player_t *player;
@@ -30,8 +30,9 @@ int main(int argc, char **argv)
     ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 40);
     ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 40);
 
-    SDL_bool programON = SDL_TRUE; 
-    SDL_Event event;              
+    SDL_bool programON = SDL_FALSE;
+    SDL_bool finON = SDL_TRUE;
+    SDL_Event event;
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -62,7 +63,7 @@ int main(int argc, char **argv)
         endSDL(0, "ERROR RENDERER CREATION", window, renderer);
 
     /* Initialisation Font */
-    if (TTF_Init() < 0) 
+    if (TTF_Init() < 0)
         endSDL(0, "Erreur initialisation SDL TTF", window, renderer);
 
     TTF_Font *font = NULL;
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
     SDL_Texture *meteorBrownBig1 = loadTextureFromImage("resources/ennemis/meteorBrownBig1.png", window, renderer);
     SDL_Texture *meteorBrownSmall1 = loadTextureFromImage("resources/ennemis/meteorBrownSmall1.png", window, renderer);
     SDL_Texture *bulletTexture = NULL;
-    
+
     player = malloc(sizeof(player_t));
     if (player == NULL)
     {
@@ -96,14 +97,56 @@ int main(int argc, char **argv)
         endSDL(0, "ERROR Loading texture Bullet", window, renderer);
     }
 
-    while (programON)
-    {
+    while (finON)
+    { // Boucle événementielle de l'écran de fin
         SDL_FlushEvent(SDL_MOUSEMOTION);
         while (SDL_PollEvent(&event) && !arretEvent)
         {
             switch (event.type)
-            {                           // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
+            {                          // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
+                finON = SDL_FALSE; // Il est temps d'arrêter le programme
+                arretEvent = 1;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    finON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                    arretEvent = 1;
+                    break;
+                case SDLK_SPACE: // On recommence le jeu avec la barre espace
+                    score = 0;
+                    finON = SDL_FALSE;
+                    programON = SDL_TRUE;
+                default:
+                    break;
+                }
+                break;
+            default: 
+                break;
+            }
+        }
+        arretEvent = 0;
+        cycles++;
+        SDL_Delay(50);
+
+        // Update cycle
+
+        // Draw Frame
+        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+        finScore(score, font, window, renderer);
+        SDL_RenderPresent(renderer); // affichage
+    }
+
+    while (programON)
+    { // Boucle événementielle du jeu
+        SDL_FlushEvent(SDL_MOUSEMOTION);
+        while (SDL_PollEvent(&event) && !arretEvent)
+        {
+            switch (event.type)
+            {                          // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
                 programON = SDL_FALSE; // Il est temps d'arrêter le programme
                 arretEvent = 1;
                 break;
@@ -130,15 +173,15 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
-                  if (bullet != NULL)
-                  {
-                      destroyBullet(&bullet);
-                  }
-                  bullet = createBullet(player->x, player->y);
-                  if (bullet == NULL)
-                  {
-                      endSDL(0, "ERROR MALLOC PLAYER", window, renderer);
-                  }
+                    if (bullet != NULL)
+                    {
+                        destroyBullet(&bullet);
+                    }
+                    bullet = createBullet(player->x, player->y);
+                    if (bullet == NULL)
+                    {
+                        endSDL(0, "ERROR MALLOC PLAYER", window, renderer);
+                    }
                 }
                 arretEvent = 1;
                 break;
@@ -149,13 +192,12 @@ int main(int argc, char **argv)
         arretEvent = 0;
         cycles++;
         SDL_Delay(50);
-        
+
         // Update cycle
         if (cycles >= nbCycles)
         {
             cycles = 0;
             deplacementEnnemis(&ennemis);
-            
         }
 
         // Draw Frame
@@ -163,7 +205,7 @@ int main(int argc, char **argv)
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
         afficherScore(score, font, window, renderer);
-        if(bullet != NULL)
+        if (bullet != NULL)
         {
             moveBullet(&bullet);
         }
