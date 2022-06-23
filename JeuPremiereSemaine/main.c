@@ -140,7 +140,7 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
-                  listeBullet=ajoutEnTeteBullet(player->x,player->y,listeBullet);
+                  ajoutEnTeteBullet(player->x,player->y,&listeBullet);
                 }
                 arretEvent = 1;
                 break;

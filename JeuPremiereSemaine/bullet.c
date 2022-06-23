@@ -1,9 +1,9 @@
 #include "bullet.h"
 
-int moveBullet(bullet_t **bullet)
+int moveBullet(bullet_t *bullet)
 {
-    (*bullet)->x += BULLET_SPEED;
-    if ((*bullet)->x > WINDOWW)
+    bullet->x += BULLET_SPEED;
+    if (bullet->x > WINDOWW)
     {
         return 1;
     }

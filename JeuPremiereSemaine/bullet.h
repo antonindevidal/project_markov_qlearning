@@ -19,7 +19,7 @@ typedef struct bullet
     int h;
 }bullet_t;
 
-int moveBullet(bullet_t** bullet);
+int moveBullet(bullet_t* bullet);
 void destroyBullet(bullet_t** bullet);
 bullet_t* createBullet(int x, int y);
 

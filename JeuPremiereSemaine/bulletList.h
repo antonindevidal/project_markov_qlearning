@@ -11,7 +11,7 @@ typedef struct bulletList
 
 listB_t initListeBullet();
 int IsVideB(maillonB_t* tete);
-listB_t ajoutEnTeteBullet(int x,int y, listB_t tete);
+void ajoutEnTeteBullet(int x,int y, listB_t *tete);
 void supprimerEnTeteListeB(listB_t *tete);
 void moveAllBullet(listB_t *tete);
 void afficherAllBullet(SDL_Renderer *renderer, listB_t tete,SDL_Texture *texture);
