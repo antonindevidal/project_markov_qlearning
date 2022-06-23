@@ -64,7 +64,7 @@ float matriceTheta[5][5] = {
     /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
     /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
 
-void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY, int *retour)
+void deplacementEnnemi(int *x, int *y, int *theta,int *thetaActuel, float vitesseX, float vitesseY, int *retour)
 {
     /* Calcul la nouvelle position de l'ennemis */
     //    if(theta<=60 && theta>=-60)
@@ -73,6 +73,7 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     if (*x > WINDOWW)
     {
         *theta = 0;
+        *thetaActuel = 0;
         *x = WINDOWW - 10;
     }
     else if (*x < 100)
@@ -81,13 +82,15 @@ void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesse
     }
     else if (*y < 0)
     {
-        *theta = 40;
-        *y = 10;
+        *theta = -20;
+        *thetaActuel = -20;
+        *y = 20;
     }
     else if (*y > WINDOWH)
     {
-        *theta = -40;
-        *y = WINDOWH - 10;
+        *theta = 20;
+        *thetaActuel=20;
+        *y = WINDOWH - 20;
     }
     *x = *x + cos(*theta * M_PI / 180 + M_PI) * vitesseX;
     *y = *y + sin(*theta * M_PI / 180 + M_PI) * vitesseY;
@@ -113,7 +116,7 @@ int deplacementEnnemis(listEnnemis_t *tf, int calculAngle)
                 nouveauTheta(&(courant->infoEnnemi->theta));
             }
             courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
-            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY, &retour);
+            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, &courant->infoEnnemi->theta, vitesseX, vitesseY, &retour);
             courant = courant->ennemiSuivant;
         }
     }
@@ -174,21 +177,6 @@ void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, in
 
 void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer)
 {
-    // ennemi_t *prec;
-    // prec = *tf;
-    // while (prec->ennemiSuivant != ennemiATuer)
-    // { // On cherche l'ennemi précédent
-    //     prec = prec->ennemiSuivant;
-    // }
-    // if (ennemiATuer->ennemiSuivant != NULL)
-    // { // Il existe un ennemi après celui qu'on tue
-    //     prec->ennemiSuivant = ennemiATuer->ennemiSuivant;
-    // }
-    // else
-    // {
-    //     prec->ennemiSuivant = NULL;
-    // }
-    // free(ennemiATuer);
     ennemi_t **cour = tf, **prec = tf;
     while (*cour != NULL && *cour != ennemiATuer)
     {
