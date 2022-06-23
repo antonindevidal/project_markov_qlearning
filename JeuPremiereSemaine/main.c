@@ -69,9 +69,10 @@ int main(int argc, char **argv)
 
     SDL_bool programON = SDL_TRUE;
     SDL_bool finON = SDL_FALSE;
-    SDL_Event event;       
+    SDL_Event event;
+
     listB_t listeBullet;
-    listeBullet=initListeBullet();
+    listeBullet = initListeBullet();
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -170,7 +171,7 @@ int main(int argc, char **argv)
                 if (SDL_GetMouseState(&mouseX, &mouseY) &
                     SDL_BUTTON(SDL_BUTTON_LEFT))
                 { // Si c'est un click gauche
-                    ajoutEnTeteBullet(player->x,player->y,&listeBullet);
+                    ajoutEnTeteBullet(player->x, player->y, &listeBullet);
                 }
                 arretEvent = 1;
                 break;
@@ -186,7 +187,11 @@ int main(int argc, char **argv)
         if (cycles >= nbCycles)
         {
             cycles = 0;
-            deplacementEnnemis(&ennemis);
+            if (!deplacementEnnemis(&ennemis))
+            {
+                finON = SDL_TRUE;
+                programON = SDL_FALSE;
+            }
         }
 
         // Draw Frame
@@ -194,7 +199,7 @@ int main(int argc, char **argv)
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
         afficherScore(score, font, window, renderer);
-        if(!IsVideB(listeBullet))
+        if (!IsVideB(listeBullet))
         {
             moveAllBullet(&listeBullet);
             afficherAllBullet(renderer, listeBullet, bulletTexture);
@@ -205,12 +210,13 @@ int main(int argc, char **argv)
 
     while (finON)
     { // Boucle événementielle de l'écran de fin
+        printf("coucou2\n");
         SDL_FlushEvent(SDL_MOUSEMOTION);
         while (SDL_PollEvent(&event) && !arretEvent)
         {
             switch (event.type)
-            {                          // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
+            {                      // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:         // Un évènement simple, on a cliqué sur la x de la fenêtre
                 finON = SDL_FALSE; // Il est temps d'arrêter le programme
                 arretEvent = 1;
                 break;
@@ -223,13 +229,14 @@ int main(int argc, char **argv)
                     break;
                 case SDLK_SPACE: // On recommence le jeu avec la barre espace
                     score = 0;
+                    arretEvent = 1;
                     finON = SDL_FALSE;
                     programON = SDL_TRUE;
                 default:
                     break;
                 }
                 break;
-            default: 
+            default:
                 break;
             }
         }
@@ -239,6 +246,7 @@ int main(int argc, char **argv)
         // Update cycle
 
         // Draw Frame
+        printf("coucou4\n");
         SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         texteFin(score, font, window, renderer);
         SDL_RenderPresent(renderer); // affichage

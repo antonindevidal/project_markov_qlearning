@@ -25,8 +25,8 @@ typedef struct ennemi
 } ennemi_t, *listEnnemis_t;
 
 /* Déclaration des prototypes */
-void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY);
-void deplacementEnnemis(listEnnemis_t *tf);
+int deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY);
+int deplacementEnnemis(listEnnemis_t *tf);
 void initEnnemi(listEnnemis_t *tf);
 void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, int vitesseY);
 void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer);
