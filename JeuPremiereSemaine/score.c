@@ -42,6 +42,15 @@ void texteFin(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *rende
     creationTexte(scoreChar, WINDOWW/2+75, WINDOWH/2-50, font, window, renderer);
 
     creationTexte("ESPACE - Rejouer", WINDOWW/2-300, WINDOWH/2+200, font, window, renderer);
+}
 
+void reset(listEnnemis_t* e,listB_t *b, player_t* player)
+{
+    liberationEnnemis(*e);
+    *e = NULL;
+    liberationBullets(*b);
+    *b = NULL;
+    player->y = WINDOWH /2;
+    player->x = 100;
 
 }

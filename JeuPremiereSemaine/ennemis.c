@@ -215,7 +215,7 @@ void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *rende
 }
 
 void liberationEnnemis(listEnnemis_t tf)
-{ // Il faudra mettre tf en paramètre
+{
     if (tf != NULL)
     {
         if (tf->ennemiSuivant != NULL)

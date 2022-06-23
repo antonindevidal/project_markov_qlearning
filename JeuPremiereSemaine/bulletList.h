@@ -17,5 +17,5 @@ void supprimerEnTeteListeB(listB_t *tete);
 void moveAllBullet(listB_t *tete);
 void afficherAllBullet(SDL_Renderer *renderer, listB_t tete,SDL_Texture *texture);
 void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score);
-
+void liberationBullets(listB_t tf);
 #endif
