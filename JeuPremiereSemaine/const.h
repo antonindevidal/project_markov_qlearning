@@ -5,6 +5,6 @@
 #define WINDOWW 1200
 
 
-#define NBCYCLESENNEMIS 20
-#define NBCYCLESPAWN 40
+#define NBCYCLESENNEMIS 25
+#define NBCYCLESPAWN 50
 #endif
