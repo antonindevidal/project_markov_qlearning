@@ -72,7 +72,7 @@ float matriceTheta[5][5] = {
 //     /*+10*/ {0.05, 0.25, 0.4, 0.05, 0.25},
 //     /*+20*/ {0.15, 0.2, 0.4, 0.01, 0.24}};
 
-void deplacementEnnemi(int *x, int *y, int *theta,int *thetaActuel, float vitesseX, float vitesseY, int *retour)
+void deplacementEnnemi(int *x, int *y, int *theta, int *thetaActuel, float vitesseX, float vitesseY, int *retour)
 {
     /* Calcul la nouvelle position de l'ennemis */
     //    if(theta<=60 && theta>=-60)
@@ -97,7 +97,7 @@ void deplacementEnnemi(int *x, int *y, int *theta,int *thetaActuel, float vitess
     else if (*y > WINDOWH)
     {
         *theta = 21;
-        *thetaActuel=20;
+        *thetaActuel = 20;
         *y = WINDOWH - 22;
     }
     *x = *x + cos(*theta * M_PI / 180 + M_PI) * vitesseX;
@@ -201,7 +201,6 @@ void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer)
         free(b);
     }
 }
-
 
 void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *renderer)
 {

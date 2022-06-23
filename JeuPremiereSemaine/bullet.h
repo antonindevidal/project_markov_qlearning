@@ -10,20 +10,16 @@
 #define BULLET_HEIGHT 13
 #define BULLET_SPEED 3
 
-
 typedef struct bullet
 {
     int x;
     int y;
     int w;
     int h;
-}bullet_t;
+} bullet_t;
 
-int moveBullet(bullet_t* bullet);
-void destroyBullet(bullet_t** bullet);
-bullet_t* createBullet(int x, int y);
-
-
-
+int moveBullet(bullet_t *bullet);
+void destroyBullet(bullet_t **bullet);
+bullet_t *createBullet(int x, int y);
 
 #endif

@@ -13,5 +13,5 @@
 void creationTexte(char *texte, int posX, int posY, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
 void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
 void texteFin(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
-void reset(listEnnemis_t* e,listB_t *b, player_t* player);
+void reset(listEnnemis_t *e, listB_t *b, player_t *player);
 #endif

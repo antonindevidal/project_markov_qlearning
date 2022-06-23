@@ -39,8 +39,8 @@ SDL_Texture *loadTextureFromImage(char *fileImageName, SDL_Window *window, SDL_R
     SDL_Texture *maTexture = NULL; // La texture
 
     monImage = IMG_Load(fileImageName); // Chargement de l'image dans la surface
-                                           // image=SDL_LoadBMP(fileImageName); fonction standard de la SDL,
-                                           // uniquement possible si l'image est au format bmp */
+                                        // image=SDL_LoadBMP(fileImageName); fonction standard de la SDL,
+                                        // uniquement possible si l'image est au format bmp */
     if (monImage == NULL)
         endSDL(0, "Chargement de l'image impossible", window, renderer);
 

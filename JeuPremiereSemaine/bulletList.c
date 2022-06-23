@@ -66,10 +66,10 @@ void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
     ennemi_t *ennemiCour = *listeEnnemi, *tmpEnnemi;
     maillonB_t *bulletCour;
     int distance = 0, diametre = 0;
-    while (ennemiCour != NULL && listeBullet!=NULL)
+    while (ennemiCour != NULL && listeBullet != NULL)
     {
         bulletCour = *listeBullet;
-        diametre = ennemiCour->infoEnnemi->w / 2 + BULLET_HEIGHT/ 2;
+        diametre = ennemiCour->infoEnnemi->w / 2 + BULLET_HEIGHT / 2;
         while (bulletCour != NULL)
         {
             // distance entre les deux entités
@@ -80,7 +80,7 @@ void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
                 (*score)++;
                 suppressionBulletFromList(listeBullet, bulletCour);
                 tmpEnnemi = ennemiCour->ennemiSuivant;
-                mortEnnemi(listeEnnemi,ennemiCour);
+                mortEnnemi(listeEnnemi, ennemiCour);
                 ennemiCour = tmpEnnemi;
                 bulletCour = NULL;
             }
@@ -106,5 +106,4 @@ void liberationBullets(listB_t tf)
         free(t);
         free(tf);
     }
-
 }

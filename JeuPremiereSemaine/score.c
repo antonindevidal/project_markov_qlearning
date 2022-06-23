@@ -1,6 +1,7 @@
 #include "score.h"
 
-void creationTexte(char *texte, int posX, int posY, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer) {
+void creationTexte(char *texte, int posX, int posY, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
+{
     TTF_SetFontStyle(font, TTF_STYLE_ITALIC | TTF_STYLE_BOLD);
     SDL_Color couleur = {250, 0, 40, 255};
     SDL_Surface *texteSurface = NULL;
@@ -23,34 +24,33 @@ void creationTexte(char *texte, int posX, int posY, TTF_Font *font, SDL_Window *
 void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
 {
     /* Texte Score */
-    creationTexte("Score: ", 20, WINDOWH-60, font, window, renderer);
+    creationTexte("Score: ", 20, WINDOWH - 60, font, window, renderer);
 
     /* Valeur du score */
     char scoreChar[10];
     sprintf(scoreChar, "%d", score);
-    creationTexte(scoreChar, 270, WINDOWH-60, font, window, renderer);
+    creationTexte(scoreChar, 270, WINDOWH - 60, font, window, renderer);
 }
 
 void texteFin(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
 {
-    creationTexte("GAME OVER", WINDOWW/2-180, WINDOWH/2-270, font, window, renderer);
+    creationTexte("GAME OVER", WINDOWW / 2 - 180, WINDOWH / 2 - 270, font, window, renderer);
 
     /*Score */
-    creationTexte("Score: ", 400, WINDOWH/2-50, font, window, renderer);
+    creationTexte("Score: ", 400, WINDOWH / 2 - 50, font, window, renderer);
     char scoreChar[10];
     sprintf(scoreChar, "%d", score);
-    creationTexte(scoreChar, WINDOWW/2+75, WINDOWH/2-50, font, window, renderer);
+    creationTexte(scoreChar, WINDOWW / 2 + 75, WINDOWH / 2 - 50, font, window, renderer);
 
-    creationTexte("ESPACE - Rejouer", WINDOWW/2-300, WINDOWH/2+200, font, window, renderer);
+    creationTexte("ESPACE - Rejouer", WINDOWW / 2 - 300, WINDOWH / 2 + 200, font, window, renderer);
 }
 
-void reset(listEnnemis_t* e,listB_t *b, player_t* player)
+void reset(listEnnemis_t *e, listB_t *b, player_t *player)
 {
     liberationEnnemis(*e);
     *e = NULL;
     liberationBullets(*b);
     *b = NULL;
-    player->y = WINDOWH /2;
+    player->y = WINDOWH / 2;
     player->x = 100;
-
 }

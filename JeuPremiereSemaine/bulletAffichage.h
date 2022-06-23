@@ -8,8 +8,7 @@
 
 #define SPRITE_BULLET "resources/player/laserBlue02.png"
 
-void afficherBullet(SDL_Renderer *renderer, bullet_t *bullet,SDL_Texture *texture);
+void afficherBullet(SDL_Renderer *renderer, bullet_t *bullet, SDL_Texture *texture);
 int loadBulletTexture(SDL_Renderer *renderer, SDL_Texture **texture);
-
 
 #endif
