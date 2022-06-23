@@ -38,13 +38,13 @@
 // };
 
 int valeursTheta[TAILLE_MARKOV] = {-20, -10, 0, 10, 20};
-float matriceTheta[5][5] = {
-    //        -20  -10   0   +10  +20
-    /*-20*/ {0.6, 0.3, 0.1, 0.0, 0.0},
-    /*-10*/ {0.3, 0.6, 0.1, 0.0, 0.0},
-    /*  0*/ {0.3, 0.1, 0.2, 0.1, 0.3},
-    /*+10*/ {0.0, 0.0, 0.1, 0.6, 0.3},
-    /*+20*/ {0.0, 0.0, 0.1, 0.3, 0.6}};
+// float matriceTheta[5][5] = {
+//     //        -20  -10   0   +10  +20
+//     /*-20*/ {0.6, 0.3, 0.1, 0.0, 0.0},
+//     /*-10*/ {0.3, 0.6, 0.1, 0.0, 0.0},
+//     /*  0*/ {0.3, 0.1, 0.2, 0.1, 0.3},
+//     /*+10*/ {0.0, 0.0, 0.1, 0.6, 0.3},
+//     /*+20*/ {0.0, 0.0, 0.1, 0.3, 0.6}};
 
 // test beaucoup de tours sur eux même
 //  float matriceTheta[5][5] = {
@@ -56,13 +56,13 @@ float matriceTheta[5][5] = {
 //      /*+20*/ {0.0, 0.0, 0.05, 0.25, 0.7}};
 
 // //Test avec compensation de theta
-// float matriceTheta[5][5] = {
-//     //        -20  -10   0   +10  +20
-//     /*-20*/ {0.3, 0.05, 0.2, 0.25, 0.2},
-//     /*-10*/ {0.3, 0.1, 0.2, 0.3, 0.1},
-//     /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
-//     /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
-//     /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
+float matriceTheta[5][5] = {
+    //        -20  -10   0   +10  +20
+    /*-20*/ {0.3, 0.05, 0.2, 0.25, 0.2},
+    /*-10*/ {0.3, 0.1, 0.2, 0.3, 0.1},
+    /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
+    /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
+    /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
 
 void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY, int *retour)
 {
@@ -230,13 +230,16 @@ void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *rende
 
 void liberationEnnemis(listEnnemis_t tf)
 { // Il faudra mettre tf en paramètre
-    if (tf->ennemiSuivant != NULL)
+    if (tf != NULL)
     {
-        liberationEnnemis(tf->ennemiSuivant);
+        if (tf->ennemiSuivant != NULL)
+        {
+            liberationEnnemis(tf->ennemiSuivant);
+        }
+        infoEnnemi_t *t = tf->infoEnnemi;
+        free(t);
+        free(tf);
     }
-    infoEnnemi_t *t = tf->infoEnnemi;
-    free(t);
-    free(tf);
 }
 
 void nouveauTheta(int *theta)
