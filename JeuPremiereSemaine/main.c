@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     int nbCycles = 3;
 
     /* Ennemis */
-    ennemis_t ennemis;
+    listEnnemis_t ennemis;
     initEnnemi(&ennemis);
     ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 40);
     ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 40);
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
         cycles++;
         SDL_Delay(50);
         SDL_RenderClear(renderer);
-        afficherEnnemis(&ennemis, ufoBlue, renderer);
+        afficherEnnemis(ennemis, ufoBlue, renderer);
 
         // Update cycle
         if (cycles >= nbCycles)
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         SDL_RenderPresent(renderer); // affichage
     }
 
-    liberationEnnemis((&ennemis)->tete);
+    liberationEnnemis(ennemis);
     SDL_DestroyTexture(ufoBlue);
     SDL_DestroyTexture(ufoGreen);
     SDL_DestroyTexture(ufoRed);

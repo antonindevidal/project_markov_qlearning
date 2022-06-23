@@ -22,20 +22,15 @@ typedef struct ennemi
     struct ennemi *ennemiSuivant;
 } ennemi_t, *listEnnemis_t;
 
-typedef struct ennemis
-{
-    ennemi_t *tete;
-} ennemis_t;
-
 /* Déclaration des prototypes */
 void deplacementEnnemi(int *x, int *y, int theta, float vitesseX, float vitesseY);
-void deplacementEnnemis(ennemis_t *tf);
-void initEnnemi(ennemis_t *tf);
-void ajoutEnnemi(ennemis_t *tf, int x, int y, int w, int h, int vitesseX, int vitesseY);
-void mortEnnemi(ennemis_t *tf, ennemi_t *ennemiATuer);
-ennemis_t *ennemiToucher(ennemis_t *tf, int tirX, int tirY, int tirW, int tirH); // Retourne l'ennemi à tuer
-void afficherEnnemis(ennemis_t *tf, SDL_Texture *texture, SDL_Renderer *renderer);
-void liberationEnnemis(ennemi_t *tf);
+void deplacementEnnemis(listEnnemis_t *tf);
+void initEnnemi(listEnnemis_t *tf);
+void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, int vitesseY);
+void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer);
+ennemi_t *ennemiToucher(listEnnemis_t tf, int tirX, int tirY, int tirW, int tirH); // Retourne l'ennemi à tuer
+void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *renderer);
+void liberationEnnemis(listEnnemis_t tf);
 void nouveauTheta(int *theta);
 
 #endif
