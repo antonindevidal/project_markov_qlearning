@@ -102,7 +102,7 @@ int deplacementEnnemis(listEnnemis_t *tf, int calculAngle)
         // Retour = 0 si dépasse le côté gauche, Retour = 1 sinon
         ennemi_t *courant;
         courant = *tf;
-        int vitesseX, vitesseY, theta;
+        int vitesseX, vitesseY;
 
         while (courant != NULL)
         {
@@ -205,9 +205,7 @@ void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer)
         free(b);
     }
 }
-ennemi_t *ennemiToucher(listEnnemis_t tf, int tirX, int tirY, int tirW, int tirH)
-{ // Retourne l'ennemi à tuer
-}
+
 
 void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *renderer)
 {
