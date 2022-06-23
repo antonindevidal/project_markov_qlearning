@@ -16,6 +16,7 @@ int main(int argc, char **argv)
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
     int nbCycles = 1;
+    int score=0;
 
     /* Player */
     player_t *player;
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
         endSDL(0, "Erreur initialisation SDL TTF", window, renderer);
 
     TTF_Font *font = NULL;
-    font = TTF_OpenFont("./resources/font/kenvector_future.ttf", 65);
+    font = TTF_OpenFont("./resources/font/kenvector_future.ttf", 45);
     if (font == NULL)
         endSDL(0, "Erreur chargement Font", window, renderer);
 
@@ -161,7 +162,7 @@ int main(int argc, char **argv)
         SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         afficherVaisseau(renderer, player);
         afficherEnnemis(ennemis, ufoBlue, renderer);
-        afficherScore(font, window, renderer);
+        afficherScore(score, font, window, renderer);
         if(bullet != NULL)
         {
             moveBullet(&bullet);

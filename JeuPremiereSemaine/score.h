@@ -6,6 +6,6 @@
 #include <stdio.h>
 #include "fonctionsSDL.h"
 
-void afficherScore(TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
+void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
 
 #endif
