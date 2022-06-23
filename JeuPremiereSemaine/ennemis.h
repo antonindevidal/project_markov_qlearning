@@ -30,6 +30,7 @@ int deplacementEnnemis(listEnnemis_t *tf);
 void initEnnemi(listEnnemis_t *tf);
 void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, int vitesseY);
 void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer);
+void mortEnnemis(listeEnnemis_t *tf);
 ennemi_t *ennemiToucher(listEnnemis_t tf, int tirX, int tirY, int tirW, int tirH); // Retourne l'ennemi à tuer
 void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *renderer);
 void liberationEnnemis(listEnnemis_t tf);

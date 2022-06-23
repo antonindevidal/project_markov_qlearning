@@ -69,6 +69,7 @@ int main(int argc, char **argv)
 
     SDL_bool programON = SDL_TRUE;
     SDL_bool finON = SDL_FALSE;
+    SDL_bool jeuON = SDL_TRUE;
     SDL_Event event;
 
     listB_t listeBullet;
@@ -138,118 +139,122 @@ int main(int argc, char **argv)
     }
 
     while (programON)
-    { // Boucle événementielle du jeu
-        SDL_FlushEvent(SDL_MOUSEMOTION);
-        while (SDL_PollEvent(&event) && !arretEvent)
-        {
-            switch (event.type)
-            {                          // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
-                programON = SDL_FALSE; // Il est temps d'arrêter le programme
-                arretEvent = 1;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE:
-                    programON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
-                    arretEvent = 1;
-                    break;
-                case SDLK_s:
-                    movePlayerDown(player); // Fermeture du programme à l'appuie sur la touche ECHAP
-                    arretEvent = 1;
-                    break;
-                case SDLK_z:
-                    movePlayerUp(player); // Fermeture du programme à l'appuie sur la touche ECHAP
-                    arretEvent = 1;
-                    break;
-                default:
-                    break;
-                }
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                if (SDL_GetMouseState(&mouseX, &mouseY) &
-                    SDL_BUTTON(SDL_BUTTON_LEFT))
-                { // Si c'est un click gauche
-                    ajoutEnTeteBullet(player->x, player->y, &listeBullet);
-                }
-                arretEvent = 1;
-                break;
-            default: // L'évènement défilé ne nous intéresse pas
-                break;
-            }
-        }
-        arretEvent = 0;
-        cycles++;
-        SDL_Delay(50);
-
-        // Update cycle
-        if (cycles >= nbCycles)
-        {
-            cycles = 0;
-            if (!deplacementEnnemis(&ennemis))
+    { // Boucle événementielle du programme
+        while (jeuON) { // Boucle événementielle du jeu
+            SDL_FlushEvent(SDL_MOUSEMOTION);
+            while (SDL_PollEvent(&event) && !arretEvent)
             {
-                finON = SDL_TRUE;
-                programON = SDL_FALSE;
-            }
-        }
-
-        // Draw Frame
-        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
-        afficherVaisseau(renderer, player);
-        afficherEnnemis(ennemis, ufoBlue, renderer);
-        afficherScore(score, font, window, renderer);
-        if (!IsVideB(listeBullet))
-        {
-            moveAllBullet(&listeBullet);
-            afficherAllBullet(renderer, listeBullet, bulletTexture);
-        }
-
-        SDL_RenderPresent(renderer); // affichage
-    }
-
-    while (finON)
-    { // Boucle événementielle de l'écran de fin
-        printf("coucou2\n");
-        SDL_FlushEvent(SDL_MOUSEMOTION);
-        while (SDL_PollEvent(&event) && !arretEvent)
-        {
-            switch (event.type)
-            {                      // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:         // Un évènement simple, on a cliqué sur la x de la fenêtre
-                finON = SDL_FALSE; // Il est temps d'arrêter le programme
-                arretEvent = 1;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE:
-                    finON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                switch (event.type)
+                {                          // En fonction de la valeur du type de cet évènement
+                case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
+                    programON = SDL_FALSE; // Il est temps d'arrêter le programme
+                    jeuON  = SDL_FALSE;
                     arretEvent = 1;
                     break;
-                case SDLK_SPACE: // On recommence le jeu avec la barre espace
-                    score = 0;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym)
+                    {
+                    case SDLK_ESCAPE:
+                        programON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                        jeuON  = SDL_FALSE;
+                        arretEvent = 1;
+                        break;
+                    case SDLK_s:
+                        movePlayerDown(player); // Fermeture du programme à l'appuie sur la touche ECHAP
+                        arretEvent = 1;
+                        break;
+                    case SDLK_z:
+                        movePlayerUp(player); // Fermeture du programme à l'appuie sur la touche ECHAP
+                        arretEvent = 1;
+                        break;
+                    default:
+                        break;
+                    }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (SDL_GetMouseState(&mouseX, &mouseY) &
+                        SDL_BUTTON(SDL_BUTTON_LEFT))
+                    { // Si c'est un click gauche
+                        ajoutEnTeteBullet(player->x, player->y, &listeBullet);
+                    }
                     arretEvent = 1;
-                    finON = SDL_FALSE;
-                    programON = SDL_TRUE;
+                    break;
+                default: // L'évènement défilé ne nous intéresse pas
+                    break;
+                }
+            }
+            arretEvent = 0;
+            cycles++;
+            SDL_Delay(50);
+
+            // Update cycle
+            if (cycles >= nbCycles)
+            {
+                cycles = 0;
+                if (!deplacementEnnemis(&ennemis))
+                {
+                    finON = SDL_TRUE;
+                    jeuON = SDL_FALSE;
+                }
+            }
+
+            // Draw Frame
+            SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+            afficherVaisseau(renderer, player);
+            afficherEnnemis(ennemis, ufoBlue, renderer);
+            afficherScore(score, font, window, renderer);
+            if (!IsVideB(listeBullet))
+            {
+                moveAllBullet(&listeBullet);
+                afficherAllBullet(renderer, listeBullet, bulletTexture);
+            }
+
+            SDL_RenderPresent(renderer); // affichage
+        }
+
+        while (finON)
+        { // Boucle événementielle de l'écran de fin
+            SDL_FlushEvent(SDL_MOUSEMOTION);
+            while (SDL_PollEvent(&event) && !arretEvent)
+            {
+                switch (event.type)
+                {                      // En fonction de la valeur du type de cet évènement
+                case SDL_QUIT:         // Un évènement simple, on a cliqué sur la x de la fenêtre
+                    finON = SDL_FALSE; // Il est temps d'arrêter le programme
+                    programON = SDL_FALSE;
+                    arretEvent = 1;
+                    break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym)
+                    {
+                    case SDLK_ESCAPE:
+                        finON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                        programON = SDL_FALSE;
+                        arretEvent = 1;
+                        break;
+                    case SDLK_SPACE: // On recommence le jeu avec la barre espace
+                        score = 0;
+                        arretEvent = 1;
+                        finON = SDL_FALSE;
+                        jeuON = SDL_TRUE;
+                    default:
+                        break;
+                    }
+                    break;
                 default:
                     break;
                 }
-                break;
-            default:
-                break;
             }
+            arretEvent = 0;
+            SDL_Delay(50);
+
+            // Update cycle
+
+            // Draw Frame
+            SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+            texteFin(score, font, window, renderer);
+            SDL_RenderPresent(renderer); // affichage
         }
-        arretEvent = 0;
-        SDL_Delay(50);
-
-        // Update cycle
-
-        // Draw Frame
-        printf("coucou4\n");
-        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
-        texteFin(score, font, window, renderer);
-        SDL_RenderPresent(renderer); // affichage
     }
 
     destroyPlayerTexture(player);
