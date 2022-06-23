@@ -95,19 +95,23 @@ void deplacementEnnemis(listEnnemis_t *tf)
     { // S'il existe des ennemis
         ennemi_t *courant;
         courant = *tf;
-        int vitesseX, vitesseY;
+        int vitesseX, vitesseY, theta;
         do
         {
             vitesseX = courant->infoEnnemi->vitesseX;
             vitesseY = courant->infoEnnemi->vitesseY;
             nouveauTheta(&(courant->infoEnnemi->theta));
             courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
+
+            // theta = courant->infoEnnemi->sommeTheta;
+            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
             courant = courant->ennemiSuivant;
         } while (courant->ennemiSuivant != NULL);
         vitesseX = courant->infoEnnemi->vitesseX;
         vitesseY = courant->infoEnnemi->vitesseY;
         nouveauTheta(&(courant->infoEnnemi->theta));
         courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
+        // theta = courant->infoEnnemi->sommeTheta;
         deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
     }
 }
