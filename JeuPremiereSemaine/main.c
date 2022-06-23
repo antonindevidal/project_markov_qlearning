@@ -23,10 +23,10 @@ int main(int argc, char **argv)
     /* Ennemis */
     listEnnemis_t ennemis;
     initEnnemi(&ennemis);
-    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 40);
-    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 40);
-    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 40);
-    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 550, 50, 20, 20, 15, -15);
+    ajoutEnnemi(&ennemis, 550, 250, 20, 20, 15, -15);
+    ajoutEnnemi(&ennemis, 550, 300, 20, 20, 15, 15);
+    ajoutEnnemi(&ennemis, 550, 150, 20, 20, 15, 15);
 
     SDL_bool programON = SDL_TRUE; 
     SDL_Event event;              

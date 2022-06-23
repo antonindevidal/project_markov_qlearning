@@ -18,38 +18,75 @@
 //      /*+300*/ {0.03, 0, 0.02, 0.65, 0.3}
 // };
 
-int valeursTheta[TAILLE_MARKOV] = {-350, -300, -250, -200, -150, -100, -50, 0, 50, 100, 150, 200, 250, 300, 350};
-float matriceTheta[TAILLE_MARKOV][TAILLE_MARKOV] = {
-    {0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0},
-{0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0},
-{0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0},
-{0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0},
-{0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0},
-{0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0},
-{0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03},
-{0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05},
-{0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1},
-{0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2},
-{0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5},
-{0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05},
-{0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05},
-{0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02},
-{0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0}
-};
+// int valeursTheta[TAILLE_MARKOV] = {-350, -300, -250, -200, -150, -100, -50, 0, 50, 100, 150, 200, 250, 300, 350};
+// float matriceTheta[TAILLE_MARKOV][TAILLE_MARKOV] = {
+//     {0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0},
+// {0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0},
+// {0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0},
+// {0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0},
+// {0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0},
+// {0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0},
+// {0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03},
+// {0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05},
+// {0.2, 0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1},
+// {0.5, 0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2},
+// {0.05, 0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5},
+// {0.05, 0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05},
+// {0.02, 0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05},
+// {0, 0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02},
+// {0, 0, 0, 0, 0, 0, 0.03, 0.05, 0.1, 0.2, 0.5, 0.05, 0.05, 0.02, 0}
+// };
 
+int valeursTheta[TAILLE_MARKOV] = {-20, -10, 0, 10, 20};
+ float matriceTheta[5][5] = {
+    //        -20  -10   0   +10  +20
+    /*-20*/ {0.6, 0.3, 0.1, 0.0, 0.0},
+    /*-10*/ {0.3, 0.6, 0.1, 0.0, 0.0},
+    /*  0*/ {0.3, 0.1, 0.2, 0.1, 0.3},
+    /*+10*/ {0.0, 0.0, 0.1, 0.6, 0.3},
+    /*+20*/ {0.0, 0.0, 0.1, 0.3, 0.6}};
+
+// test beaucoup de tours sur eux même
+//  float matriceTheta[5][5] = {
+//      //        -20  -10   0   +10  +20
+//      /*-20*/ {0.7, 0.25, 0.05, 0.0, 0.0},
+//      /*-10*/ {0.3, 0.6, 0.1, 0.0, 0.0},
+//      /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
+//      /*+10*/ {0.0, 0.0, 0.1, 0.6, 0.3},
+//      /*+20*/ {0.0, 0.0, 0.05, 0.25, 0.7}};
+
+// //Test avec compensation de theta
 // float matriceTheta[5][5] = {
 //     //        -20  -10   0   +10  +20
-//     /*-20*/ {0.6, 0.3, 0.1, 0.0, 0.0},
-//     /*-10*/ {0.3, 0.6, 0.1, 0.0, 0.0},
-//     /*  0*/ {0.3, 0.1, 0.2, 0.1, 0.3},
-//     /*+10*/ {0.0, 0.0, 0.1, 0.6, 0.3},
-//     /*+20*/ {0.0, 0.0, 0.1, 0.3, 0.6}};
+//     /*-20*/ {0.3, 0.05, 0.2, 0.25, 0.2},
+//     /*-10*/ {0.3, 0.1, 0.2, 0.3, 0.1},
+//     /*  0*/ {0.05, 0.15, 0.6, 0.15, 0.05},
+//     /*+10*/ {0.1, 0.3, 0.2, 0.1, 0.3},
+//     /*+20*/ {0.2, 0.25, 0.2, 0.05, 0.3}};
 
-void deplacementEnnemi(int *x, int *y, int theta, float vitesseX, float vitesseY)
+void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY)
 {
     /* Calcul la nouvelle position de l'ennemis */
-    *x = *x + cos(theta * M_PI / 180 + M_PI) * vitesseX;
-    *y = *y + sin(theta * M_PI / 180 + M_PI) * vitesseY;
+    //    if(theta<=60 && theta>=-60)
+    //        vitesseX=vitesseX+2;
+    if (*x > WINDOWW)
+    {
+        *theta = 0;
+    }
+    else if (*x < 0)
+    {
+        *theta = 180;
+    }
+    else if (*y < 0)
+    {
+        *theta = 40;
+    }
+    else if (*y > WINDOWH)
+    {
+        *theta = -40;
+    }
+    *x = *x + cos(*theta * M_PI / 180 + M_PI) * vitesseX;
+    *y = *y - sin(*theta * M_PI / 180 + M_PI) * vitesseY;
 }
 
 void deplacementEnnemis(listEnnemis_t *tf)
@@ -64,15 +101,18 @@ void deplacementEnnemis(listEnnemis_t *tf)
             vitesseX = courant->infoEnnemi->vitesseX;
             vitesseY = courant->infoEnnemi->vitesseY;
             nouveauTheta(&(courant->infoEnnemi->theta));
-            theta = courant->infoEnnemi->theta;
-            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, theta, vitesseX, vitesseY);
+            courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
+
+            // theta = courant->infoEnnemi->sommeTheta;
+            deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
             courant = courant->ennemiSuivant;
         } while (courant->ennemiSuivant != NULL);
         vitesseX = courant->infoEnnemi->vitesseX;
         vitesseY = courant->infoEnnemi->vitesseY;
         nouveauTheta(&(courant->infoEnnemi->theta));
-        theta = courant->infoEnnemi->theta;
-        deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, theta, vitesseX, vitesseY);
+        courant->infoEnnemi->sommeTheta += courant->infoEnnemi->theta;
+        // theta = courant->infoEnnemi->sommeTheta;
+        deplacementEnnemi(&courant->infoEnnemi->x, &courant->infoEnnemi->y, &courant->infoEnnemi->sommeTheta, vitesseX, vitesseY);
     }
 }
 
@@ -98,7 +138,8 @@ void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, in
             infoNouv->h = h;
             infoNouv->vitesseX = vitesseX;
             infoNouv->vitesseY = vitesseY;
-            infoNouv->theta = 0; // On suppose que l'ennemi va tout droit au départ;
+            infoNouv->theta = 0;      // On suppose que l'ennemi va tout droit au départ;
+            infoNouv->sommeTheta = 0; // On suppose que l'ennemi va tout droit au départ;
         }
         else
         {
@@ -188,9 +229,9 @@ void nouveauTheta(int *theta)
     int proba = rand() % 101;
     int i = 0, indTheta = 0;
 
-    while(valeursTheta[indTheta] != *theta)
+    while (valeursTheta[indTheta] != *theta)
     {
-            indTheta++;
+        indTheta++;
     }
 
     float sommeProba = matriceTheta[indTheta][i] * 100;
