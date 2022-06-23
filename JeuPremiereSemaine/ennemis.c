@@ -98,7 +98,7 @@ void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, in
             infoNouv->h = h;
             infoNouv->vitesseX = vitesseX;
             infoNouv->vitesseY = vitesseY;
-            infoNouv->theta = 10; // On suppose que l'ennemi va tout droit au départ;
+            infoNouv->theta = 0; // On suppose que l'ennemi va tout droit au départ;
         }
         else
         {
@@ -186,14 +186,18 @@ void liberationEnnemis(listEnnemis_t tf)
 void nouveauTheta(int *theta)
 {
     int proba = rand() % 101;
-    int i = 0;
-    int thetaActuel = ((*theta) / 10) + 2;
-    float sommeProba = matriceTheta[thetaActuel][i] * 100;
-    while ((proba > sommeProba) && (i<TAILLE_MARKOV))
+    int i = 0, indTheta = 0;
+
+    while(valeursTheta[indTheta] != *theta)
     {
-        i++;
-        sommeProba += matriceTheta[thetaActuel][i] * 100;
+            indTheta++;
     }
 
+    float sommeProba = matriceTheta[indTheta][i] * 100;
+    while ((proba > sommeProba))
+    {
+        i++;
+        sommeProba += matriceTheta[indTheta][i] * 100;
+    }
     *theta = valeursTheta[i];
 }
