@@ -1,4 +1,4 @@
-SRC=main.c player.c playerAffichage.c bullet.c bulletAffichage.c ennemis.c fonctionsSDL.c score.c
+SRC=main.c player.c playerAffichage.c bullet.c bulletAffichage.c ennemis.c fonctionsSDL.c score.c bulletList.c
 EXE=main.out
 
 CC=gcc
