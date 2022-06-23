@@ -50,7 +50,6 @@ void moveAllBullet(listB_t *tete)
         }
     }
 }
-
 void afficherAllBullet(SDL_Renderer *renderer, listB_t tete, SDL_Texture *texture)
 {
     listB_t cour = tete;
@@ -70,7 +69,7 @@ void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
     while (ennemiCour != NULL && listeBullet!=NULL)
     {
         bulletCour = *listeBullet;
-        diametre = ennemiCour->infoEnnemi->w / 2 + bulletCour->bullet->h / 2;
+        diametre = ennemiCour->infoEnnemi->w / 2 + BULLET_HEIGHT/ 2;
         while (bulletCour != NULL)
         {
             // distance entre les deux entités
@@ -97,16 +96,15 @@ void collision(listB_t *listeBullet, listEnnemis_t *listeEnnemi, int *score)
 
 void liberationBullets(listB_t tf)
 {
-    if(tf == NULL)
+    if (tf != NULL)
     {
-        return;
+        if (tf->suiv != NULL)
+        {
+            liberationBullets(tf->suiv);
+        }
+        bullet_t *t = tf->bullet;
+        free(t);
+        free(tf);
     }
-    if (tf->suiv != NULL)
-    {
-        liberationBullets(tf->suiv);
-    }
-    bullet_t *t = tf->bullet;
-    free(t);
-    free(tf);
 
 }
