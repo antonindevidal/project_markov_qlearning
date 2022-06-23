@@ -3,7 +3,10 @@
 #include <math.h>
 #include "fonctionsSDL.h"
 #include "const.h"
+
+
 #define TAILLE_MARKOV 5
+#define TAILLEENNEMI 72
 
 /* Structure ennemis */
 typedef struct infoEnnemi
@@ -25,8 +28,8 @@ typedef struct ennemi
 } ennemi_t, *listEnnemis_t;
 
 /* Déclaration des prototypes */
-void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY);
-void deplacementEnnemis(listEnnemis_t *tf);
+void deplacementEnnemi(int *x, int *y, int *theta, float vitesseX, float vitesseY, int *retour);
+int deplacementEnnemis(listEnnemis_t *tf,int calculAngle);
 void initEnnemi(listEnnemis_t *tf);
 void ajoutEnnemi(listEnnemis_t *tf, int x, int y, int w, int h, int vitesseX, int vitesseY);
 void mortEnnemi(listEnnemis_t *tf, ennemi_t *ennemiATuer);
@@ -34,5 +37,5 @@ ennemi_t *ennemiToucher(listEnnemis_t tf, int tirX, int tirY, int tirW, int tirH
 void afficherEnnemis(listEnnemis_t tf, SDL_Texture *texture, SDL_Renderer *renderer);
 void liberationEnnemis(listEnnemis_t tf);
 void nouveauTheta(int *theta);
-
+void spawnEnnemi(listEnnemis_t *l);
 #endif

@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL_image.h>
 #include "const.h"
-#define SPEED 4
+#define SPEED 8
 
 typedef struct player{
     int x;				//position x
