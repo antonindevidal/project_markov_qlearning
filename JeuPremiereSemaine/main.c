@@ -181,7 +181,7 @@ int main(int argc, char **argv)
             arretEvent = 0;
             cycles = (cycles + 1) % NBCYCLESENNEMIS;
 
-            spawnEnnemis = (spawnEnnemis + 1) % NBCYCLESENNEMIS;
+            spawnEnnemis = (spawnEnnemis + 1) % NBCYCLESPAWN;
             if (spawnEnnemis == 0)
             {
                 spawnEnnemi(&ennemis);
@@ -191,16 +191,17 @@ int main(int argc, char **argv)
             {
                 etat = 1;
             }
-
-            afficherVaisseau(renderer, player);
-            afficherEnnemis(ennemis, ufoBlue, renderer);
-            afficherScore(score, font, window, renderer);
             if (!IsVideB(listeBullet))
             {
                 moveAllBullet(&listeBullet);
                 collision(&listeBullet, &ennemis, &score);
-                afficherAllBullet(renderer, listeBullet, bulletTexture);
             }
+
+            afficherVaisseau(renderer, player);
+            afficherEnnemis(ennemis, ufoBlue, renderer);
+            afficherAllBullet(renderer, listeBullet, bulletTexture);
+            afficherScore(score, font, window, renderer);
+
             break;
         case 1: // Etat: Fin
             while (SDL_PollEvent(&event) && !arretEvent)
@@ -222,7 +223,7 @@ int main(int argc, char **argv)
                         score = 0;
                         arretEvent = 1;
                         etat = 0;
-                        reset(&ennemis,&listeBullet,player);
+                        reset(&ennemis, &listeBullet, player);
                         break;
                     default:
                         break;
