@@ -1,8 +1,6 @@
-#include <SDL2/SDL.h>
-#include <math.h>
-#include <stdio.h>
 #include <string.h>
-#include <SDL2/SDL_image.h>
+#include <time.h>
+#include "ennemis.h"
 
 #include "const.h"
 #include "player.h"
@@ -10,53 +8,28 @@
 #include "bullet.h"
 #include "bulletAffichage.h"
 
-void end_sdl(char ok,            // fin normale : ok = 0 ; anormale ok = 1
-             char const *msg,    // message à afficher
-             SDL_Window *window, // fenêtre à fermer
-             SDL_Renderer *renderer)
-{ // renderer à fermer
-    char msg_formated[255];
-    int l;
-
-    if (!ok)
-    { // Affichage de ce qui ne va pas
-        strncpy(msg_formated, msg, 250);
-        l = strlen(msg_formated);
-        strcpy(msg_formated + l, " : %s\n");
-
-        SDL_Log(msg_formated, SDL_GetError());
-    }
-
-    if (renderer != NULL)
-    {                                  // Destruction si nécessaire du renderer
-        SDL_DestroyRenderer(renderer); // Attention : on suppose que les NULL sont maintenus !!
-        renderer = NULL;
-    }
-    if (window != NULL)
-    {                              // Destruction si nécessaire de la fenêtre
-        SDL_DestroyWindow(window); // Attention : on suppose que les NULL sont maintenus !!
-        window = NULL;
-    }
-
-    SDL_Quit();
-
-    if (!ok)
-    { // On quitte si cela ne va pas
-        exit(EXIT_FAILURE);
-    }
-}
-
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     (void)argc;
     (void)argv;
-    int arretEvent = 0, mouseX = 0, mouseY = 0;
+    int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = 0;
+    int nbCycles = 1;
 
+    /* Player */
     player_t *player;
     bullet_t *bullet = NULL;
 
-    SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-    SDL_Event event;                // c'est le type IMPORTANT !!
+    /* Ennemis */
+    listEnnemis_t ennemis;
+    initEnnemi(&ennemis);
+    ajoutEnnemi(&ennemis, 350, 50, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 300, 250, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 40);
+    ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 40);
+
+    SDL_bool programON = SDL_TRUE; 
+    SDL_Event event;              
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -66,7 +39,7 @@ int main(int argc, char **argv)
     /*********************************************************************************************************************/
     /*                         Initialisation de la SDL  + gestion de l'échec possible                                   */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
-        end_sdl(0, "ERROR SDL INIT", window, renderer);
+        endSDL(0, "ERROR SDL INIT", window, renderer);
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
@@ -78,34 +51,41 @@ int main(int argc, char **argv)
                               WINDOWH,
                               SDL_WINDOW_OPENGL);
     if (window == NULL)
-        end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
+        endSDL(0, "ERROR WINDOW CREATION", window, renderer);
 
     /* Création du renderer */
     renderer = SDL_CreateRenderer(window, -1,
                                   SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
-        end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
+        endSDL(0, "ERROR RENDERER CREATION", window, renderer);
 
+    /* Création des textures */
+    SDL_Texture *ufoBlue = loadTextureFromImage("resources/ennemis/ufoBlue.png", window, renderer);
+    SDL_Texture *ufoGreen = loadTextureFromImage("resources/ennemis/ufoGreen.png", window, renderer);
+    SDL_Texture *ufoRed = loadTextureFromImage("resources/ennemis/ufoRed.png", window, renderer);
+    SDL_Texture *ufoYellow = loadTextureFromImage("resources/ennemis/ufoYellow.png", window, renderer);
+    SDL_Texture *meteorBrownBig1 = loadTextureFromImage("resources/ennemis/meteorBrownBig1.png", window, renderer);
+    SDL_Texture *meteorBrownSmall1 = loadTextureFromImage("resources/ennemis/meteorBrownSmall1.png", window, renderer);
+    SDL_Texture *bulletTexture = NULL;
+    
     player = malloc(sizeof(player_t));
     if (player == NULL)
     {
-        end_sdl(0, "ERROR MALLOC PLAYER", window, renderer);
+        endSDL(0, "ERROR MALLOC PLAYER", window, renderer);
     }
     player->x = 100;
     player->y = 100;
     if (loadPlayerTexture(renderer, player))
     {
-        end_sdl(0, "ERROR Loading texture PLAYER", window, renderer);
+        endSDL(0, "ERROR Loading texture PLAYER", window, renderer);
     }
 
-    SDL_Texture *bulletTexture = NULL;
     if (loadBulletTexture(renderer, &bulletTexture))
     {
-        end_sdl(0, "ERROR Loading texture Bullet", window, renderer);
+        endSDL(0, "ERROR Loading texture Bullet", window, renderer);
     }
 
-
-    while (program_on)
+    while (programON)
     {
         SDL_FlushEvent(SDL_MOUSEMOTION);
         while (SDL_PollEvent(&event) && !arretEvent)
@@ -113,14 +93,14 @@ int main(int argc, char **argv)
             switch (event.type)
             {                           // En fonction de la valeur du type de cet évènement
             case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
-                program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+                programON = SDL_FALSE; // Il est temps d'arrêter le programme
                 arretEvent = 1;
                 break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
-                    program_on = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                    programON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
                     arretEvent = 1;
                     break;
                 case SDLK_s:
@@ -146,7 +126,7 @@ int main(int argc, char **argv)
                   bullet = createBullet(player->x, player->y);
                   if (bullet == NULL)
                   {
-                      end_sdl(0, "ERROR MALLOC PLAYER", window, renderer);
+                      endSDL(0, "ERROR MALLOC PLAYER", window, renderer);
                   }
                 }
                 arretEvent = 1;
@@ -156,13 +136,21 @@ int main(int argc, char **argv)
             }
         }
         arretEvent = 0;
-        SDL_Delay(16);
-
+        cycles++;
+        SDL_Delay(50);
+        
         // Update cycle
+        if (cycles >= nbCycles)
+        {
+            cycles = 0;
+            deplacementEnnemis(&ennemis);
+            
+        }
 
         // Draw Frame
         SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
         afficherVaisseau(renderer, player);
+        afficherEnnemis(ennemis, ufoBlue, renderer);
         if(bullet != NULL)
         {
             moveBullet(&bullet);
@@ -173,9 +161,18 @@ int main(int argc, char **argv)
         }
         SDL_RenderPresent(renderer); // affichage
     }
+
     destroyPlayerTexture(player);
     destroyPlayer(player);
-    end_sdl(1, "Normal ending", window, renderer);
+
+    liberationEnnemis(ennemis);
+    SDL_DestroyTexture(ufoBlue);
+    SDL_DestroyTexture(ufoGreen);
+    SDL_DestroyTexture(ufoRed);
+    SDL_DestroyTexture(ufoYellow);
+    SDL_DestroyTexture(meteorBrownBig1);
+    SDL_DestroyTexture(meteorBrownSmall1);
+    endSDL(1, "Normal ending", window, renderer);
     SDL_Quit();
     return EXIT_SUCCESS;
 }
