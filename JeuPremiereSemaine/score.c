@@ -31,16 +31,17 @@ void afficherScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *
     creationTexte(scoreChar, 270, WINDOWH-60, font, window, renderer);
 }
 
-void finScore(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
+void texteFin(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
 {
-    /* Texte Score */
-    creationTexte("Score: ", 215, WINDOWH/2-200, font, window, renderer);
+    creationTexte("GAME OVER", WINDOWW/2-180, WINDOWH/2-270, font, window, renderer);
 
-    /* Valeur du score */
+    /*Score */
+    creationTexte("Score: ", 245, WINDOWH/2-50, font, window, renderer);
     char scoreChar[10];
     sprintf(scoreChar, "%d", score);
-    creationTexte(scoreChar, WINDOWW/2+60, WINDOWH/2-200, font, window, renderer);
-}
+    creationTexte(scoreChar, WINDOWW/2+75, WINDOWH/2-50, font, window, renderer);
 
-void texteFin(TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer) {
+    creationTexte("ESPACE - Rejouer", WINDOWW/2-300, WINDOWH/2+200, font, window, renderer);
+
+
 }

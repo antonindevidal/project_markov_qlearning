@@ -30,8 +30,8 @@ int main(int argc, char **argv)
     ajoutEnnemi(&ennemis, 350, 300, 20, 20, 20, 40);
     ajoutEnnemi(&ennemis, 320, 150, 20, 20, 20, 40);
 
-    SDL_bool programON = SDL_FALSE;
-    SDL_bool finON = SDL_TRUE;
+    SDL_bool programON = SDL_TRUE;
+    SDL_bool finON = SDL_FALSE;
     SDL_Event event;
 
     SDL_Window *window = NULL;
@@ -95,48 +95,6 @@ int main(int argc, char **argv)
     if (loadBulletTexture(renderer, &bulletTexture))
     {
         endSDL(0, "ERROR Loading texture Bullet", window, renderer);
-    }
-
-    while (finON)
-    { // Boucle événementielle de l'écran de fin
-        SDL_FlushEvent(SDL_MOUSEMOTION);
-        while (SDL_PollEvent(&event) && !arretEvent)
-        {
-            switch (event.type)
-            {                          // En fonction de la valeur du type de cet évènement
-            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
-                finON = SDL_FALSE; // Il est temps d'arrêter le programme
-                arretEvent = 1;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE:
-                    finON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
-                    arretEvent = 1;
-                    break;
-                case SDLK_SPACE: // On recommence le jeu avec la barre espace
-                    score = 0;
-                    finON = SDL_FALSE;
-                    programON = SDL_TRUE;
-                default:
-                    break;
-                }
-                break;
-            default: 
-                break;
-            }
-        }
-        arretEvent = 0;
-        cycles++;
-        SDL_Delay(50);
-
-        // Update cycle
-
-        // Draw Frame
-        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
-        finScore(score, font, window, renderer);
-        SDL_RenderPresent(renderer); // affichage
     }
 
     while (programON)
@@ -213,6 +171,47 @@ int main(int argc, char **argv)
         {
             afficherBullet(renderer, bullet, bulletTexture);
         }
+        SDL_RenderPresent(renderer); // affichage
+    }
+
+    while (finON)
+    { // Boucle événementielle de l'écran de fin
+        SDL_FlushEvent(SDL_MOUSEMOTION);
+        while (SDL_PollEvent(&event) && !arretEvent)
+        {
+            switch (event.type)
+            {                          // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
+                finON = SDL_FALSE; // Il est temps d'arrêter le programme
+                arretEvent = 1;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    finON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
+                    arretEvent = 1;
+                    break;
+                case SDLK_SPACE: // On recommence le jeu avec la barre espace
+                    score = 0;
+                    finON = SDL_FALSE;
+                    programON = SDL_TRUE;
+                default:
+                    break;
+                }
+                break;
+            default: 
+                break;
+            }
+        }
+        arretEvent = 0;
+        SDL_Delay(50);
+
+        // Update cycle
+
+        // Draw Frame
+        SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
+        texteFin(score, font, window, renderer);
         SDL_RenderPresent(renderer); // affichage
     }
 
