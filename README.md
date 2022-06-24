@@ -15,6 +15,7 @@ Le **site internet** du projet est disponible [ici](https://perso.isima.fr/~ande
 <br/>
 Le prévisionnel des tâches y est disponible [ici](https://docs.google.com/spreadsheets/d/1pQb_vgpYiH-1lMi-Ei_bwUvD5HuP0eKORAUapyPOiqM/edit?usp=sharing).
 ![imagePlanningPrevisionnel](/Doc/planning_previsionnel.png)
+![imagePlanningPrevisionnelS2](/Doc/planning_previsionnel_S2.png)
 <br/>Planning Réel:
 ![imagePlanningReel](/Doc/planning_reel.png)
 
