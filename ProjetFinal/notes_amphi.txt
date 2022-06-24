@@ -56,3 +56,5 @@ On peut tester les deux versions facilement normalement.
 
 SARSA avec double learning :
 Ne pas le faire, plus compliqué pour pas grand-chose de plus.
+
+Pour du déboggage: voir dans le bouquin de la bibliographie (assez complexe au niveau math)
