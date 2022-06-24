@@ -10,6 +10,7 @@
 .vscode
 executable
 config.txt
+*.odt#
 
 # Linker output
 *.ilk
