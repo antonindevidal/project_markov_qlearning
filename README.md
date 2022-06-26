@@ -3,7 +3,7 @@ __Le projet est découpé en 2 semaines:__
 - Semaine d'exercices pour apprendre à manipuler:
     - les chaînes de Markov pour faire de l'apprentissage par renforcement
     - la bibliothèque graphique SDL en C
-- Semaine de réalisation d'un jeux utilisant les connaissances acquises <br/>
+- Semaine de réalisation d'un jeu utilisant les connaissances acquises <br/>
 
 __Membres du groupe:__ <br/>
 - [Antonin Devidal](/Exos/Antonin)<br/>
@@ -31,8 +31,8 @@ La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/
 
 ### Le Chef d'oeuvre
 Le but est de créer un jeu d'arcade avec une partie graphique et implémentant un chaînage de Markov.<br/>
-Notre réalisation est un space shooter on l'on doit défendre notre zone à l'aide de notre vaisseau spatial.<br/>
-On peut tirer sur des ovnis, leurs déplacements sont diriger aléatoirement grâce à des chaînes de Markov.<br/>
+Notre réalisation est un space shooter où l'on doit défendre notre zone à l'aide de notre vaisseau spatial.<br/>
+On peut tirer sur des ovnis, leurs déplacements sont dirigés aléatoirement grâce à des chaînes de Markov.<br/>
 
 La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/projet-zz1-site-web/ChefOeuvre.html).<br/>
 
