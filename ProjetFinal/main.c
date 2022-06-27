@@ -95,7 +95,39 @@ int main(int argc, char **argv)
             afficherScore(score, font, window, renderer);
 
             break;
-        case 1: // Etat: Fin
+        case 1: // Etat: Début
+            while (SDL_PollEvent(&event) && !arretEvent)
+            {
+                switch (event.type)
+                {              // En fonction de la valeur du type de cet évènement
+                case SDL_QUIT: // Un évènement simple, on a cliqué sur la x de la fenêtre
+                    programON = SDL_FALSE;
+                    arretEvent = 1;
+                    break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym)
+                    {
+                    case SDLK_ESCAPE:
+                        programON = SDL_FALSE;
+                        arretEvent = 1;
+                        break;
+                    case SDLK_SPACE: // On commence le jeu avec la barre espace
+                        // score = 0;
+                        arretEvent = 1;
+                        etat = 0;
+                        break;
+                    default:
+                        break;
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            arretEvent = 0;
+            // Draw Frame
+            break;
+        case 2: // Etat: Fin
             while (SDL_PollEvent(&event) && !arretEvent)
             {
                 switch (event.type)
