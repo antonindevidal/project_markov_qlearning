@@ -34,5 +34,6 @@ void movePlayer(player_t * p, enum DIRECTION dir);
 player_t *createPlayer();
 void actionPlayer(player_t *player, SDL_Keycode key);
 void initQTableOrdi(ordinateur_t *ordi);;
+void playerBallCollision(player_t *p, ball_t *b);
 
 #endif

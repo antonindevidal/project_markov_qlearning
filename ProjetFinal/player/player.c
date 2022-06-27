@@ -32,6 +32,22 @@ void movePlayer(player_t *p, enum DIRECTION dir)
 
 void playerBallCollision(player_t *p, ball_t *b)
 {
+    int distance = sqrt(pow(p->x - b->x, 2) + pow(p->y - b->y, 2));
+    int diam = b->size  + p->w;
+
+    if (distance < diam)
+    {
+        int t = b->x - p->x;
+        float a = acos((t*1.0)/distance*1.0);      
+        float angle = a* 180.0 / M_PI;
+        if (b->y < p->y )
+        {
+            angle=-1 * angle;
+        }
+        printf("%d %d %f %f\n",distance, t, angle,a);
+        pushBall(b,angle);
+    }
+
 }
 
 void initQTableOrdi(ordinateur_t *ordi) {
