@@ -3,6 +3,8 @@
 
 #define WINDOWH 600
 #define WINDOWW 1200
+#define WALLW 40
+
 #define NBEPOCH 6
 #define XI 0.5
 #define GAMMA 0.5
@@ -31,4 +33,3 @@ sEloigneDeLaBalle=-4,
 rateLeTir=-3};
 
 #endif
-
