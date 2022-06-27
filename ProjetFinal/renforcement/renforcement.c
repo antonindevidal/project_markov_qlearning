@@ -61,35 +61,30 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     }
 }
 
-// Prend le monde et renvoie une énumération des actions possibles
-int* enumerationActions(int etatActuel, int* tailleActions)
-{   int tab[9]={HAUT,GAUCHE,BAS,DROIT,HG,HD,BG,BD,0};
-
-    return tab;
-}
-
-int choixAction(ordinateur_t *ordi, int s, int T, int tailleActions)
+int choixAction(ordinateur_t ordi, int s, int T)
 {                               // Prend une perception et le monde et renvoie l'action choisie
-    int a = 0;                  // Parcours de actions
-    int *listeActions;
-    listeActions = enumerationActions(&tailleActions); // NBACTIONS maximum
-    int action = tailleActions - 1; // Action par défaut
+    int a = 0,avecTir=1;        // Parcours de actions
+    if(s>=NBETATDISTANCE1){
+        avecTir=0;
+    }
+    int action = NBACTIONS - avecTir - 1; // Action par défaut
     float Z = 0;      // Somme des énergies
-    int E[tailleActions]; // Energies des actions
+    int E[NBACTIONS-avecTir]; // Energies des actions
     float alpha;      // Réel aléatoire dans [0; 1[
     int cumul = 0;
-    for (a = 0; a < tailleActions; a++)
+
+    for (a = 0; a < NBACTIONS-avecTir; a++)
     {
-        E[listeActions[a]] = exp(ordi->QTable[s][listeActions[a]] / T);
-        Z += E[listeActions[a]];
+        E[a] = exp(ordi.QTable[s][a] / T);
+        Z += E[a];
     }
     alpha = rand();
-    for (a = 0; a < tailleActions; a++)
+    for (a = 0; a < NBACTIONS-avecTir; a++)
     {
-        cumul += E[listeActions[a]] / Z;
+        cumul += E[a] / Z;
         if (alpha <= cumul)
         {
-            action = listeActions[a];
+            action = a;
             break;
         }
     }

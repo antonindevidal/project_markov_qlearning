@@ -11,8 +11,7 @@
 void perception(); // Prend l'état du monde et renvoie l'état de perception s
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n);
 int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);
-int* enumerationActions(int etatActuel,int *tailleActions); // Prend le monde et renvoie une énumération des actions possibles
-int choixAction(ordinateur_t *ordi, int s, int T, int tailleActions);
+int choixAction(ordinateur_t ordi, int s, int T);
 void renforcement(); // Fonction principale
 
 #endif
