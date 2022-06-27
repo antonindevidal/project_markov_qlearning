@@ -1,4 +1,3 @@
-#include <string.h>
 #include <time.h>
 
 #include "score.h"
@@ -6,6 +5,7 @@
 
 int main(int argc, char **argv)
 {
+    srand(time(0));
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1;
