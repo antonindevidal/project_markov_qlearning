@@ -32,4 +32,16 @@ void movePlayer(player_t *p, enum DIRECTION dir)
 
 void playerBallCollision(player_t *p, ball_t *b)
 {
+    int distance = sqrt(pow(p->x - b->x, 2) + pow(p->y - b->y, 2));
+    int diam = b->size;
+
+    if (distance < diam)
+    {
+        float angle =0;
+        int t = b->x - p->x;
+        if (t!=0) angle = acos(distance/t)* 180 / M_PI;
+        printf("h: %d a: %d\n",distance,t);
+        pushBall(b,angle);
+    }
+
 }

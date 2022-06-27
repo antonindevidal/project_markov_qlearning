@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     SDL_GetCurrentDisplayMode(0, &screen);
 
     /* Création de la fenêtre */
-    window = SDL_CreateWindow("TITRE DU JEU",
+    window = SDL_CreateWindow("Nario Gréviste Ultimate",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED,
                               WINDOWW,
@@ -131,6 +131,7 @@ int main(int argc, char **argv)
             /* Update cycle */
             // A REMPLIR
             moveBall(ball);
+            playerBallCollision(player, ball);
 
             /* Draw frame */
             afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
