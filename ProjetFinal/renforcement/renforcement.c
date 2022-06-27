@@ -16,24 +16,26 @@ void enumerationActions()
 { // Prend le monde et renvoie une énumération des actions possibles
 }
 
-int choixAction(ordinateur_t *ordi, int perception)
+int choixAction(ordinateur_t *ordi, int s)
 { // Prend une perception et le monde et renvoie l'action choisie
-    int i = 0;
-    float alpha;
-    float sommeCummule = ordi->QTable[perception][0];
-    float sommeLigne = 0;
-    for (i = 0; i < NBACTIONS; i++)
-    {
-        sommeLigne += ordi->QTable[perception][i];
+    int a=0; // Parcours de actions
+    int action = NBACTIONS-1; // Action par défaut
+    float Z=0; // Somme des énergies
+    int E[NBACTIONS]; // Energies des actions
+    float alpha; // Réel aléatoire dans [0; 1[
+    int cumul = 0;
+    for (a=0; a<NBACTIONS; a++) {
+        E[a] = exp(ordi->QTable[s][a]);
+        Z += E[a];
     }
-    //alpha = rand() % sommeLigne;
-    i = 0;
-    while (alpha > sommeCummule)
-    {
-        i++;
-        sommeCummule += ordi->QTable[perception][i];
+    alpha = rand();
+    for (a=0; a<NBACTIONS; a++) {
+        if (alpha <= cumul) {
+            action = a;
+            break;
+        }
     }
-    return i;
+    return action;
 }
 
 void renforcement()
