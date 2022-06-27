@@ -4,6 +4,7 @@
 #include "score.h"
 #include "ball/ball.h"
 #include "menus.h"
+#include "player/player.h"
 
 int main(int argc, char **argv)
 {
@@ -26,6 +27,11 @@ int main(int argc, char **argv)
     if (ball == NULL)
     {
         endSDL(0, "ERROR CREATION BALL", window, renderer);
+    }
+    player_t* player = createPlayer();
+    if(player == NULL)
+    {
+        endSDL(0, "ERROR CREATION PLAYER", window, renderer);
     }
 
     /* Initialisation de la SDL  + gestion de l'échec possible */
@@ -61,6 +67,7 @@ int main(int argc, char **argv)
     /* Création des textures */
     // A REMPLIR
     SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
+    SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
 
     /* Boucle du jeu */
     while (programON)
@@ -86,9 +93,25 @@ int main(int argc, char **argv)
                         programON = SDL_FALSE; // Fermeture du programme à l'appuie sur la touche ECHAP
                         arretEvent = 1;
                         break;
+                    case SDLK_z:
+                        movePlayer(player,HAUTD);
+                        arretEvent = 1;
+                        break;
+                    case SDLK_q:
+                        movePlayer(player,GAUCHED);
+                        arretEvent = 1;
+                        break;
+                    case SDLK_s:
+                        movePlayer(player,BASD);
+                        arretEvent = 1;
+                        break;
+                    case SDLK_d:
+                        movePlayer(player,DROITD);
+                        arretEvent = 1;
+                        break;
                     default:
                         break;
-                    }
+                    }                    
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     if ((SDL_GetMouseState(&mouseX, &mouseY) &
@@ -111,6 +134,7 @@ int main(int argc, char **argv)
 
             /* Draw frame */
             afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
+            afficherTexture(playerSprite, renderer, player->w, player->h, player->x, player->y);
             afficherScore(score, font, window, renderer);
             // printf("%d %d %d %d\n", ball->x, ball->y, ball->vx,ball->vy);
             break;
@@ -192,3 +216,5 @@ int main(int argc, char **argv)
     SDL_Quit();
     return EXIT_SUCCESS;
 }
+
+

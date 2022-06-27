@@ -10,7 +10,7 @@
 #define GAMMA 0.5
 
 //Direction pour l'orientation du joueur
-enum DIRECTION{HAUTD=90,GAUCHED=180,BASD=270,DROITD=0,HGD=135,HDD=45,BGD=225,BDD=-45};
+enum DIRECTION{HAUTD=-90,GAUCHED=180,BASD=90,DROITD=0,HGD=135,HDD=45,BGD=225,BDD=-45};
 //int epochActuelle=0;
 
 #define NBETATS 24
