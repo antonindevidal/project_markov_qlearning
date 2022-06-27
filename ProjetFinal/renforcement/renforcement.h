@@ -6,13 +6,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-typedef struct ordinateur
-{
-    int x;
-    int y;
-    float QTable[NBETATS][NBACTIONS];
-} ordinateur_t;
-
 /* Déclaration des prototypes */
 
 void perception(); // Prend l'état du monde et renvoie l'état de perception s
