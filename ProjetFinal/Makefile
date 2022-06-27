@@ -1,4 +1,4 @@
-SRC=main.c fonctionsSDL.c score.c menus.c
+SRC=main.c fonctionsSDL.c score.c menus.c renforcement.c
 EXE=main.out
 
 CC=gcc
