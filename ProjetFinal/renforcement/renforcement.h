@@ -15,11 +15,11 @@ typedef struct ordinateur
 
 /* Déclaration des prototypes */
 
-void perception();         // Prend l'état du monde et renvoie l'état de perception s
-int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);        // Prend le monde et renvoie la récompense associé à cet état
+void perception(); // Prend l'état du monde et renvoie l'état de perception s
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n);
-int* enumerationActions(int etatActuel, int* tailleActions); // Prend le monde et renvoie une énumération des actions possibles
-int choixAction(ordinateur_t *ordi, int s, int T);
-void renforcement();       // Fonction principale
+int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);
+int* enumerationActions(int etatActuel,int *tailleActions); // Prend le monde et renvoie une énumération des actions possibles
+int choixAction(ordinateur_t *ordi, int s, int T, int tailleActions);
+void renforcement(); // Fonction principale
 
 #endif
