@@ -17,6 +17,7 @@ enum DIRECTION{HAUTD=90,GAUCHED=180,BASD=270,DROITD=0,HGD=135,HDD=45,BGD=225,BDD
 
 //enum des états, position par rapport à la balle + distance
 enum ETATS{UP1,UP2,UP3,DOWN1,DOWN2,DOWN3,LEFT1,LEFT2,LEFT3,RIGHT1,RIGHT2,RIGHT3,UL1,UL2,UL3,UR1,UR2,UR3,DL1,DL2,DL3,DR1,DR2,DR3};
+
 // multiplier par 2 le nb d'état pour ajouter si adversaire loin ou proche
 
 #define NBACTIONS 9
