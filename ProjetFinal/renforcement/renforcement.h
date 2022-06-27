@@ -1,6 +1,6 @@
 #ifndef __RENFORCEMENT_H__
 #define __RENFORCEMENT_H__
-#include "const.h"
+#include "../const.h"
 
 typedef struct ordinateur
 {
