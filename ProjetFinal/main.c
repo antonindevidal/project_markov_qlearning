@@ -3,9 +3,11 @@
 
 #include "fonctionsSDL.h"
 #include "score.h"
+#include "ball/ball.h"
 
 int main(int argc, char **argv)
 {
+    srand(time(0));
     (void)argc;
     (void)argv;
     int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1;
@@ -19,6 +21,12 @@ int main(int argc, char **argv)
     SDL_Renderer *renderer = NULL;
 
     SDL_DisplayMode screen;
+
+    ball_t *ball = creationBall();
+    if (ball == NULL)
+    {
+        endSDL(0, "ERROR CREATION BALL", window, renderer);
+    }
 
     /* Initialisation de la SDL  + gestion de l'échec possible */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -52,6 +60,7 @@ int main(int argc, char **argv)
 
     /* Création des textures */
     // A REMPLIR
+    SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
 
     /* Boucle du jeu */
     while (programON)
@@ -81,6 +90,14 @@ int main(int argc, char **argv)
                         break;
                     }
                     break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if ((SDL_GetMouseState(&mouseX, &mouseY) &
+                        SDL_BUTTON(SDL_BUTTON_LEFT) ))
+                    { // Si c'est un click gauche
+                        pushBall(ball, rand() % 360);
+                    }
+                    arretEvent = 1;
+                    break;
                 default: // L'évènement défilé ne nous intéresse pas
                     break;
                 }
@@ -90,10 +107,12 @@ int main(int argc, char **argv)
 
             /* Update cycle */
             // A REMPLIR
+            moveBall(ball);
 
             /* Draw frame */
+            afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
             afficherScore(score, font, window, renderer);
-
+            // printf("%d %d %d %d\n", ball->x, ball->y, ball->vx,ball->vy);
             break;
         case 1: // Etat: Fin
             while (SDL_PollEvent(&event) && !arretEvent)
