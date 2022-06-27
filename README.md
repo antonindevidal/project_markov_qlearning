@@ -25,6 +25,7 @@ Le **site internet** du projet est disponible [ici](https://perso.isima.fr/~ande
 ![imagePlanningPrevisionnelS2](/Doc/planning_previsionnel_S2.png)
 <br/>**Planning Réel:**
 ![imagePlanningReel](/Doc/planning_reel.png)
+![imagePlanningReelS2](/Doc/planning_reel_S2.png)
 
 # Première semaine:
 ### Jeu de la vie
