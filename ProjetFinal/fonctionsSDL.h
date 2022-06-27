@@ -13,5 +13,6 @@
 void endSDL(char ok, char const *msg, SDL_Window *window, SDL_Renderer *renderer);
 SDL_Texture *loadTextureFromImage(char *fileImageName, SDL_Window *window, SDL_Renderer *renderer);
 void afficherTexture(SDL_Texture *maTexture, SDL_Renderer *renderer, int w, int h, int x, int y);
+void creationTexte(char *texte, int posX, int posY, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer);
 
 #endif

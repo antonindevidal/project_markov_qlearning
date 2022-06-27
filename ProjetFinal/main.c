@@ -1,8 +1,8 @@
 #include <string.h>
 #include <time.h>
 
-#include "fonctionsSDL.h"
 #include "score.h"
+#include "menus.h"
 
 int main(int argc, char **argv)
 {
