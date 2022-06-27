@@ -24,16 +24,16 @@ int choixAction(ordinateur_t *ordi, int perception)
     float sommeLigne = 0;
     for (i = 0; i < NBACTIONS; i++)
     {
-        sommeLigne += ordi->QTABLE[perception][i];
+        sommeLigne += ordi->QTable[perception][i];
     }
-    alpha = rand() % sommeLigne;
+    //alpha = rand() % sommeLigne;
     i = 0;
     while (alpha > sommeCummule)
     {
         i++;
         sommeCummule += ordi->QTable[perception][i];
     }
-    return i
+    return i;
 }
 
 void renforcement()
