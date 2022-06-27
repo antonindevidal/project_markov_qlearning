@@ -1,6 +1,6 @@
-SRC=main.c fonctionsSDL.c score.c ./ball/ball.c
-OBJ=main.o fonctionsSDL.o score.o ./ball/ball.o
-DEP=main.d fonctionsSDL.d score.d ./ball/ball.d
+SRC=main.c fonctionsSDL.c score.c ./ball/ball.c menus.c renforcement.c
+OBJ=main.o fonctionsSDL.o score.o ./ball/ball.o menus.o renforcement.o
+DEP=main.d fonctionsSDL.d score.d ./ball/ball.d menus.d renforcement.d
 EXE=main.out
 
 CC=gcc
