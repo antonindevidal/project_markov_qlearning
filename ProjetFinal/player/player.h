@@ -21,6 +21,7 @@ typedef struct player{
     enum DIRECTION dir;
     int w;
     int h;
+    enum EQUIPE equipe;
 }player_t;
 
 void movePlayer(player_t * p, enum DIRECTION dir);
