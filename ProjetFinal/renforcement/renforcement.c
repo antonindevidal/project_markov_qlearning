@@ -60,9 +60,13 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     }
 }
 
-void enumerationActions()
-{ // Prend le monde et renvoie une énumération des actions possibles
+// Prend le monde et renvoie une énumération des actions possibles
+int* enumerationActions(int etatActuel, int* tailleActions)
+{   int tab[9]={HAUT,GAUCHE,BAS,DROIT,HG,HD,BG,BD,0};
+
+    return tab;
 }
+
 
 int choixAction(ordinateur_t *ordi, int s, int T)
 { // Prend une perception et le monde et renvoie l'action choisie
