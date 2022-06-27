@@ -10,6 +10,9 @@ __Membres du groupe:__ <br/>
 - [Thomas Quentel](/Exos/Thomas)<br/>
 - [Ivan Le Teuff](/Exos/Ivan)<br/>
 
+###Pour cloner le projet
+Ne pas oublier le --recursive lors du clone car le site web accompagnant le projet est un autre repo git ajouté dans celui-ci en tant que submodule.
+
 
 ### Arborescence du projet 
 ![imageArborescence](/Doc/ArbreProjet.png)
