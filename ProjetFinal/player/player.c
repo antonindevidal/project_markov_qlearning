@@ -1,6 +1,6 @@
 #include "player.h"
 
-player_t *createPlayer()
+player_t *createPlayer(enum EQUIPE equipe)
 {
     player_t *p = malloc(sizeof(player_t));
     if (p != NULL)
@@ -10,6 +10,7 @@ player_t *createPlayer()
         p->dir = HAUTD;
         p->w = PLAYERWIDTH;
         p->h = PLAYERHEIGHT;
+        p->equipe = equipe;
     }
     return p;
 }

@@ -8,11 +8,11 @@
 #include <stdlib.h>
 
 /* Déclaration des prototypes */
-
-int perception(ball_t ball,player_t player); // Prend l'état du monde et renvoie l'état de perception s
+int perception(ball_t ball,player_t player, player_t player2); // Prend l'état du monde et renvoie l'état de perception s
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n);
-int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);
+int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal, enum EQUIPE equipeBut);
 int choixAction(ordinateur_t ordi, int s, int T);
 void renforcement(ordinateur_t *ordi); // Fonction principale
+int distanceAdversaire(ball_t ball, player_t player);
 
 #endif

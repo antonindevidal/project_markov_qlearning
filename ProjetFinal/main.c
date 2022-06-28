@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	{
 		endSDL(0, "ERROR CREATION BALL", window, renderer);
 	}
-	player_t *player = createPlayer();
+	player_t *player = createPlayer(EQUIPEGAUCHE);
 	if (player == NULL)
 	{
 		endSDL(0, "ERROR CREATION PLAYER", window, renderer);

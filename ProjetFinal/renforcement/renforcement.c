@@ -1,86 +1,159 @@
 #include "renforcement.h"
 
-// Prend l'état du monde et renvoie l'état de perception s
-int perception(ball_t ball,player_t player)
-{
-    float distance=sqrt(pow(player.x-ball.x,2)+pow(player.y-ball.y,2));
-    float angle;
-    if (player.y>ball.y) angle=360 -(M_PI/2 + asin((ball.x-player.x)/distance))*180/M_PI;
-    else angle=(M_PI/2 + asin((ball.x-player.x)/distance))*180/M_PI;
 
-    if(angle<=22 && angle>337){//droite
-        if(distance <= DISTANCE1){
-            return RIGHT1;
+int distanceAdversaire(ball_t ball, player_t player)
+{
+    float distance = sqrt(pow(player.x - ball.x, 2) + pow(player.y - ball.y, 2));
+    if (distance <= DISTANCE1)
+    {
+        return 1;
+    }
+    else if (distance < DISTANCE2)
+    {
+        return 2;
+    }
+    else
+    {
+        return 3;
+    }
+}
+
+
+// Prend l'état du monde et renvoie l'état de perception s
+int perception(ball_t ball, player_t player, player_t player2)
+{
+    int etat;
+    float distance = sqrt(pow(player.x - ball.x, 2) + pow(player.y - ball.y, 2));
+    float angle;
+    if (player.y > ball.y)
+        angle = 360 - (M_PI / 2 + asin((ball.x - player.x) / distance)) * 180 / M_PI;
+    else
+        angle = (M_PI / 2 + asin((ball.x - player.x) / distance)) * 180 / M_PI;
+
+    if (angle <= 22 && angle > 337)
+    { // droite
+        if (distance <= DISTANCE1)
+        {
+            etat= RIGHT11;
         }
-        else if(distance <DISTANCE2){
-            return RIGHT2;
-        }else{
-            return RIGHT3;
+        else if (distance < DISTANCE2)
+        {
+            etat= RIGHT21;
         }
-    }else if(angle>22 && angle<67){
-        if(distance <= DISTANCE1){
-            return UR1;
-        }
-        else if(distance <DISTANCE2){
-            return UR2;
-        }else{
-            return UR3;
-        }
-    }else if(angle>=67 && angle<112){
-        if(distance <= DISTANCE1){
-            return UP1;
-        }
-        else if(distance <DISTANCE2){
-            return UP2;
-        }else{
-            return UP3;
-        }
-    }else if(angle>=112 && angle<158){
-        if(distance <= DISTANCE1){
-            return UL1;
-        }
-        else if(distance <DISTANCE2){
-            return UL2;
-        }else{
-            return UL3;
-        }
-    }else if(angle>=158 && angle<202){
-        if(distance <= DISTANCE1){
-            return LEFT1;
-        }
-        else if(distance <DISTANCE2){
-            return LEFT2;
-        }else{
-            return LEFT3;
-        }
-    }else if(angle>=202 && angle<248){
-        if(distance <= DISTANCE1){
-            return DL1;
-        }
-        else if(distance <DISTANCE2){
-            return DL2;
-        }else{
-            return DL3;
-        }
-    }else if(angle>=248 && angle<292){
-        if(distance <= DISTANCE1){
-            return DOWN1;
-        }
-        else if(distance <DISTANCE2){
-            return DOWN2;
-        }else{
-            return DOWN3;
-        }
-    }else if(angle>=292 && angle<=337){
-        if(distance <= DISTANCE1){
-            return DR1;
-        }
-        else if(distance <DISTANCE2){
-            return DR2;
-        }else{
-            return DR3;
+        else
+        {
+            etat= RIGHT31;
         }
     }
+    else if (angle > 22 && angle < 67)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= UR11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= UR21;
+        }
+        else
+        {
+            etat= UR31;
+        }
+    }
+    else if (angle >= 67 && angle < 112)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= UP11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= UP21;
+        }
+        else
+        {
+            etat= UP31;
+        }
+    }
+    else if (angle >= 112 && angle < 158)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= UL11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= UL21;
+        }
+        else
+        {
+            etat= UL31;
+        }
+    }
+    else if (angle >= 158 && angle < 202)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= LEFT11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= LEFT21;
+        }
+        else
+        {
+            etat= LEFT31;
+        }
+    }
+    else if (angle >= 202 && angle < 248)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= DL11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= DL21;
+        }
+        else
+        {
+            etat= DL31;
+        }
+    }
+    else if (angle >= 248 && angle < 292)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= DOWN11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= DOWN21;
+        }
+        else
+        {
+            etat= DOWN31;
+        }
+    }
+    else if (angle >= 292 && angle <= 337)
+    {
+        if (distance <= DISTANCE1)
+        {
+            etat= DR11;
+        }
+        else if (distance < DISTANCE2)
+        {
+            etat= DR21;
+        }
+        else
+        {
+            etat= DR31;
+        }
+    }
+    if(distanceAdversaire(ball,player2)!=1){
+        etat++;
+    }
+    return etat;
 }
 
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n)
@@ -102,63 +175,83 @@ void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suit
 }
 
 // récompense lié à l'avancement de l'objectif
-int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal)
-{ 
-    int ecart,ecartPrec,ecartNouv;
-    if(isGoal){
+int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal, enum EQUIPE equipeBut)
+{
+    int ecart, ecartPrec, ecartNouv;
+    if (isGoal && equipeBut==player.equipe)
+    {
         return But;
     }
-    //La balle a bougée
-    else if(precBall.x != ball.x){
-        ecart=sqrt(pow(precBall.x+ball.x,2)+pow(precBall.y+ball.y,2));
-        if(ecart>100){
-            if(precBall.x < ball.x){
-                if(player.equipe==EQUIPEGAUCHE) return balleBeacoupRapprocheBut;
-                else return balleEloigneBeaucoupbut;
+    // La balle a bougée
+    else if (precBall.x != ball.x)
+    {
+        ecart = sqrt(pow(precBall.x + ball.x, 2) + pow(precBall.y + ball.y, 2));
+        if (ecart > 100)
+        {
+            if (precBall.x < ball.x)
+            {
+                if (player.equipe == EQUIPEGAUCHE)
+                    return balleBeacoupRapprocheBut;
+                else
+                    return balleEloigneBeaucoupbut;
             }
-            else{
-                if(player.equipe==EQUIPEDROITE) return balleBeacoupRapprocheBut;
-                else return balleEloigneBeaucoupbut;
+            else
+            {
+                if (player.equipe == EQUIPEDROITE)
+                    return balleBeacoupRapprocheBut;
+                else
+                    return balleEloigneBeaucoupbut;
             }
         }
-        else{
-            if(precBall.x < ball.x){
-                if(player.equipe==EQUIPEGAUCHE) return balleRapprocheBut;
-                else return balleEloigneBut;
+        else
+        {
+            if (precBall.x < ball.x)
+            {
+                if (player.equipe == EQUIPEGAUCHE)
+                    return balleRapprocheBut;
+                else
+                    return balleEloigneBut;
             }
-            else{
-                if(player.equipe==EQUIPEDROITE) return balleRapprocheBut;
-                else return balleEloigneBut;
+            else
+            {
+                if (player.equipe == EQUIPEDROITE)
+                    return balleRapprocheBut;
+                else
+                    return balleEloigneBut;
             }
         }
     }
-    else{
-        ecartPrec=sqrt(pow(precBall.x+precPlayer.x,2)+pow(precBall.y+precPlayer.y,2));
-        ecartNouv=sqrt(pow(ball.x+player.x,2)+pow(ball.y+player.y,2));
-        if(ecartNouv<ecartPrec)return seRapprocheDeLaBalle;
-        else return sEloigneDeLaBalle;
+    else
+    {
+        ecartPrec = sqrt(pow(precBall.x + precPlayer.x, 2) + pow(precBall.y + precPlayer.y, 2));
+        ecartNouv = sqrt(pow(ball.x + player.x, 2) + pow(ball.y + player.y, 2));
+        if (ecartNouv < ecartPrec)
+            return seRapprocheDeLaBalle;
+        else
+            return sEloigneDeLaBalle;
     }
 }
 
 int choixAction(ordinateur_t ordi, int s, int T)
-{                               // Prend une perception et le monde et renvoie l'action choisie
-    int a = 0,avecTir=1;        // Parcours de actions
-    if(s>=NBETATDISTANCE1){
-        avecTir=0;
+{                           // Prend une perception et le monde et renvoie l'action choisie
+    int a = 0, avecTir = 1; // Parcours de actions
+    if (s >= NBETATDISTANCE1)
+    {
+        avecTir = 0;
     }
     int action = NBACTIONS - avecTir - 1; // Action par défaut
-    float Z = 0;      // Somme des énergies
-    int E[NBACTIONS-avecTir]; // Energies des actions
-    float alpha;      // Réel aléatoire dans [0; 1[
+    float Z = 0;                          // Somme des énergies
+    int E[NBACTIONS - avecTir];           // Energies des actions
+    float alpha;                          // Réel aléatoire dans [0; 1[
     int cumul = 0;
 
-    for (a = 0; a < NBACTIONS-avecTir; a++)
+    for (a = 0; a < NBACTIONS - avecTir; a++)
     {
         E[a] = exp(ordi.QTable[s][a] / T);
         Z += E[a];
     }
     alpha = rand();
-    for (a = 0; a < NBACTIONS-avecTir; a++)
+    for (a = 0; a < NBACTIONS - avecTir; a++)
     {
         cumul += E[a] / Z;
         if (alpha <= cumul)
@@ -169,36 +262,60 @@ int choixAction(ordinateur_t ordi, int s, int T)
     }
     return action;
 }
-
-void renforcement(ordinateur_t *ordi)
-{ // Fonction principale
-// - Pour époque = 0 à nb_époques-1
-
-//       - Percevoir le monde, le stocker
-//       - Récupérer la récompense sur le monde actuel, la stocker 
-      
-//       - Réaliser une phase d'apprentissage à partir des informations conservées
-//       - Modifier si nécessaire les paramètres
-// - Sauvegarder dans un fichier des qualités
-// - Afficher un score (ou autre) montrant à quel point l'apprentissage a été concluant 
-
-    initQTableOrdi(ordi);
-    // int epoque, pas, T;
-    // int s[NBEPOCH], a[], r[]; // Liste états, actions et récompenses
-    // T = 0.9;
-    // for (epoque=0; epoque<MAXEPOCH; epoque++) {
-    //     // Créer le monde
-    //     for (pas=0; pas<NBEPOCH) {
-    //         r[pas] = recompense(precBall, ball, precPlayer, player, isGoal); // Récompense
-    //         s[pas] = perception(ball, player); // Etat actuel
-    //         // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
-    //         a[pas] = choixAction(ordi, s[pas], T);
-    //         // Appliquer l'action choisie au monde
-    //         if (isGoal) // Si l'état atteint est terminal : break => but
-    //             break
-    //     }
-    //     evolution(ordi, s, a, r, NBEPOCH);
-    // }
-
-
+/*
+void initPartie(ordinateur_t *ordi1,ordinateur_t *ordi2,ball_t **ball,ball_t **precball){
+    *ball=creationBall();
+    *precball=creationBall();
+    resetEmplacement(ordi1);
+    resetEmplacement(ordi2);
 }
+
+
+void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
+{ // Fonction principale
+
+    int isGoal=1, equipeBut,nbActionPourReset=0;
+    int epoque, pas, T;
+    int s1[NBEPOCH], a1[NBEPOCH - 1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
+    int s2[NBEPOCH], a2[NBEPOCH - 1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
+    
+
+    T = 0.9;
+    
+    player_t prec1,prec2;
+    ball_t* ball;
+    ball_t* precball;
+
+    for (epoque = 0; epoque < MAXEPOCH; epoque++)
+    {
+        // Reset le monde
+        if(isGoal || nbActionPourReset>=5){
+            isGoal=0;
+            nbActionPourReset=0;
+            initPartie(ordi1,ordi2,&ball,&precball);
+            copie(prec1,ordi1->player);
+            copie(prec2,ordi2->player);
+        }
+        
+        for (pas = 0; pas < NBEPOCH)
+        {   
+            //1 itération du jeu(avec isGoal)
+
+            r1[pas] = recompense(precBall, ball, prec1, ordi1->player, isGoal, equipeBut); // Récompense joueur1
+            r2[pas] = recompense(precBall, ball, prec2, ordi2->player, isGoal, equipeBut); // Récompense joueur2
+            s1[pas] = perception(ball, ordi1->player);                               // Etat actuel joueur1
+            s2[pas] = perception(ball, ordi2->player);                               // Etat actuel joueur2
+
+            // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
+            a1[pas] = choixAction(ordi1, s1[pas], T);
+            a2[pas] = choixAction(ordi2, s2[pas], T);
+
+            // Appliquer l'action choisie au monde
+            if (isGoal) // Si l'état atteint est terminal : break => but
+                break;
+        }
+        nbActionPourReset++;
+        evolution(ordi1, s1, a1, r1, NBEPOCH);
+        evolution(ordi2, s2, a2, r2, NBEPOCH);
+    }
+}*/
