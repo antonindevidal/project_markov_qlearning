@@ -6,6 +6,7 @@
 #define WALLW 40
 
 #define NBEPOCH 6
+#define MAXEPOCH 100
 #define XI 0.5
 #define GAMMA 0.5
 
