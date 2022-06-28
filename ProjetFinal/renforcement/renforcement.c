@@ -239,3 +239,7 @@ void chargerQTable(char *nom_fichier, float **Qtable)
     }
     fclose(file);
 }
+
+void copie(player_t *prec1, player_t *ordi) {
+    
+}
