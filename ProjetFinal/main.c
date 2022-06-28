@@ -122,7 +122,7 @@ int main(int argc, char **argv)
 					if ((SDL_GetMouseState(&mouseX, &mouseY) &
 						 SDL_BUTTON(SDL_BUTTON_LEFT)))
 					{ // Si c'est un click gauche
-						pushBall(ball, rand() % 360);
+						pushBall(ball, rand() % 360,BALL_ACCELERATION);
 					}
 					arretEvent = 1;
 					break;
