@@ -20,15 +20,15 @@ int distanceAdversaire(ball_t ball, player_t player)
 // Prend l'état du monde et renvoie l'état de perception s
 int perception(ball_t ball, player_t player, player_t player2)
 {
-    int etat;
+    int etat=RIGHT11;
     float distance = sqrt(pow(player.x - ball.x, 2) + pow(player.y - ball.y, 2));
-    float angle;
+    float angle=0;
     if (player.y > ball.y)
         angle = 360 - (M_PI / 2 + asin((ball.x - player.x) / distance)) * 180 / M_PI;
     else
         angle = (M_PI / 2 + asin((ball.x - player.x) / distance)) * 180 / M_PI;
 
-    if (angle <= 22 && angle > 337)
+    if (angle <= 22 || angle > 337)
     { // droite
         if (distance <= DISTANCE1)
         {
@@ -133,7 +133,7 @@ int perception(ball_t ball, player_t player, player_t player2)
             etat = DOWN31;
         }
     }
-    else if (angle >= 292 && angle <= 337)
+    else //if (angle >= 292 && angle <= 337)
     {
         if (distance <= DISTANCE1)
         {
@@ -157,19 +157,20 @@ int perception(ball_t ball, player_t player, player_t player2)
 
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n)
 { // Prend le monde et une action et modifie l'état du monde
-    int i, max, a;
+    int  max=0,a;
     ordi->QTable[suiteEtats[n - 1]][suiteActions[n - 1]] += XI * (suiteActions[n] - ordi->QTable[suiteActions[n - 1]][suiteEtats[n - 1]]);
-    for (i = n - 2; i >= 0; i--)
+    for (int i = n - 2; i > 0; i--)
     {
         max = ordi->QTable[suiteEtats[i + 1]][0];
         for (a = 1; a < NBACTIONS; a++)
         {
-            if (max < ordi->QTable[i + 1][a])
+            if (max < ordi->QTable[suiteEtats[i + 1]][a])
             {
-                max = ordi->QTable[i + 1][a];
+                max = ordi->QTable[suiteEtats[i + 1]][a];
             }
-            ordi->QTable[suiteEtats[i]][suiteActions[i]] += XI * (suiteRecompenses[i + 1] + GAMMA * max - ordi->QTable[suiteEtats[i]][suiteActions[i]]);
         }
+        ordi->QTable[suiteEtats[i]][suiteActions[i]] += XI * (suiteRecompenses[i + 1] + GAMMA * max - ordi->QTable[suiteEtats[i]][suiteActions[i]]);
+
     }
 }
 
@@ -233,26 +234,27 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     }
 }
 
-int choixAction(ordinateur_t *ordi, int s, int T)
+int choixAction(ordinateur_t *ordi, int s, float T)
 {                           // Prend une perception et le monde et renvoie l'action choisie
-    int a = 0, avecTir = 1; // Parcours de actions
+    int avecTir = 1; // Parcours de actions
     if (s >= NBETATDISTANCE1)
     {
         avecTir = 0;
     }
     int action = NBACTIONS - avecTir - 1; // Action par défaut
     float Z = 0;                          // Somme des énergies
-    int E[NBACTIONS - avecTir];           // Energies des actions
+    float E[NBACTIONS-1 + avecTir];           // Energies des actions
     float alpha;                          // Réel aléatoire dans [0; 1[
     int cumul = 0;
 
-    for (a = 0; a < NBACTIONS - avecTir; a++)
+    for (int a = 0; a < NBACTIONS -1+ avecTir; a++)
     {
-        E[a] = exp(ordi->QTable[s][a] / T);
-        Z += E[a];
+        float g =((ordi->QTable)[s][a] )/ T;
+        E[a] = exp(g);
+        // Z += E[a];
     }
     alpha = rand();
-    for (a = 0; a < NBACTIONS - avecTir; a++)
+    for (int a = 0; a < NBACTIONS - avecTir; a++)
     {
         cumul += E[a] / Z;
         if (alpha <= cumul)
@@ -276,11 +278,15 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 { // Fonction principale
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
-    int epoque, pas, T;
-    int s1[NBEPOCH], a1[NBEPOCH - 1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
-    int s2[NBEPOCH], a2[NBEPOCH - 1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
+    int epoque, pas;
+    float  T =0.9;
+    int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
+    int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
-    T = 0.9;
+    s1=(int*)malloc(NBEPOCH*sizeof(int));
+    s2=(int*)malloc(NBEPOCH*sizeof(int));
+    memset(s1,0,NBEPOCH);
+    memset(s2,0,NBEPOCH);
 
     player_t prec1, prec2;
     ball_t *ball;
@@ -307,11 +313,12 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         a1[0] = choixAction(ordi1, s1[0], T);
         a2[0] = choixAction(ordi2, s2[0], T);
         printf("---------%d---------\n",epoque);
+        
         for (pas = 1; pas < NBEPOCH; pas++)
         {   printf("\t-----%d-----\n",pas);
             // 1 itération du jeu
-            faireAction(a1[pas], ordi1, ball);
-            faireAction(a2[pas], ordi2, ball);
+            faireAction(a1[pas-1], ordi1, ball);
+            faireAction(a2[pas-1], ordi2, ball);
             isGoal = moveBall(ball, &equipeBut);
 
             r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
@@ -330,6 +337,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         evolution(ordi1, s1, a1, r1, NBEPOCH);
         evolution(ordi2, s2, a2, r2, NBEPOCH);
     }
+    printf("fin renforcement");
     saveQTable("nario.don",ordi1->QTable);
     saveQTable("valuigi.don",ordi2->QTable);
 }
@@ -344,7 +352,7 @@ void resetEmplacement(ordinateur_t *ordi)
     ordi->player->y = ordi->player->y + 20 * ry;
 }
 
-void saveQTable(char *nom_fichier, float QTable[NBETATS][NBACTIONS])
+void saveQTable(char *nom_fichier, float **QTable)
 {
     FILE *file = fopen(nom_fichier, "w");
     if (file)
@@ -362,7 +370,7 @@ void saveQTable(char *nom_fichier, float QTable[NBETATS][NBACTIONS])
     fclose(file);
 }
 
-void chargerQTable(char *nom_fichier, float Qtable[NBETATS][NBACTIONS])
+void chargerQTable(char *nom_fichier, float **Qtable)
 {
     FILE *file = fopen(nom_fichier, "r");
     if (file)
@@ -439,7 +447,7 @@ void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
     default:
         break;
     }
-}
+} 
 
 void copie(player_t *prec, player_t *ordi) {
     prec->dir = ordi->dir;

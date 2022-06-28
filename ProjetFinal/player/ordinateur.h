@@ -6,7 +6,7 @@
 typedef struct ordinateur
 {
     player_t *player;
-    float QTable[NBETATS][NBACTIONS];
+    float **QTable;
 } ordinateur_t;
 
 
