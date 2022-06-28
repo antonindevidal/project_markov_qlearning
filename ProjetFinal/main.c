@@ -5,13 +5,15 @@
 #include "menus.h"
 #include "player/player.h"
 #include "terrain/terrain.h"
+#include "screens/endScreen.h"
 
 int main(int argc, char **argv)
 {
 	srand(time(0));
 	(void)argc;
 	(void)argv;
-	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1;
+	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
+	int debutTimer = 0;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
@@ -71,7 +73,6 @@ int main(int argc, char **argv)
 	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
-
 	/* Boucle du jeu */
 	while (programON)
 	{ // Boucle événementielle du programme
@@ -122,7 +123,7 @@ int main(int argc, char **argv)
 					if ((SDL_GetMouseState(&mouseX, &mouseY) &
 						 SDL_BUTTON(SDL_BUTTON_LEFT)))
 					{ // Si c'est un click gauche
-						pushBall(ball, rand() % 360);
+						pushBall(ball, rand() % 360, BALL_ACCELERATION);
 					}
 					arretEvent = 1;
 					break;
@@ -149,12 +150,22 @@ int main(int argc, char **argv)
 				player->y = WINDOWH / 2;
 			}
 			playerBallCollision(player, ball);
+			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
+			{
+				etat = 2;
+			}
 
 			/* Draw frame */
 			afficherTerrain(terrainSpriteSheet, renderer);
 			afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
 			afficherTexture(playerSprite, renderer, player->w, player->h, player->x, player->y);
 			afficherScore(score1, score2, font, window, renderer);
+			char t[10];
+			int min = (TIMEGAME - (int)(time(NULL) - debutTimer)) / 60;
+			int sec = (TIMEGAME - (int)(time(NULL) - debutTimer)) % 60;
+			sprintf(t, "%d : %d", min, sec);
+			creationTexte(t, WINDOWW / 2, 50, font, window, renderer);
+
 			// printf("%d %d %d %d\n", ball->x, ball->y, ball->vx,ball->vy);
 			break;
 		case 1: // Etat: Ecran tittre
@@ -176,6 +187,7 @@ int main(int argc, char **argv)
 					case SDLK_SPACE:
 						arretEvent = 1;
 						etat = 0;
+						debutTimer = time(NULL);
 						break;
 					default:
 						break;
@@ -187,40 +199,15 @@ int main(int argc, char **argv)
 			}
 			arretEvent = 0;
 			// Draw Frame
-			afficherTexture(mainTitle, renderer, 800, 300, WINDOWW / 2, WINDOWH / 2);
-
+			cpt++;
+			afficherTexture(mainTitle, renderer, 600, 300, WINDOWW / 2, (WINDOWH / 2) + cos(cpt * 0.05) * 20 - 10);
+			if (cpt % 80 < 40)
+			{
+				creationTexte("Press space to start", WINDOWW / 2, 3.5 * (WINDOWH / 4), font, window, renderer);
+			}
 			break;
 		case 2: // Etat: Fin
-			while (SDL_PollEvent(&event) && !arretEvent)
-			{
-				switch (event.type)
-				{			   // En fonction de la valeur du type de cet évènement
-				case SDL_QUIT: // Un évènement simple, on a cliqué sur la x de la fenêtre
-					programON = SDL_FALSE;
-					arretEvent = 1;
-					break;
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-						programON = SDL_FALSE;
-						arretEvent = 1;
-						break;
-					case SDLK_SPACE: // On recommence le jeu avec la barre espace
-						// score = 0;
-						arretEvent = 1;
-						etat = 0;
-						break;
-					default:
-						break;
-					}
-					break;
-				default:
-					break;
-				}
-			}
-			arretEvent = 0;
-			// Draw Frame
+			ecranFin(window,font,renderer,event,&score1,&score2,player,ball,&debutTimer,&etat,&programON);
 			break;
 		default:
 			break;
@@ -228,7 +215,6 @@ int main(int argc, char **argv)
 		SDL_Delay(20);
 		SDL_RenderPresent(renderer); // affichage
 	}
-
 	TTF_CloseFont(font);
 	endSDL(1, "Normal ending", window, renderer);
 	TTF_Quit();
@@ -236,3 +222,4 @@ int main(int argc, char **argv)
 	SDL_Quit();
 	return EXIT_SUCCESS;
 }
+

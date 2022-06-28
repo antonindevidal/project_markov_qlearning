@@ -21,7 +21,7 @@ typedef struct ball{
 
 
 ball_t *creationBall();
-void pushBall(ball_t *b, int angle);
+void pushBall(ball_t *b, int angle,int power);
 int moveBall(ball_t *b,enum EQUIPE * e);
 int collisionBall(ball_t *b, enum EQUIPE * e);
 

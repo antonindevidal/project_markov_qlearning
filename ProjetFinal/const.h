@@ -1,11 +1,13 @@
 #ifndef CONST_H
 #define CONST_H
 
-#define WINDOWH 1080
-#define WINDOWW 1920
+#define WINDOWH 640
+#define WINDOWW 1200
 #define WALLW 40
 #define WALLH 8
 #define GOALSIZE 300
+
+#define TIMEGAME 15
 
 #define NBEPOCH 6
 #define MAXEPOCH 100

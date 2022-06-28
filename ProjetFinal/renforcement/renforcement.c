@@ -160,7 +160,7 @@ void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suit
 { // Prend le monde et une action et modifie l'état du monde
     int i, max, a;
     ordi->QTable[suiteEtats[n - 1]][suiteActions[n - 1]] += XI * (suiteActions[n] - ordi->QTable[suiteActions[n - 1]][suiteEtats[n - 1]]);
-    for (i = n - 2; i > 0; i--)
+    for (i = n - 2; i >= 0; i--)
     {
         max = ordi->QTable[suiteEtats[i + 1]][0];
         for (a = 1; a < NBACTIONS; a++)
@@ -182,7 +182,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     {
         return But;
     }
-    // La balle a bougée
+    // La balle a bougé
     else if (precBall.x != ball.x)
     {
         ecart = sqrt(pow(precBall.x + ball.x, 2) + pow(precBall.y + ball.y, 2));
@@ -319,3 +319,45 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         evolution(ordi2, s2, a2, r2, NBEPOCH);
     }
 }*/
+}
+
+void resetEmplacement(ordinateur_t *ordi) { 
+    int rx=rand()%3; rx--; //rx = -1, 0 ou 1
+    int ry=rand()%3; ry--;
+    ordi->player.x = ordi->player.x + 20*rx;
+    ordi->player.y = ordi->player.y + 20*ry;
+}
+
+void saveQTable(char *nom_fichier, float **QTable) {
+    FILE *file = fopen(nom_fichier, "w");
+    if (file)
+    {
+        int i, j;
+        for (i=0; i<NBETATS; i++) {
+            for (j=0; j<NBACTIONS; j++) {
+                fprintf(file, "%f", QTable[i][j]);
+            }
+            fprintf(file, "\n");
+        }
+    }
+    fclose(file);
+}
+
+void chargerQTable(char *nom_fichier, float **Qtable) 
+{
+    FILE *file = fopen(nom_fichier, "r");
+    if (file)
+    {
+        int i, j;
+        for (i=0; i<NBETATS; i++) {
+            for (j=0; j<NBACTIONS; j++) {
+                fscanf(file, "%f", &Qtable[i][j]);
+            }
+        }
+    }
+    fclose(file);
+}
+
+void copie(player_t *prec1, player_t *ordi) {
+    
+}
