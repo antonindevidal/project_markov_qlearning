@@ -379,9 +379,6 @@ void chargerQTable(char *nom_fichier, float Qtable[NBETATS][NBACTIONS])
     fclose(file);
 }
 
-void copie(player_t *prec1, player_t *ordi)
-{
-}
 
 void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
 {
@@ -442,4 +439,13 @@ void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
     default:
         break;
     }
+}
+
+void copie(player_t *prec, player_t *ordi) {
+    prec->dir = ordi->dir;
+    prec->equipe = ordi->equipe;
+    prec->h = ordi->h;
+    prec->w = ordi->w;
+    prec->x = ordi->x;
+    prec->y = ordi->y;
 }
