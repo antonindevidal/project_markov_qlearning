@@ -47,9 +47,6 @@ void playerBallCollision(player_t *p, ball_t *b)
         printf("%d %d %f %f\n", distance, t, angle, a);
         pushBall(b, angle);
     }
-<<<<<<< HEAD
-=======
-
 }
 
 void initQTableOrdi(ordinateur_t *ordi) {
@@ -59,5 +56,4 @@ void initQTableOrdi(ordinateur_t *ordi) {
             ordi->QTable[i][j] = 0;
         }
     }
->>>>>>> e0e2af2fa4f8abb383d77fe6ab839f946415d039
 }
