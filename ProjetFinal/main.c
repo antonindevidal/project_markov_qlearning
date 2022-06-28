@@ -226,10 +226,18 @@
 // }
 
 //main renforcement
-int main(int argc, char **argv){
-	ordinateur_t *ordi1,*ordi2;
+int main(){
+	ordinateur_t *ordi1;
+	ordinateur_t *ordi2;
 	ordi1=creerOrdi(EQUIPEGAUCHE);
 	ordi2=creerOrdi(EQUIPEDROITE);
+	initQTableOrdi(ordi1);
+	initQTableOrdi(ordi2);
+	//afficherQTable(ordi1);
+	//afficherQTable(ordi2);
 	renforcement(ordi1,ordi2);
-	printf("-----------------FIN--------------");
+	libererOrdi(ordi1);
+	libererOrdi(ordi2);
+	printf("-----------------FIN--------------\n");
+	return 0;
 }
