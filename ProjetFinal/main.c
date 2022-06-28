@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 	srand(time(0));
 	(void)argc;
 	(void)argv;
-	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1;
+	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
@@ -187,8 +187,12 @@ int main(int argc, char **argv)
 			}
 			arretEvent = 0;
 			// Draw Frame
-			afficherTexture(mainTitle, renderer, 800, 300, WINDOWW / 2, WINDOWH / 2);
-
+			cpt++;
+			afficherTexture(mainTitle, renderer, 600, 300, WINDOWW / 2, (WINDOWH / 2) + cos(cpt * 0.05) * 20 -10);
+			if (cpt % 80 <40)
+			{
+				creationTexte("Press space to start", WINDOWW / 2, 3.5 * (WINDOWH / 4), font, window, renderer);
+			}
 			break;
 		case 2: // Etat: Fin
 			while (SDL_PollEvent(&event) && !arretEvent)
