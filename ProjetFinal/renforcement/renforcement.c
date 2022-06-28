@@ -87,7 +87,7 @@ void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suit
 { // Prend le monde et une action et modifie l'état du monde
     int i, max, a;
     ordi->QTable[suiteEtats[n - 1]][suiteActions[n - 1]] += XI * (suiteActions[n] - ordi->QTable[suiteActions[n - 1]][suiteEtats[n - 1]]);
-    for (i = n - 2; i > 0; i--)
+    for (i = n - 2; i >= 0; i--)
     {
         max = ordi->QTable[suiteEtats[i + 1]][0];
         for (a = 1; a < NBACTIONS; a++)
