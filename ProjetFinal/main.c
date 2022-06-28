@@ -226,10 +226,25 @@
 // }
 
 //main renforcement
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
 	ordinateur_t *ordi1,*ordi2;
 	ordi1=creerOrdi(EQUIPEGAUCHE);
 	ordi2=creerOrdi(EQUIPEDROITE);
 	renforcement(ordi1,ordi2);
-	printf("-----------------FIN--------------");
+	printf("\n-----------------FIN--------------\n");
+	
+	// float **tab;
+	// tab = malloc(3 * sizeof(float *));
+	// tab[0] = malloc(2 * sizeof(float));
+	// tab[1] = malloc(2 * sizeof(float));
+	// tab[2] = malloc(2 * sizeof(float));
+	// tab[0][0] = 5;
+	// tab[1][0] = 5;
+	// tab[2][0] = 5;
+	// tab[0][1] = 5;
+	// tab[1][1] = 5;
+	// tab[2][1] = 5;
+
+	// afficherQTable(tab, 3, 2);
 }

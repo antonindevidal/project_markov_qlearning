@@ -36,12 +36,13 @@ ordinateur_t *creerOrdi(enum EQUIPE equipe)
         {
             exit(0);
         }
-        memset(ordi->QTable,0,NBACTIONS);
-        // for (int j = 0; j < NBACTIONS; j++)
-        // {
-        //     ordi->QTable[i][j] = (float)0.0;
-        // }
+        //memset(ordi->QTable,0,NBACTIONS);
+        for (int j = 0; j < NBACTIONS; j++)
+        {
+            ordi->QTable[i][j] = (float)0.0;
+        }
     }
+    //afficherQTable(ordi->QTable,NBETATS,NBACTIONS);
     
     return ordi;
 }
@@ -49,4 +50,13 @@ ordinateur_t *creerOrdi(enum EQUIPE equipe)
 void libererOrdi(ordinateur_t *ordi) {
     free(ordi->player);
     free(ordi);
+}
+
+void afficherQTable(float **tab, int n,int m) {
+    for(int i=0;i<n;i++){
+        printf("\n");
+        for(int j=0; j<m;j++){
+            printf("%f ",tab[i][j]);
+        }
+    }
 }

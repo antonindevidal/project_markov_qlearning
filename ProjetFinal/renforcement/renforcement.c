@@ -249,7 +249,7 @@ int choixAction(ordinateur_t *ordi, int s, float T)
 
     for (int a = 0; a < NBACTIONS -1+ avecTir; a++)
     {
-        float g =((ordi->QTable)[s][a] )/ T;
+        float g =((ordi->QTable)[s][a])/ T;
         E[a] = exp(g);
         // Z += E[a];
     }
