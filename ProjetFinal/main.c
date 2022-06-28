@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
-	int etat = 0;
+	int etat = 1;
 
 	SDL_bool programON = SDL_TRUE;
 	SDL_Event event;
@@ -70,9 +70,13 @@ int main(int argc, char **argv)
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
 	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
+	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
+
 	/* Boucle du jeu */
 	while (programON)
-	{							   // Boucle événementielle du programme
+	{ // Boucle événementielle du programme
+
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
 
 		SDL_FlushEvent(SDL_MOUSEMOTION);
@@ -138,12 +142,11 @@ int main(int argc, char **argv)
 				if (e == EQUIPEDROITE)
 					score2++;
 
-				
 				ball->x = WINDOWW / 2;
 				ball->y = WINDOWH / 2;
 				ball->v = 0;
-				player->x = WINDOWW/4;
-				player->y = WINDOWH/2;
+				player->x = WINDOWW / 4;
+				player->y = WINDOWH / 2;
 			}
 			playerBallCollision(player, ball);
 
@@ -154,7 +157,7 @@ int main(int argc, char **argv)
 			afficherScore(score1, score2, font, window, renderer);
 			// printf("%d %d %d %d\n", ball->x, ball->y, ball->vx,ball->vy);
 			break;
-		case 1: // Etat: Début
+		case 1: // Etat: Ecran tittre
 			while (SDL_PollEvent(&event) && !arretEvent)
 			{
 				switch (event.type)
@@ -170,8 +173,7 @@ int main(int argc, char **argv)
 						programON = SDL_FALSE;
 						arretEvent = 1;
 						break;
-					case SDLK_SPACE: // On commence le jeu avec la barre espace
-						// score = 0;
+					case SDLK_SPACE:
 						arretEvent = 1;
 						etat = 0;
 						break;
@@ -185,6 +187,8 @@ int main(int argc, char **argv)
 			}
 			arretEvent = 0;
 			// Draw Frame
+			afficherTexture(mainTitle, renderer, 800, 300, WINDOWW / 2, WINDOWH / 2);
+
 			break;
 		case 2: // Etat: Fin
 			while (SDL_PollEvent(&event) && !arretEvent)
