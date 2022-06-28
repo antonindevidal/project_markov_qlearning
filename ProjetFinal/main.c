@@ -207,6 +207,7 @@ int main(int argc, char **argv)
         }
         SDL_Delay(20);
         SDL_RenderPresent(renderer); // affichage
+        perception(*ball,*player);
     }
 
     TTF_CloseFont(font);
