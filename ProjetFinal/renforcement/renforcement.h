@@ -15,5 +15,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
 int choixAction(ordinateur_t ordi, int s, int T);
 void renforcement(ordinateur_t *ordi); // Fonction principale
 void resetEmplacement(ordinateur_t *ordi);
+void saveQTable(char *nom_fichier, float **QTable);
+void chargerQTable(char *nom_fichier, float **Qtable) ;
 
 #endif

@@ -209,3 +209,33 @@ void resetEmplacement(ordinateur_t *ordi) {
     ordi->player.x = ordi->player.x + 20*rx;
     ordi->player.y = ordi->player.y + 20*ry;
 }
+
+void saveQTable(char *nom_fichier, float **QTable) {
+    FILE *file = fopen(nom_fichier, "w");
+    if (file)
+    {
+        int i, j;
+        for (i=0; i<NBETATS; i++) {
+            for (j=0; j<NBACTIONS; j++) {
+                fprintf(file, "%f", QTable[i][j]);
+            }
+            fprintf(file, "\n");
+        }
+    }
+    fclose(file);
+}
+
+void chargerQTable(char *nom_fichier, float **Qtable) 
+{
+    FILE *file = fopen(nom_fichier, "r");
+    if (file)
+    {
+        int i, j;
+        for (i=0; i<NBETATS; i++) {
+            for (j=0; j<NBACTIONS; j++) {
+                fscanf(file, "%f", &Qtable[i][j]);
+            }
+        }
+    }
+    fclose(file);
+}
