@@ -281,7 +281,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-    float  T =0.9;
+    float  T =0.5;
     int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
     int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
@@ -332,8 +332,10 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             a1[pas] = choixAction(ordi1, s1[pas], T);
             a2[pas] = choixAction(ordi2, s2[pas], T);
             // Appliquer l'action choisie au monde
-            if (isGoal) // Si l'état atteint est terminal : break => but
+            if (isGoal){ // Si l'état atteint est terminal : break => but
+                printf("\nBUUUUUUUUTTTTTTTT\n");
                 break;
+                }
         }
         nbActionPourReset++;
         evolution(ordi1, s1, a1, r1, NBEPOCH);
