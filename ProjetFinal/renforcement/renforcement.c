@@ -155,21 +155,23 @@ int perception(ball_t ball, player_t player, player_t player2)
     return etat;
 }
 
-void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n)
+void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
 { // Prend le monde et une action et modifie l'état du monde
-    int  max=0,a;
-    ordi->QTable[suiteEtats[n - 1]][suiteActions[n - 1]] += XI * (suiteActions[n] - ordi->QTable[suiteActions[n - 1]][suiteEtats[n - 1]]);
-    for (int i = n - 2; i > 0; i--)
+    int  max=0;
+    int i, j;
+    ordi->QTable[s[n - 1]][a[n - 1]] += XI * (r[n] - ordi->QTable[s[n - 1]][a[n - 1]]);
+    for (i = n - 2; i >= 0; i--)
     {
-        max = ordi->QTable[suiteEtats[i + 1]][0];
-        for (a = 1; a < NBACTIONS; a++)
+        printf("i: %d\n", i);
+        max = ordi->QTable[s[i + 1]][0];
+        for (j = 1; j < NBACTIONS; j++)
         {
-            if (max < ordi->QTable[suiteEtats[i + 1]][a])
+            if (max < ordi->QTable[s[i + 1]][j])
             {
-                max = ordi->QTable[suiteEtats[i + 1]][a];
+                max = ordi->QTable[s[i + 1]][j];
             }
         }
-        ordi->QTable[suiteEtats[i]][suiteActions[i]] += XI * (suiteRecompenses[i + 1] + GAMMA * max - ordi->QTable[suiteEtats[i]][suiteActions[i]]);
+        ordi->QTable[s[i]][a[i]] += XI * (r[i + 1] + GAMMA * max - ordi->QTable[s[i]][a[i]]);
 
     }
 }

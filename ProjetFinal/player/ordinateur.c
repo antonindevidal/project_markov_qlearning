@@ -3,10 +3,8 @@
 void initQTableOrdi(ordinateur_t *ordi)
 {
     int i, j;
-    ordi->QTable=(float**)malloc(NBETATS*sizeof(float *));
-
     for (i = 0; i < NBETATS; i++)
-    { ordi->QTable[i]=(float*)malloc(NBACTIONS*sizeof(float));
+    {
         for (j = 0; j < NBACTIONS; j++)
         {
             ordi->QTable[i][j] = 0;
@@ -18,17 +16,10 @@ ordinateur_t *creerOrdi(enum EQUIPE equipe)
 {
     ordinateur_t *ordi;
     ordi = (ordinateur_t *)malloc(sizeof(ordinateur_t));
-    if (ordi == NULL)
-    {
-        exit(1);
-        //ordi->QTable = (float**)malloc(NBETATS*sizeof(float *));
-    }
+    if (ordi == NULL) exit(1);
     ordi->player = createPlayer(equipe);
-    ordi->QTable=(float**)malloc(NBETATS*sizeof(float *));
-    if(ordi->QTable == NULL)
-    {   
-        exit(0);
-    }
+    ordi->QTable = (float **)malloc(NBETATS * sizeof(float *));
+    if (ordi->QTable == NULL) exit(1);
     for (int i = 0; i < NBETATS; i++)
     { 
         ordi->QTable[i]=(float*)malloc(NBACTIONS*sizeof(float));
@@ -47,7 +38,14 @@ ordinateur_t *creerOrdi(enum EQUIPE equipe)
     return ordi;
 }
 
-void libererOrdi(ordinateur_t *ordi) {
+void libererOrdi(ordinateur_t *ordi)
+{
+    int i;
+    for (i = 0; i < NBETATS; i++)
+    {
+        free(ordi->QTable[i]);
+    }
+    free(ordi->QTable);
     free(ordi->player);
     free(ordi);
 }
@@ -59,4 +57,17 @@ void afficherQTable(float **tab, int n,int m) {
             printf("%f ",tab[i][j]);
         }
     }
-}
+
+// void afficherQTable(ordinateur_t *ordi)
+// {
+//     int i, j;
+//     for (i = 0; i < NBETATS; i++)
+//     {
+//         for (j = 0; j < NBACTIONS; j++)
+//         {
+//             printf("%.2f ", ordi->QTable[i][j]);
+//         }
+//         printf("\n");
+//     }
+//     printf("\n");
+// }
