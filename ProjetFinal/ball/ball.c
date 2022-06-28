@@ -18,33 +18,45 @@ void pushBall(ball_t *b, int angle)
 {
     b->theta = angle;
     b->v += BALL_ACCELERATION;
-    if(b->v > MAX_VELOCITY)
+    if (b->v > MAX_VELOCITY)
         b->v = MAX_VELOCITY;
 }
 
-void moveBall(ball_t *b)
+int moveBall(ball_t *b, enum EQUIPE *e)
 {
     b->x += cos(b->theta * M_PI / 180) * b->v;
     b->y += sin(b->theta * M_PI / 180) * b->v;
 
-    collisionBall(b);
+    int but = collisionBall(b, e);
 
     b->v -= FROTEMENTS;
     if (b->v < 0)
         b->v = 0;
+    return but;
 }
 
-void collisionBall(ball_t *b)
+int collisionBall(ball_t *b, enum EQUIPE *e)
 {
+    int but = 0;
     if (b->x > WINDOWW - WALLW)
     {
         b->theta = 180 - b->theta;
         b->x = WINDOWW - WALLW;
+        if (b->y > WINDOWH / 2 - GOALSIZE / 2 && b->y < WINDOWH - GOALSIZE / 2)
+        {
+            but = 1;
+            *e = EQUIPEGAUCHE;
+        }
     }
     else if (b->x < WALLW)
     {
         b->theta = 180 - b->theta;
         b->x = WALLW;
+        if (b->y > WINDOWH / 2 - GOALSIZE / 2 && b->y < WINDOWH - GOALSIZE / 2)
+        {
+            but = 1;
+            *e = EQUIPEDROITE;
+        }
     }
     else if (b->y < 0)
     {
@@ -56,4 +68,5 @@ void collisionBall(ball_t *b)
         b->theta = -b->theta;
         b->y = WINDOWH;
     }
+    return but;
 }
