@@ -8,6 +8,7 @@
 
 #define FROTEMENTS 0.01
 #define BALL_ACCELERATION 20
+#define MAX_VELOCITY 60
 #define BALLSIZE 40
 
 typedef struct ball{

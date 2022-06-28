@@ -15,6 +15,7 @@
 #define PLAYERWIDTH 42
 #define PLAYERHEIGHT 62
 
+
 typedef struct player{
     int x;
     int y;

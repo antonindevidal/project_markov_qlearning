@@ -18,6 +18,8 @@ void pushBall(ball_t *b, int angle)
 {
     b->theta = angle;
     b->v += BALL_ACCELERATION;
+    if(b->v > MAX_VELOCITY)
+        b->v = MAX_VELOCITY;
 }
 
 void moveBall(ball_t *b)

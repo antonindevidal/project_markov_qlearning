@@ -17,35 +17,34 @@ player_t *createPlayer()
 void movePlayer(player_t *p, enum DIRECTION dir)
 {
     p->dir = dir;
-    p->x += cos(p->dir * M_PI / 180) * PLAYER_SPEED ;
+    p->x += cos(p->dir * M_PI / 180) * PLAYER_SPEED;
     p->y += sin(p->dir * M_PI / 180) * PLAYER_SPEED;
- 
-    if (p->x < WALLW)
-        p->x = WALLW;
-    if (p->x > WINDOWW - WALLW)
-        p->x = WINDOWW - WALLW;
-    if (p->y > WINDOWH)
-        p->y = WINDOWH;
-    if (p->y < 0)
-        p->y = 0;
+
+    if (p->x < WALLW + PLAYERWIDTH / 2)
+        p->x = WALLW + PLAYERWIDTH / 2;
+    if (p->x > WINDOWW - WALLW - PLAYERWIDTH /2)
+        p->x = WINDOWW - WALLW - PLAYERWIDTH /2;
+    if (p->y > WINDOWH - PLAYERHEIGHT/2)
+        p->y = WINDOWH - PLAYERHEIGHT/2 ;
+    if (p->y < PLAYERHEIGHT/2)
+        p->y =  PLAYERHEIGHT/2;
 }
 
 void playerBallCollision(player_t *p, ball_t *b)
 {
     int distance = sqrt(pow(p->x - b->x, 2) + pow(p->y - b->y, 2));
-    int diam = b->size  + p->w;
+    int diam = b->size / 2 + p->w / 2;
 
     if (distance < diam)
     {
         int t = b->x - p->x;
-        float a = acos((t*1.0)/distance*1.0);      
-        float angle = a* 180.0 / M_PI;
-        if (b->y < p->y )
+        float a = acos((t * 1.0) / distance * 1.0);
+        float angle = a * 180.0 / M_PI;
+        if (b->y < p->y)
         {
-            angle=-1 * angle;
+            angle = -1 * angle;
         }
-        printf("%d %d %f %f\n",distance, t, angle,a);
-        pushBall(b,angle);
+        printf("%d %d %f %f\n", distance, t, angle, a);
+        pushBall(b, angle);
     }
-
 }
