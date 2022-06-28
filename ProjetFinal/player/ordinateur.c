@@ -26,3 +26,7 @@ ordinateur_t *creerOrdi(enum EQUIPE equipe)
     return ordi;
 }
 
+void libererOrdi(ordinateur_t *ordi) {
+    free(ordi->player);
+    free(ordi);
+}
