@@ -44,6 +44,6 @@ void playerBallCollision(player_t *p, ball_t *b)
         {
             angle = -1 * angle;
         }
-        pushBall(b, angle);
+        pushBall(b, angle,5);
     }
 }

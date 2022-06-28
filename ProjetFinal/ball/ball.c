@@ -14,10 +14,10 @@ ball_t *creationBall()
     return b;
 }
 
-void pushBall(ball_t *b, int angle)
+void pushBall(ball_t *b, int angle, int power)
 {
     b->theta = angle;
-    b->v += BALL_ACCELERATION;
+    b->v += power;
     if (b->v > MAX_VELOCITY)
         b->v = MAX_VELOCITY;
 }
