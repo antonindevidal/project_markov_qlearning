@@ -91,6 +91,35 @@ int choixAction(ordinateur_t ordi, int s, int T)
     return action;
 }
 
-void renforcement()
+void renforcement(ordinateur_t *ordi)
 { // Fonction principale
+// - Pour époque = 0 à nb_époques-1
+
+//       - Percevoir le monde, le stocker
+//       - Récupérer la récompense sur le monde actuel, la stocker 
+      
+//       - Réaliser une phase d'apprentissage à partir des informations conservées
+//       - Modifier si nécessaire les paramètres
+// - Sauvegarder dans un fichier des qualités
+// - Afficher un score (ou autre) montrant à quel point l'apprentissage a été concluant 
+
+    initQTableOrdi(ordi);
+    // int epoque, pas, T;
+    // int s[NBEPOCH], a[], r[]; // Liste états, actions et récompenses
+    // T = 0.9;
+    // for (epoque=0; epoque<MAXEPOCH; epoque++) {
+    //     // Créer le monde
+    //     for (pas=0; pas<NBEPOCH) {
+    //         r[pas] = recompense(precBall, ball, precPlayer, player, isGoal); // Récompense
+    //         s[pas] = perception(ball, player); // Etat actuel
+    //         // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
+    //         a[pas] = choixAction(ordi, s[pas], T);
+    //         // Appliquer l'action choisie au monde
+    //         if (isGoal) // Si l'état atteint est terminal : break => but
+    //             break
+    //     }
+    //     evolution(ordi, s, a, r, NBEPOCH);
+    // }
+
+
 }

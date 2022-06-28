@@ -3,6 +3,7 @@
 #include "../const.h"
 #include "../ball/ball.h"
 #include "../player/player.h"
+#include "../player/ordinateur.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -12,6 +13,6 @@ void perception(); // Prend l'état du monde et renvoie l'état de perception s
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n);
 int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);
 int choixAction(ordinateur_t ordi, int s, int T);
-void renforcement(); // Fonction principale
+void renforcement(ordinateur_t *ordi); // Fonction principale
 
 #endif

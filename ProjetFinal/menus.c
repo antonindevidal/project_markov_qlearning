@@ -1,7 +1,7 @@
 #include "menus.h"
 
 void menuDebut(TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer) {
-    creationTexte("TITRE DU JEU", WINDOWW / 2 - 180, WINDOWH / 2 - 270, font, window, renderer);
+    creationTexte("Nario Gréviste Ultimate", WINDOWW / 2 - 180, WINDOWH / 2 - 270, font, window, renderer);
 }
 
 void menuFin(int score, TTF_Font *font, SDL_Window *window, SDL_Renderer *renderer)
