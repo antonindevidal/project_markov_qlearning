@@ -24,8 +24,8 @@ enum DIRECTION{HAUTD=-90,GAUCHED=180,BASD=90,DROITD=0,HGD=135,HDD=45,BGD=225,BDD
 enum EQUIPE{EQUIPEGAUCHE=1,EQUIPEDROITE=-1};
 //int epochActuelle=0;
 
-#define NBETATS 24
-//#define NBETATS 48
+//#define NBETATS 24
+#define NBETATS 48
 
 //enum des états, position par rapport à la balle + distance
 //Exemple: UL3 = UP et LEFT à une distance de 3
