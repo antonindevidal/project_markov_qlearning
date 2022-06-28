@@ -25,12 +25,6 @@ typedef struct player{
     enum EQUIPE equipe;
 }player_t;
 
-typedef struct ordinateur
-{
-    player_t player;
-    float QTable[NBETATS][NBACTIONS];
-} ordinateur_t;
-
 void movePlayer(player_t * p, enum DIRECTION dir);
 player_t *createPlayer();
 void actionPlayer(player_t *player, SDL_Keycode key);

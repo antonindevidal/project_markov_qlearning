@@ -3,6 +3,7 @@
 #include "../const.h"
 #include "../ball/ball.h"
 #include "../player/player.h"
+#include "../player/ordinateur.h"
 #include <math.h>
 #include <stdlib.h>
 
