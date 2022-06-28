@@ -57,7 +57,7 @@ void afficherQTable(float **tab, int n,int m) {
             printf("%f ",tab[i][j]);
         }
     }
-
+}
 // void afficherQTable(ordinateur_t *ordi)
 // {
 //     int i, j;

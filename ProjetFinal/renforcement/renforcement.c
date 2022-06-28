@@ -162,7 +162,7 @@ void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
     ordi->QTable[s[n - 1]][a[n - 1]] += XI * (r[n] - ordi->QTable[s[n - 1]][a[n - 1]]);
     for (i = n - 2; i >= 0; i--)
     {
-        printf("i: %d\n", i);
+        //printf("i: %d\n", i);
         max = ordi->QTable[s[i + 1]][0];
         for (j = 1; j < NBACTIONS; j++)
         {
