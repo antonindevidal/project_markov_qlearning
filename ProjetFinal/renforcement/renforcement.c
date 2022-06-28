@@ -319,7 +319,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         evolution(ordi2, s2, a2, r2, NBEPOCH);
     }
 }*/
-}
+
 
 void resetEmplacement(ordinateur_t *ordi) { 
     int rx=rand()%3; rx--; //rx = -1, 0 ou 1
