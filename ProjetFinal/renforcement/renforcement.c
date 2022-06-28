@@ -1,7 +1,86 @@
 #include "renforcement.h"
 
-void perception()
-{ // Prend l'état du monde et renvoie l'état de perception s
+// Prend l'état du monde et renvoie l'état de perception s
+int perception(ball_t ball,player_t player)
+{
+    float distance=sqrt(pow(player.x-ball.x,2)+pow(player.y-ball.y,2));
+    float angle;
+    if (player.y>ball.y) angle=360 -(M_PI/2 + asin((ball.x-player.x)/distance))*180/M_PI;
+    else angle=(M_PI/2 + asin((ball.x-player.x)/distance))*180/M_PI;
+
+    if(angle<=22 && angle>337){//droite
+        if(distance <= DISTANCE1){
+            return RIGHT1;
+        }
+        else if(distance <DISTANCE2){
+            return RIGHT2;
+        }else{
+            return RIGHT3;
+        }
+    }else if(angle>22 && angle<67){
+        if(distance <= DISTANCE1){
+            return UR1;
+        }
+        else if(distance <DISTANCE2){
+            return UR2;
+        }else{
+            return UR3;
+        }
+    }else if(angle>=67 && angle<112){
+        if(distance <= DISTANCE1){
+            return UP1;
+        }
+        else if(distance <DISTANCE2){
+            return UP2;
+        }else{
+            return UP3;
+        }
+    }else if(angle>=112 && angle<158){
+        if(distance <= DISTANCE1){
+            return UL1;
+        }
+        else if(distance <DISTANCE2){
+            return UL2;
+        }else{
+            return UL3;
+        }
+    }else if(angle>=158 && angle<202){
+        if(distance <= DISTANCE1){
+            return LEFT1;
+        }
+        else if(distance <DISTANCE2){
+            return LEFT2;
+        }else{
+            return LEFT3;
+        }
+    }else if(angle>=202 && angle<248){
+        if(distance <= DISTANCE1){
+            return DL1;
+        }
+        else if(distance <DISTANCE2){
+            return DL2;
+        }else{
+            return DL3;
+        }
+    }else if(angle>=248 && angle<292){
+        if(distance <= DISTANCE1){
+            return DOWN1;
+        }
+        else if(distance <DISTANCE2){
+            return DOWN2;
+        }else{
+            return DOWN3;
+        }
+    }else if(angle>=292 && angle<=337){
+        if(distance <= DISTANCE1){
+            return DR1;
+        }
+        else if(distance <DISTANCE2){
+            return DR2;
+        }else{
+            return DR3;
+        }
+    }
 }
 
 void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suiteRecompenses, int n)
