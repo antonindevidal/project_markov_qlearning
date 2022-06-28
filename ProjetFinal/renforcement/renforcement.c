@@ -202,3 +202,10 @@ void renforcement(ordinateur_t *ordi)
 
 
 }
+
+void resetEmplacement(ordinateur_t *ordi) { 
+    int rx=rand()%3; rx--; //rx = -1, 0 ou 1
+    int ry=rand()%3; ry--;
+    ordi->player.x = ordi->player.x + 20*rx;
+    ordi->player.y = ordi->player.y + 20*ry;
+}

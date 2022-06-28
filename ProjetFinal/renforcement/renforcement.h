@@ -14,5 +14,6 @@ void evolution(ordinateur_t *ordi, int *suiteEtats, int *suiteActions, int *suit
 int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal);
 int choixAction(ordinateur_t ordi, int s, int T);
 void renforcement(ordinateur_t *ordi); // Fonction principale
+void resetEmplacement(ordinateur_t *ordi);
 
 #endif

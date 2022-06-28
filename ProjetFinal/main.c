@@ -71,7 +71,6 @@ int main(int argc, char **argv)
 	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
-
 	/* Boucle du jeu */
 	while (programON)
 	{ // Boucle événementielle du programme
