@@ -319,7 +319,6 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         evolution(ordi2, s2, a2, r2, NBEPOCH);
     }
 }*/
-}
 
 void resetEmplacement(ordinateur_t *ordi) { 
     int rx=rand()%3; rx--; //rx = -1, 0 ou 1
@@ -358,6 +357,11 @@ void chargerQTable(char *nom_fichier, float **Qtable)
     fclose(file);
 }
 
-void copie(player_t *prec1, player_t *ordi) {
-    
+void copie(player_t *prec, player_t *ordi) {
+    prec->dir = ordi->dir;
+    prec->equipe = ordi->equipe;
+    prec->h = ordi->h;
+    prec->w = ordi->w;
+    prec->x = ordi->x;
+    prec->y = ordi->y;
 }

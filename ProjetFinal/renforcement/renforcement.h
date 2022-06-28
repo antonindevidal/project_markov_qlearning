@@ -17,6 +17,6 @@ int distanceAdversaire(ball_t ball, player_t player);
 void resetEmplacement(ordinateur_t *ordi);
 void saveQTable(char *nom_fichier, float **QTable);
 void chargerQTable(char *nom_fichier, float **Qtable);
-void copie(player_t *prec1, player_t *ordi);
+void copie(player_t *prec, player_t *ordi);
 
 #endif
