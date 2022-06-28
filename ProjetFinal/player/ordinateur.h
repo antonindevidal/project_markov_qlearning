@@ -13,7 +13,7 @@ typedef struct ordinateur
 
 void initQTableOrdi(ordinateur_t *ordi);
 ordinateur_t* creerOrdi(enum EQUIPE equipe);
-
+void libererOrdi(ordinateur_t *ordi);
 
 
 #endif

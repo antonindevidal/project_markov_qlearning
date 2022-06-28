@@ -362,7 +362,7 @@ void saveQTable(char *nom_fichier, float **QTable)
         {
             for (j = 0; j < NBACTIONS; j++)
             {
-                fprintf(file, "%f", QTable[i][j]);
+                fprintf(file, "%f ", QTable[i][j]);
             }
             fprintf(file, "\n");
         }
