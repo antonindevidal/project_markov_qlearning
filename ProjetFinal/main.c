@@ -4,6 +4,7 @@
 #include "ball/ball.h"
 #include "menus.h"
 #include "player/player.h"
+#include "terrain/terrain.h"
 
 int main(int argc, char **argv)
 {
@@ -67,7 +68,7 @@ int main(int argc, char **argv)
     // A REMPLIR
     SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
     SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
-
+    SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
     /* Boucle du jeu */
     while (programON)
     {                              // Boucle événementielle du programme
@@ -133,6 +134,7 @@ int main(int argc, char **argv)
             playerBallCollision(player, ball);
 
             /* Draw frame */
+            afficherTerrain(terrainSpriteSheet,renderer);
             afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
             afficherTexture(playerSprite, renderer, player->w, player->h, player->x, player->y);
             afficherScore(score, font, window, renderer);

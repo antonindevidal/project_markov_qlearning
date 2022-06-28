@@ -44,7 +44,6 @@ void playerBallCollision(player_t *p, ball_t *b)
         {
             angle = -1 * angle;
         }
-        printf("%d %d %f %f\n", distance, t, angle, a);
         pushBall(b, angle);
     }
 }

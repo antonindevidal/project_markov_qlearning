@@ -1,4 +1,4 @@
-SRC=main.c fonctionsSDL.c score.c ball/ball.c menus.c renforcement/renforcement.c player/player.c
+SRC=main.c fonctionsSDL.c score.c ball/ball.c menus.c renforcement/renforcement.c player/player.c terrain/terrain.c
 EXE=main.out
 
 
@@ -17,6 +17,7 @@ build/%.o: %.c
 	@mkdir -p build/ball
 	@mkdir -p build/renforcement
 	@mkdir -p build/player
+	@mkdir -p build/terrain
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
