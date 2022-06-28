@@ -306,9 +306,9 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
         a1[0] = choixAction(ordi1, s1[0], T);
         a2[0] = choixAction(ordi2, s2[0], T);
-
+        printf("---------%d---------\n",epoque);
         for (pas = 1; pas < NBEPOCH; pas++)
-        {
+        {   printf("\t-----%d-----\n",pas);
             // 1 itération du jeu
             faireAction(a1[pas], ordi1, ball);
             faireAction(a2[pas], ordi2, ball);

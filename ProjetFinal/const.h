@@ -10,7 +10,7 @@
 #define TIMEGAME 15
 
 #define NBEPOCH 6
-#define MAXEPOCH 100
+#define MAXEPOCH 24
 #define XI 0.5
 #define GAMMA 0.5
 
