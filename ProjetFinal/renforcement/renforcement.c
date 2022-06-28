@@ -108,7 +108,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     if(isGoal){
         return But;
     }
-    //La balle a bougée
+    //La balle a bougé
     else if(precBall.x != ball.x){
         ecart=sqrt(pow(precBall.x+ball.x,2)+pow(precBall.y+ball.y,2));
         if(ecart>100){
