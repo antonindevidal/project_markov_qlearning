@@ -1,4 +1,4 @@
-SRC=main.c fonctionsSDL.c score.c ball/ball.c menus.c renforcement/renforcement.c player/player.c
+SRC=main.c fonctionsSDL.c score.c ball/ball.c menus.c renforcement/renforcement.c player/player.c player/ordinateur.c
 EXE=main.out
 
 
