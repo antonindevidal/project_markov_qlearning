@@ -488,8 +488,8 @@ void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
         if (ordi->player->equipe == EQUIPEGAUCHE)
         {
             int distance = sqrt(pow(ball->x - WINDOWW - WALLW, 2) + pow(ball->y - WINDOWH / 2, 2));
-            int dx = WINDOWW - WALLW - ball->x;
-            float a = acos((dx * 1.0) / distance * 1.0);
+            int dx = +WINDOWW + WALLW - ball->x;
+            float a = acos( (float)dx  / (float)distance * 1.0);
             angle = a * 180.0 / M_PI;
         }
         else
@@ -499,7 +499,6 @@ void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
             float a = acos((dx * 1.0) / distance * 1.0);
             angle = a * 180.0 / M_PI;
         }
-
         pushBall(ball, angle, BALL_ACCELERATION);
         break;
     default:

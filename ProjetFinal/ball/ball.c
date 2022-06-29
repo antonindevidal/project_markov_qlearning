@@ -17,7 +17,7 @@ ball_t *creationBall()
 void pushBall(ball_t *b, int angle, int power)
 {
     b->theta = angle;
-    b->v += power;
+    b->v = power;
     if (b->v > MAX_VELOCITY)
         b->v = MAX_VELOCITY;
 }
