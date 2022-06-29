@@ -374,8 +374,8 @@ void saveQTable(char *nom_fichier, float **QTable)
             }
             fprintf(file, "\n");
         }
+        fclose(file);
     }
-    fclose(file);
 }
 
 void chargerQTable(char *nom_fichier, float **Qtable)
@@ -391,8 +391,8 @@ void chargerQTable(char *nom_fichier, float **Qtable)
                 fscanf(file, "%f", &Qtable[i][j]);
             }
         }
+        fclose(file);
     }
-    fclose(file);
 }
 
 
