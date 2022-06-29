@@ -175,7 +175,6 @@ void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
     ordi->QTable[s[n - 1]][a[n - 1]] += XI * (r[n] - ordi->QTable[s[n - 1]][a[n - 1]]);
     for (i = n - 2; i >= 0; i--)
     {
-        printf("%f\n", ordi->QTable[s[i]][a[i]]);
         max = maxQTable(*ordi, i + 1, s);
         ordi->QTable[s[i]][a[i]] += XI * (r[i + 1] + GAMMA * max - ordi->QTable[s[i]][a[i]]);
     }
@@ -248,20 +247,20 @@ int choixAction(ordinateur_t *ordi, int s, float T)
     {
         avecTir = 0;
     }
-    int action = NBACTIONS - avecTir - 1; // Action par défaut
+    int action = NBACTIONS + avecTir - 1; // Action par défaut
     float Z = 0;                          // Somme des énergies
     float E[NBACTIONS-1 + avecTir];           // Energies des actions
-    float alpha;                          // Réel aléatoire dans [0; 1[
-    int cumul = 0;
+    float alpha = 0;                          // Réel aléatoire dans [0; 1[
+    float cumul = 0;
 
     for (int a = 0; a < NBACTIONS -1+ avecTir; a++)
     {
         float g =((ordi->QTable)[s][a])/ T;
         E[a] = exp(g);
-        // Z += E[a];
+        Z += E[a];
     }
-    alpha = rand();
-    for (int a = 0; a < NBACTIONS - avecTir; a++)
+    alpha = (rand()%100)/100.0;
+    for (int a = 0; a < NBACTIONS + avecTir - 1; a++)
     {
         cumul += E[a] / Z;
         if (alpha <= cumul)
@@ -343,8 +342,8 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
                 }
         }
         nbActionPourReset++;
-        evolution(ordi1, s1, a1, r1, NBEPOCH);
-        evolution(ordi2, s2, a2, r2, NBEPOCH);
+        evolution(ordi1, s1, a1, r1, pas);
+        evolution(ordi2, s2, a2, r2, pas);
     }
     printf("fin renforcement");
     saveQTable("nario.don",ordi1->QTable);
