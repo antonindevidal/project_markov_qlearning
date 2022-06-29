@@ -148,10 +148,7 @@ int perception(ball_t ball, player_t player, player_t player2)
             etat = DR31;
         }
     }
-    if (distanceAdversaire(ball, player2) != 1)
-    {
-        etat++;
-    }
+
     return etat;
 }
 
@@ -245,7 +242,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
 }
 
 int choixAction(ordinateur_t *ordi, int s, float T)
-{               // Prend une perception et le monde et renvoie l'action choisie
+{                    // Prend une perception et le monde et renvoie l'action choisie
     int avecTir = 1; // Parcours de actions
     if (s >= NBETATDISTANCE1)
     {
@@ -273,9 +270,9 @@ int choixAction(ordinateur_t *ordi, int s, float T)
             break;
         }
     }
+    //printf("action: %d\n", action);
     return action;
 }
-
 
 // int choixAction(ordinateur_t *ordi, int s, float T)
 // {               // Prend une perception et le monde et renvoie l'action choisie
@@ -291,10 +288,8 @@ int choixAction(ordinateur_t *ordi, int s, float T)
 //     return action;
 // }
 
-
 void initPartie(ordinateur_t *ordi1, ordinateur_t *ordi2, ball_t **ball, ball_t **precball)
 {
-
 
     resetEmplacement(ordi1);
     resetEmplacement(ordi2);
@@ -316,14 +311,12 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-    float T = 0.0001;
-    int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
-    int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
+    float T = 24.0;
+    float T1 = T;
+    int s1[NBEPOCH], a1[NBEPOCH-1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
+    int s2[NBEPOCH], a2[NBEPOCH-1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
-    s1 = (int *)malloc(NBEPOCH * sizeof(int));
-    s2 = (int *)malloc(NBEPOCH * sizeof(int));
-    memset(s1, 0, NBEPOCH);
-    memset(s2, 0, NBEPOCH);
+
 
     player_t prec1, prec2;
     ball_t *ball;
@@ -334,7 +327,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     for (epoque = 0; epoque < MAXEPOCH; epoque++)
     {
-        T = (1 - (epoque * 1.0 / NBEPOCH)) * T + 0.0001;
+        T = (T1 - (epoque * 1.0 / MAXEPOCH)*T) + 0.0001;
         // Reset le monde
         if (isGoal || nbActionPourReset >= 5)
         {
@@ -344,39 +337,40 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             copie(&prec1, ordi1->player);
             copie(&prec2, ordi2->player);
         }
-
         r1[0] = 0;
         r2[0] = 0;
         s1[0] = perception(*ball, *(ordi1->player), *(ordi2->player)); // Etat actuel joueur1
         s2[0] = perception(*ball, *(ordi2->player), *(ordi1->player)); // Etat actuel joueur2
 
         // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
-        a1[0] = choixAction(ordi1, s1[0], T);
-        a2[0] = choixAction(ordi2, s2[0], T);
+        // a1[0] = choixAction(ordi1, s1[0], T);
+        // a2[0] = choixAction(ordi2, s2[0], T);
         // printf("---------%d---------\n",epoque);
 
         for (pas = 1; pas < NBEPOCH; pas++)
         { // printf("\t-----%d-----\n",pas);
             // 1resetEmplacement itération du jeu
+            a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
+            a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
             faireAction(a1[pas - 1], ordi1, ball);
             faireAction(a2[pas - 1], ordi2, ball);
             isGoal = moveBall(ball, &equipeBut);
-
             r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
             r2[pas] = recompense(*precBall, *ball, prec2, *(ordi2->player), isGoal, equipeBut); // Récompense joueur2
             s1[pas] = perception(*ball, *(ordi1->player), *(ordi2->player));                    // Etat actuel joueur1
             s2[pas] = perception(*ball, *(ordi2->player), *(ordi1->player));                    // Etat actuel joueur2
 
             // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
-            a1[pas] = choixAction(ordi1, s1[pas], T);
-            a2[pas] = choixAction(ordi2, s2[pas], T);
+
             // Appliquer l'action choisie au monde
             if (isGoal)
             { // Si l'état atteint est terminal : break => but
-                // printf("\nBUUUUUUUUTTTTTTTT\n");
+                //printf("\nBUUUUUUUUTTTTTTTT\n");
+                pas++;
                 break;
             }
         }
+        pas--;
         nbActionPourReset++;
         evolution(ordi1, s1, a1, r1, pas);
         evolution(ordi2, s2, a2, r2, pas);
@@ -386,8 +380,6 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     saveQTable("valuigi.don", ordi2->QTable);
     free(ball);
     free(precBall);
-    free(s1);
-    free(s2);
 }
 
 void resetEmplacement(ordinateur_t *ordi)

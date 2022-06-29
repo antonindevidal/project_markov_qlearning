@@ -23,8 +23,8 @@ int main(int argc, char **argv)
 		ordi2 = creerOrdi(EQUIPEDROITE);
 		initQTableOrdi(ordi1);
 		initQTableOrdi(ordi2);
-		chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
-		chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
+		//chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
+		//chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
 		renforcement(ordi1, ordi2);
 
 		libererOrdi(ordi1);
