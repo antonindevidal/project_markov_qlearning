@@ -25,11 +25,10 @@ int main(int argc, char **argv)
 		initQTableOrdi(ordi2);
 		renforcement(ordi1, ordi2);
 
-
 		libererOrdi(ordi1);
 		libererOrdi(ordi2);
 		printf("-----------------FIN--------------\n");
-		printf("temps d'exec: %ld secondes",time(NULL) - debut);
+		printf("temps d'exec: %ld secondes \n", time(NULL) - debut);
 		return 0;
 	}
 
@@ -96,6 +95,7 @@ int main(int argc, char **argv)
 	// A REMPLIR
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
 	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
+	SDL_Texture *playerRedSprite = loadTextureFromImage("./resources/sprites/player_red.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
 	/* Boucle du jeu */
@@ -125,19 +125,19 @@ int main(int argc, char **argv)
 						arretEvent = 1;
 						break;
 					case SDLK_z:
-						//movePlayer(player, HAUTD);
+						// movePlayer(player, HAUTD);
 						arretEvent = 1;
 						break;
 					case SDLK_q:
-						//movePlayer(player, GAUCHED);
+						// movePlayer(player, GAUCHED);
 						arretEvent = 1;
 						break;
 					case SDLK_s:
-						//movePlayer(player, BASD);
+						// movePlayer(player, BASD);
 						arretEvent = 1;
 						break;
 					case SDLK_d:
-						//movePlayer(player, DROITD);
+						// movePlayer(player, DROITD);
 						arretEvent = 1;
 						break;
 					default:
@@ -148,7 +148,11 @@ int main(int argc, char **argv)
 					if ((SDL_GetMouseState(&mouseX, &mouseY) &
 						 SDL_BUTTON(SDL_BUTTON_LEFT)))
 					{ // Si c'est un click gauche
-						pushBall(ball, rand() % 360, BALL_ACCELERATION);
+					    int distance = sqrt(pow(mouseX - ball->x, 2) + pow(mouseY - ball->y, 2));
+						int t = ball->x - mouseX;
+						float a = acos((t * 1.0) / distance * 1.0);
+						float angle = a * 180.0 / M_PI;
+						pushBall(ball,angle, BALL_ACCELERATION);
 					}
 					arretEvent = 1;
 					break;
@@ -161,14 +165,13 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
-			int action = choixAction(ordi1, perception(*ball, *(ordi1->player),*(ordi2->player)), 0.5);
+			int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
 			faireAction(action, ordi1, ball);
-			playerBallCollision(ordi1->player,ball);
-			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player),*(ordi1->player)), 0.5);
+			playerBallCollision(ordi1->player, ball);
+			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
 			faireAction(action2, ordi2, ball);
-			playerBallCollision(ordi2->player,ball);
+			playerBallCollision(ordi2->player, ball);
 
-			
 			if (moveBall(ball, &e))
 			{
 				if (e == EQUIPEGAUCHE)
@@ -179,8 +182,8 @@ int main(int argc, char **argv)
 				ball->x = WINDOWW / 2;
 				ball->y = WINDOWH / 2;
 				ball->v = 0;
-				//player->x = WINDOWW / 4;
-				//player->y = WINDOWH / 2;
+				// player->x = WINDOWW / 4;
+				// player->y = WINDOWH / 2;
 				resetEmplacement(ordi1);
 				resetEmplacement(ordi2);
 			}
@@ -194,7 +197,7 @@ int main(int argc, char **argv)
 			afficherTerrain(terrainSpriteSheet, renderer);
 			afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
 			afficherTexture(playerSprite, renderer, ordi2->player->w, ordi2->player->h, ordi2->player->x, ordi2->player->y);
-			afficherTexture(playerSprite, renderer, ordi1->player->w, ordi1->player->h, ordi1->player->x, ordi1->player->y);
+			afficherTexture(playerRedSprite, renderer, ordi1->player->w, ordi1->player->h, ordi1->player->x, ordi1->player->y);
 			afficherScore(score1, score2, font, window, renderer);
 			char t[10];
 			int min = (TIMEGAME - (int)(time(NULL) - debutTimer)) / 60;
@@ -231,7 +234,7 @@ int main(int argc, char **argv)
 					break;
 				default:
 					break;
-			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player),*(ordi1->player)), 0.5);
+					int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
 				}
 			}
 			arretEvent = 0;

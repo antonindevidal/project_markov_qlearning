@@ -9,13 +9,13 @@
 
 #define TIMEGAME 60
 
-#define NBEPOCH 20
+#define NBEPOCH 12 
 #define MAXEPOCH 10000000
 #define XI 0.5
 #define GAMMA 0.5
 
-#define DISTANCE1 60
-#define DISTANCE2 100
+#define DISTANCE1 100
+#define DISTANCE2 120
 
 
 //Direction pour l'orientation du joueur
@@ -44,14 +44,14 @@ DOWN32,LEFT21,LEFT22,LEFT31,LEFT32,RIGHT21,RIGHT22,RIGHT31,RIGHT32,UL21,UL22,UL3
 enum ACTIONS{GAUCHE,BAS,DROIT,HG,HAUT,HD,BG,BD,TIR};
 
 enum REWARDS{
-But=7,
+But=9,
 balleRapprocheBut=2,
 balleEloigneBut=-1,
 balleBeacoupRapprocheBut=3,
 balleEloigneBeaucoupbut=-2,
-seRapprocheDeLaBalle=1,
-sEloigneDeLaBalle=-1,
-rateLeTir=-1};
+seRapprocheDeLaBalle=2,
+sEloigneDeLaBalle=-5,
+rateLeTir=-3};
 
 // enum REWARDS{
 // But=12,
