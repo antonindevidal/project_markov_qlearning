@@ -23,8 +23,8 @@ int main(int argc, char **argv)
 		ordi2 = creerOrdi(EQUIPEDROITE);
 		initQTableOrdi(ordi1);
 		initQTableOrdi(ordi2);
-		//chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
-		//chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
+		chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
+		chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
 		renforcement(ordi1, ordi2);
 
 		libererOrdi(ordi1);
@@ -181,8 +181,8 @@ int main(int argc, char **argv)
 				if (e == EQUIPEDROITE)
 					score2++;
 
-				ball->x = WINDOWW / 2;
-				ball->y = WINDOWH / 2;
+				ball->x = (WINDOWW / 2) + rand()%100-50;
+				ball->y = (WINDOWH / 2) + rand()%100-50;
 				ball->v = 0;
 				// player->x = WINDOWW / 4;
 				// player->y = WINDOWH / 2;

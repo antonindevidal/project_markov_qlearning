@@ -351,8 +351,9 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             // 1resetEmplacement itération du jeu
             a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
             a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
-            faireAction(a1[pas - 1], ordi1, ball);
+            
             faireAction(a2[pas - 1], ordi2, ball);
+            faireAction(a1[pas - 1], ordi1, ball);
             isGoal = moveBall(ball, &equipeBut);
             r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
             r2[pas] = recompense(*precBall, *ball, prec2, *(ordi2->player), isGoal, equipeBut); // Récompense joueur2
@@ -376,7 +377,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     }
     printf("fin renforcement");
     saveQTable("nario.don", ordi1->QTable);
-    saveQTable("valuigi.don", ordi2->QTable);
+    //saveQTable("valuigi.don", ordi2->QTable);
     free(ball);
     free(precBall);
 }

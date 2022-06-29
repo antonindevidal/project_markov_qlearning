@@ -10,10 +10,10 @@
 #define TIMEGAME 60
 
 #define NBEPOCH 12 
-#define MAXEPOCH 10000
+#define MAXEPOCH 1000
 #define XI 0.01
 #define GAMMA 0.8
-#define TEMPERATURE 24
+#define TEMPERATURE 1.5
 
 #define DISTANCE1 60
 #define DISTANCE2 80
@@ -26,7 +26,7 @@ enum EQUIPE{EQUIPEGAUCHE=1,EQUIPEDROITE=-1};
 //int epochActuelle=0;
 
 //#define NBETATS 24
-#define NBETATS 24
+#define NBETATS 48
 
 //enum des états, position par rapport à la balle + distance
 //Exemple: UL3 = UP et LEFT à une distance de 3
@@ -36,21 +36,22 @@ enum ETATS{UP1,DOWN1,LEFT1,RIGHT1,UL1,UR1,DL1,DR1,UP2,UP3,DOWN2,DOWN3,LEFT2,LEFT
 
 // multiplier par 2 le nb d'état pour ajouter si adversaire loin ou proche
 // direction du joueur + la distance du joueur + distance de l'adversaire
-#define NBETATDISTANCE1 8
-enum ETATS{UP11,DOWN11,LEFT11,RIGHT11,UL11,UR11,DL11,DR11,UP21,UP31,DOWN21,DOWN31,
-LEFT21,LEFT31,RIGHT21,RIGHT31,UL21,UL31,UR21,UR31,DL21,DL31,DR21,DR31};
+#define NBETATDISTANCE1 16
+enum ETATS{UP11,UP12,DOWN11,DOWN12,LEFT11,LEFT12,RIGHT11,RIGHT12,UL11,UL12,UR11,UR12,DL11,DL12,DR11,DR12,UP21,UP22,UP31,UP32,DOWN21,DOWN22,DOWN31,
+DOWN32,LEFT21,LEFT22,LEFT31,LEFT32,RIGHT21,RIGHT22,RIGHT31,RIGHT32,UL21,UL22,UL31,UL32,UR21,UR22,UR31,UR32,DL21,DL22,DL31,DL32,DR21,DR22,DR31,DR32};
+
 
 
 #define NBACTIONS 9
 enum ACTIONS{HAUT,BAS,GAUCHE,DROIT,HG,HD,BG,BD,TIR};
 
 enum REWARDS{
-But=9,
+But=6,
 balleRapprocheBut=3,
 balleEloigneBut=-1,
 balleBeacoupRapprocheBut=4,
 balleEloigneBeaucoupbut=-3,
-seRapprocheDeLaBalle=1,
+seRapprocheDeLaBalle=5,
 sEloigneDeLaBalle=-2,
 rateLeTir=-3};
 
