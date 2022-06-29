@@ -175,6 +175,7 @@ void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
     ordi->QTable[s[n - 1]][a[n - 1]] += XI * (r[n] - ordi->QTable[s[n - 1]][a[n - 1]]);
     for (i = n - 2; i >= 0; i--)
     {
+        printf("%f\n", ordi->QTable[s[i]][a[i]]);
         max = maxQTable(*ordi, i + 1, s);
         ordi->QTable[s[i]][a[i]] += XI * (r[i + 1] + GAMMA * max - ordi->QTable[s[i]][a[i]]);
     }
