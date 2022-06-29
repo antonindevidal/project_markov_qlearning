@@ -311,23 +311,11 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-<<<<<<< HEAD
-    float T = 24.0;
-    float T1 = T;
+    float T = TEMPERATURE;
     int s1[NBEPOCH], a1[NBEPOCH-1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
     int s2[NBEPOCH], a2[NBEPOCH-1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
 
-=======
-    float T = TEMPERATURE;
-    int s1[NBEPOCH], a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
-    int s2[NBEPOCH], a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
-
-    //s1 = (int *)malloc(NBEPOCH * sizeof(int));
-    //s2 = (int *)malloc(NBEPOCH * sizeof(int));
-    //memset(s1, 0, NBEPOCH);
-    //memset(s2, 0, NBEPOCH);
->>>>>>> c4cd9b156f376eadd6427f56bc9a01296c00fef8
 
     player_t prec1, prec2;
     ball_t *ball;
@@ -338,12 +326,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     for (epoque = 0; epoque < MAXEPOCH; epoque++)
     {
-<<<<<<< HEAD
-        T = (T1 - (epoque * 1.0 / MAXEPOCH)*T) + 0.0001;
-=======
         T = (TEMPERATURE - (epoque * 1.0 / MAXEPOCH)*TEMPERATURE) + 0.0001;
-        printf("%f\n",T);
->>>>>>> c4cd9b156f376eadd6427f56bc9a01296c00fef8
         // Reset le monde
         if (isGoal || nbActionPourReset >= 5)
         {
@@ -396,11 +379,6 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     saveQTable("valuigi.don", ordi2->QTable);
     free(ball);
     free(precBall);
-<<<<<<< HEAD
-=======
-    //free(s1);
-    //free(s2);
->>>>>>> c4cd9b156f376eadd6427f56bc9a01296c00fef8
 }
 
 void resetEmplacement(ordinateur_t *ordi)
