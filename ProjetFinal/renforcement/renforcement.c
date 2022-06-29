@@ -155,24 +155,28 @@ int perception(ball_t ball, player_t player, player_t player2)
     return etat;
 }
 
+float maxQTable(ordinateur_t ordi, int indEtat, int *s) {
+    float maxi;
+    int r, j;
+    r = rand() % NBACTIONS;
+    maxi = ordi.QTable[s[indEtat]][r];
+    for (j=0; j<NBACTIONS; j++) {
+        if ((j != r) && (maxi < ordi.QTable[s[indEtat]][j])) {
+            maxi = ordi.QTable[s[indEtat]][j];
+        }
+    }
+    return maxi;
+}
+
 void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
 { // Prend le monde et une action et modifie l'état du monde
-    int  max=0;
-    int i, j;
+    float  max;
+    int i;
     ordi->QTable[s[n - 1]][a[n - 1]] += XI * (r[n] - ordi->QTable[s[n - 1]][a[n - 1]]);
     for (i = n - 2; i >= 0; i--)
     {
-        //printf("i: %d\n", i);
-        max = ordi->QTable[s[i + 1]][0];
-        for (j = 1; j < NBACTIONS; j++)
-        {
-            if (max < ordi->QTable[s[i + 1]][j])
-            {
-                max = ordi->QTable[s[i + 1]][j];
-            }
-        }
+        max = maxQTable(*ordi, i + 1, s);
         ordi->QTable[s[i]][a[i]] += XI * (r[i + 1] + GAMMA * max - ordi->QTable[s[i]][a[i]]);
-
     }
 }
 
