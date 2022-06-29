@@ -191,7 +191,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     // La balle a bougé
     else if (precBall.x != ball.x)
     {
-        ecart = sqrt(pow(precBall.x + ball.x, 2) + pow(precBall.y + ball.y, 2));
+        ecart = sqrt(pow(precBall.x - ball.x, 2) + pow(precBall.y - ball.y, 2));
         if (ecart > 100)
         {
             if (precBall.x < ball.x)
@@ -285,7 +285,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-    float  T =0.5;
+    float  T =1.5;
     int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
     int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
@@ -322,7 +322,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
         
         for (pas = 1; pas < NBEPOCH; pas++)
         {   //printf("\t-----%d-----\n",pas);
-            // 1 itération du jeu
+            // 1resetEmplacement itération du jeu
             faireAction(a1[pas-1], ordi1, ball);
             faireAction(a2[pas-1], ordi2, ball);
             isGoal = moveBall(ball, &equipeBut);
@@ -356,6 +356,17 @@ void resetEmplacement(ordinateur_t *ordi)
     rx--; // rx = -1, 0 ou 1
     int ry = rand() % 3;
     ry--;
+    if (EQUIPEGAUCHE == ordi->player->equipe)
+        {
+            ordi->player->x = WINDOWW / 4;
+            ordi->player->y = WINDOWH / 2;
+        }
+        else
+        {
+            ordi->player->x = 3 * (WINDOWW / 4);
+            ordi->player->y = WINDOWH / 2;
+        }
+
     ordi->player->x = ordi->player->x + 20 * rx;
     ordi->player->y = ordi->player->y + 20 * ry;
 }

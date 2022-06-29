@@ -41,16 +41,26 @@ DOWN32,LEFT21,LEFT22,LEFT31,LEFT32,RIGHT21,RIGHT22,RIGHT31,RIGHT32,UL21,UL22,UL3
 
 
 #define NBACTIONS 9
-enum ACTIONS{HAUT,GAUCHE,BAS,DROIT,HG,HD,BG,BD,TIR};
+enum ACTIONS{GAUCHE,BAS,DROIT,HG,HAUT,HD,BG,BD,TIR};
 
 enum REWARDS{
-But=12,
-balleRapprocheBut=5,
-balleEloigneBut=-6,
-balleBeacoupRapprocheBut=9,
-balleEloigneBeaucoupbut=-8,
-seRapprocheDeLaBalle=3,
-sEloigneDeLaBalle=-4,
-rateLeTir=-3};
+But=5,
+balleRapprocheBut=,
+balleEloigneBut=-0,
+balleBeacoupRapprocheBut=0,
+balleEloigneBeaucoupbut=-0,
+seRapprocheDeLaBalle=2,
+sEloigneDeLaBalle=-1,
+rateLeTir=-0};
+
+// enum REWARDS{
+// But=12,
+// balleRapprocheBut=5,
+// balleEloigneBut=-6,
+// balleBeacoupRapprocheBut=9,
+// balleEloigneBeaucoupbut=-8,
+// seRapprocheDeLaBalle=3,
+// sEloigneDeLaBalle=-4,
+// rateLeTir=-3};
 
 #endif

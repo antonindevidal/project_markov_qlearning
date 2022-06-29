@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 		libererOrdi(ordi1);
 		libererOrdi(ordi2);
 		printf("-----------------FIN--------------\n");
+		return 0;
 	}
 
 	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
@@ -36,8 +37,10 @@ int main(int argc, char **argv)
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
 
-	ordinateur_t *ordi1 = creerOrdi(EQUIPEGAUCHE);
+	ordinateur_t *ordi1 = creerOrdi(EQUIPEDROITE);
 	chargerQTable("valuigi.don", ordi1->QTable);
+	ordinateur_t *ordi2 = creerOrdi(EQUIPEGAUCHE);
+	chargerQTable("nario.don", ordi2->QTable);
 	SDL_bool programON = SDL_TRUE;
 	SDL_Event event;
 
@@ -120,19 +123,19 @@ int main(int argc, char **argv)
 						arretEvent = 1;
 						break;
 					case SDLK_z:
-						movePlayer(player, HAUTD);
+						//movePlayer(player, HAUTD);
 						arretEvent = 1;
 						break;
 					case SDLK_q:
-						movePlayer(player, GAUCHED);
+						//movePlayer(player, GAUCHED);
 						arretEvent = 1;
 						break;
 					case SDLK_s:
-						movePlayer(player, BASD);
+						//movePlayer(player, BASD);
 						arretEvent = 1;
 						break;
 					case SDLK_d:
-						movePlayer(player, DROITD);
+						//movePlayer(player, DROITD);
 						arretEvent = 1;
 						break;
 					default:
@@ -156,8 +159,14 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
-			int action = choixAction(ordi1, perception(*ball, *(ordi1->player),*player), 0.5);
+			int action = choixAction(ordi1, perception(*ball, *(ordi1->player),*(ordi2->player)), 0.5);
 			faireAction(action, ordi1, ball);
+			playerBallCollision(ordi1->player,ball);
+			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player),*(ordi1->player)), 0.5);
+			faireAction(action2, ordi2, ball);
+			playerBallCollision(ordi2->player,ball);
+
+			
 			if (moveBall(ball, &e))
 			{
 				if (e == EQUIPEGAUCHE)
@@ -168,10 +177,10 @@ int main(int argc, char **argv)
 				ball->x = WINDOWW / 2;
 				ball->y = WINDOWH / 2;
 				ball->v = 0;
-				player->x = WINDOWW / 4;
-				player->y = WINDOWH / 2;
+				// player->x = WINDOWW / 4;
+				// player->y = WINDOWH / 2;
 			}
-			playerBallCollision(player, ball);
+			// playerBallCollision(player, ball);
 			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
 			{
 				etat = 2;
@@ -180,7 +189,7 @@ int main(int argc, char **argv)
 			/* Draw frame */
 			afficherTerrain(terrainSpriteSheet, renderer);
 			afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
-			afficherTexture(playerSprite, renderer, player->w, player->h, player->x, player->y);
+			afficherTexture(playerSprite, renderer, ordi2->player->w, ordi2->player->h, ordi2->player->x, ordi2->player->y);
 			afficherTexture(playerSprite, renderer, ordi1->player->w, ordi1->player->h, ordi1->player->x, ordi1->player->y);
 			afficherScore(score1, score2, font, window, renderer);
 			char t[10];
