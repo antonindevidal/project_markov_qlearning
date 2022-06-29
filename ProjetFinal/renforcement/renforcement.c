@@ -229,14 +229,14 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
     }
     else
     {
-        ecartPrec = sqrt(pow(precBall.x + precPlayer.x, 2) + pow(precBall.y + precPlayer.y, 2));
-        ecartNouv = sqrt(pow(ball.x + player.x, 2) + pow(ball.y + player.y, 2));
+        ecartPrec = sqrt(pow(precBall.x - precPlayer.x, 2) + pow(precBall.y - precPlayer.y, 2));
+        ecartNouv = sqrt(pow(ball.x - player.x, 2) + pow(ball.y - player.y, 2));
         if (ecartNouv < ecartPrec)
             return seRapprocheDeLaBalle;
         else if (ecartNouv > ecartPrec)
             return sEloigneDeLaBalle;
         else
-            return 0;
+            return rateLeTir;
     }
 }
 
@@ -285,7 +285,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-    float  T =1.5;
+    float  T =24.0;
     int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
     int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
@@ -300,6 +300,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     for (epoque = 0; epoque < MAXEPOCH; epoque++)
     {
+        T =(1-(epoque*1.0/NBEPOCH) )* T + 0.01;
         // Reset le monde
         if (isGoal || nbActionPourReset >= 5)
         {
@@ -337,7 +338,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             a2[pas] = choixAction(ordi2, s2[pas], T);
             // Appliquer l'action choisie au monde
             if (isGoal){ // Si l'état atteint est terminal : break => but
-                printf("\nBUUUUUUUUTTTTTTTT\n");
+                //printf("\nBUUUUUUUUTTTTTTTT\n");
                 break;
                 }
         }

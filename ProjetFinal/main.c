@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 
 	if (argc == 2)
 	{
+		int debut = time(NULL);
 		ordinateur_t *ordi1, *ordi2;
 		ordi1 = creerOrdi(EQUIPEGAUCHE);
 		ordi2 = creerOrdi(EQUIPEDROITE);
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
 		libererOrdi(ordi1);
 		libererOrdi(ordi2);
 		printf("-----------------FIN--------------\n");
+		printf("temps d'exec: %ld secondes",time(NULL) - debut);
 		return 0;
 	}
 
@@ -177,8 +179,10 @@ int main(int argc, char **argv)
 				ball->x = WINDOWW / 2;
 				ball->y = WINDOWH / 2;
 				ball->v = 0;
-				// player->x = WINDOWW / 4;
-				// player->y = WINDOWH / 2;
+				//player->x = WINDOWW / 4;
+				//player->y = WINDOWH / 2;
+				resetEmplacement(ordi1);
+				resetEmplacement(ordi2);
 			}
 			// playerBallCollision(player, ball);
 			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
@@ -227,6 +231,7 @@ int main(int argc, char **argv)
 					break;
 				default:
 					break;
+			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player),*(ordi1->player)), 0.5);
 				}
 			}
 			arretEvent = 0;

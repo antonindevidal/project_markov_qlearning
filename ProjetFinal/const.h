@@ -10,7 +10,7 @@
 #define TIMEGAME 60
 
 #define NBEPOCH 20
-#define MAXEPOCH 1000000
+#define MAXEPOCH 10000000
 #define XI 0.5
 #define GAMMA 0.5
 
@@ -44,14 +44,14 @@ DOWN32,LEFT21,LEFT22,LEFT31,LEFT32,RIGHT21,RIGHT22,RIGHT31,RIGHT32,UL21,UL22,UL3
 enum ACTIONS{GAUCHE,BAS,DROIT,HG,HAUT,HD,BG,BD,TIR};
 
 enum REWARDS{
-But=5,
-balleRapprocheBut=1,
-balleEloigneBut=-0,
-balleBeacoupRapprocheBut=0,
-balleEloigneBeaucoupbut=-0,
-seRapprocheDeLaBalle=2,
+But=7,
+balleRapprocheBut=2,
+balleEloigneBut=-1,
+balleBeacoupRapprocheBut=3,
+balleEloigneBeaucoupbut=-2,
+seRapprocheDeLaBalle=1,
 sEloigneDeLaBalle=-1,
-rateLeTir=-0};
+rateLeTir=-1};
 
 // enum REWARDS{
 // But=12,
