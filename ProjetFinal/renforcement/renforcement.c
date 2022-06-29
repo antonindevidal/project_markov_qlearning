@@ -245,7 +245,7 @@ int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t playe
 }
 
 int choixAction(ordinateur_t *ordi, int s, float T)
-{                    // Prend une perception et le monde et renvoie l'action choisie
+{               // Prend une perception et le monde et renvoie l'action choisie
     int avecTir = 1; // Parcours de actions
     if (s >= NBETATDISTANCE1)
     {
@@ -253,11 +253,11 @@ int choixAction(ordinateur_t *ordi, int s, float T)
     }
     int action = NBACTIONS + avecTir - 2; // Action par défaut
     float Z = 0;                          // Somme des énergies
-    float E[NBACTIONS - 2 + avecTir];     // Energies des actions
+    float E[NBACTIONS - 1 + avecTir];     // Energies des actions
     float alpha = 0;                      // Réel aléatoire dans [0; 1[
     float cumul = 0;
 
-    for (int a = 0; a < NBACTIONS - 2 + avecTir; a++)
+    for (int a = 0; a < NBACTIONS - 1 + avecTir; a++)
     {
         float g = ((ordi->QTable)[s][a]) / T;
         E[a] = exp(g);
@@ -276,11 +276,26 @@ int choixAction(ordinateur_t *ordi, int s, float T)
     return action;
 }
 
+
+// int choixAction(ordinateur_t *ordi, int s, float T)
+// {               // Prend une perception et le monde et renvoie l'action choisie
+//     float max=-2;
+//     int action=0;
+//     for(int i=0;i<9;i++){
+//         if(ordi->QTable[s][i]>max){
+//             max=ordi->QTable[s][i];
+//             action=i;
+//         }
+//     }
+
+//     return action;
+// }
+
+
 void initPartie(ordinateur_t *ordi1, ordinateur_t *ordi2, ball_t **ball, ball_t **precball)
 {
-    *ball = creationBall();
 
-    *precball = creationBall();
+
     resetEmplacement(ordi1);
     resetEmplacement(ordi2);
 
@@ -291,6 +306,9 @@ void initPartie(ordinateur_t *ordi1, ordinateur_t *ordi2, ball_t **ball, ball_t 
 
     (*ball)->x += 200 * rx;
     (*ball)->y += 200 * ry;
+
+    (*precball)->x += 200 * rx;
+    (*precball)->y += 200 * ry;
 }
 
 void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
@@ -298,7 +316,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
-    float T = 12.0;
+    float T = 0.0001;
     int *s1, a1[NBEPOCH], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
     int *s2, a2[NBEPOCH], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
@@ -311,9 +329,12 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     ball_t *ball;
     ball_t *precBall;
 
+    ball = creationBall();
+    precBall = creationBall();
+
     for (epoque = 0; epoque < MAXEPOCH; epoque++)
     {
-        T = (1 - (epoque * 1.0 / NBEPOCH)) * T + 0.5;
+        T = (1 - (epoque * 1.0 / NBEPOCH)) * T + 0.0001;
         // Reset le monde
         if (isGoal || nbActionPourReset >= 5)
         {
@@ -363,6 +384,10 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     printf("fin renforcement");
     saveQTable("nario.don", ordi1->QTable);
     saveQTable("valuigi.don", ordi2->QTable);
+    free(ball);
+    free(precBall);
+    free(s1);
+    free(s2);
 }
 
 void resetEmplacement(ordinateur_t *ordi)
