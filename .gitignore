@@ -11,7 +11,8 @@
 executable
 config.txt
 *.odt#
-*.don
+nario.don
+valuigi.don
 
 # Linker output
 *.ilk

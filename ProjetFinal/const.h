@@ -13,9 +13,10 @@
 #define MAXEPOCH 10000
 #define XI 0.01
 #define GAMMA 0.8
+#define TEMPERATURE 24
 
-#define DISTANCE1 70
-#define DISTANCE2 90
+#define DISTANCE1 60
+#define DISTANCE2 80
 
 
 //Direction pour l'orientation du joueur
