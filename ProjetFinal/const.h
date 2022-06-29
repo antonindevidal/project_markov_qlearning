@@ -45,7 +45,7 @@ enum ACTIONS{GAUCHE,BAS,DROIT,HG,HAUT,HD,BG,BD,TIR};
 
 enum REWARDS{
 But=5,
-balleRapprocheBut=,
+balleRapprocheBut=1,
 balleEloigneBut=-0,
 balleBeacoupRapprocheBut=0,
 balleEloigneBeaucoupbut=-0,
