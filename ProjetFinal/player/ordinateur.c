@@ -1,13 +1,15 @@
 #include "ordinateur.h"
 
 void initQTableOrdi(ordinateur_t *ordi)
-{
+{ //On initialise tout avec des valeurs aléatoires dans {-0.1, 0.0, 0.1}
     int i, j;
+    float r;
     for (i = 0; i < NBETATS; i++)
     {
         for (j = 0; j < NBACTIONS; j++)
         {
-            ordi->QTable[i][j] = 0;
+            r = (rand() % 3 - 1)/10.0;
+            ordi->QTable[i][j] = r;
         }
     }
 }

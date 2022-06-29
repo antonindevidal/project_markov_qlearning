@@ -11,6 +11,7 @@
 executable
 config.txt
 *.odt#
+*.don
 
 # Linker output
 *.ilk
