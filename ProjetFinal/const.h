@@ -7,7 +7,7 @@
 #define WALLH 8
 #define GOALSIZE 300
 
-#define TIMEGAME 15
+#define TIMEGAME 60
 
 #define NBEPOCH 20
 #define MAXEPOCH 1000000

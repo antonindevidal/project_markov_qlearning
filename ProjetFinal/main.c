@@ -11,23 +11,38 @@
 
 int main(int argc, char **argv)
 {
-	srand(time(0));
+	srand(time(NULL));
 	(void)argc;
 	(void)argv;
+
+	if (argc == 2)
+	{
+		ordinateur_t *ordi1, *ordi2;
+		ordi1 = creerOrdi(EQUIPEGAUCHE);
+		ordi2 = creerOrdi(EQUIPEDROITE);
+		initQTableOrdi(ordi1);
+		initQTableOrdi(ordi2);
+		renforcement(ordi1, ordi2);
+
+
+		libererOrdi(ordi1);
+		libererOrdi(ordi2);
+		printf("-----------------FIN--------------\n");
+	}
+
 	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
 	int debutTimer = 0;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
 
-	ordinateur_t *ordi1=creerOrdi(EQUIPEGAUCHE);
-	chargerQTable("vraivaluigi.don",ordi1->QTable);
+	ordinateur_t *ordi1 = creerOrdi(EQUIPEGAUCHE);
+	chargerQTable("valuigi.don", ordi1->QTable);
 	SDL_bool programON = SDL_TRUE;
 	SDL_Event event;
 
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
-
 
 	SDL_DisplayMode screen;
 
@@ -141,8 +156,8 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
-			int action = choixAction(ordi1,perception(*ball,*player,*(ordi1->player)),0.001);
-			faireAction(action,ordi1,ball);
+			int action = choixAction(ordi1, perception(*ball, *(ordi1->player),*player), 0.5);
+			faireAction(action, ordi1, ball);
 			if (moveBall(ball, &e))
 			{
 				if (e == EQUIPEGAUCHE)
@@ -215,7 +230,7 @@ int main(int argc, char **argv)
 			}
 			break;
 		case 2: // Etat: Fin
-			ecranFin(window,font,renderer,event,&score1,&score2,player,ball,&debutTimer,&etat,&programON);
+			ecranFin(window, font, renderer, event, &score1, &score2, player, ball, &debutTimer, &etat, &programON);
 			break;
 		default:
 			break;
@@ -242,7 +257,7 @@ int main(int argc, char **argv)
 // 	//afficherQTable(ordi1);
 // 	//afficherQTable(ordi2);
 // 	renforcement(ordi1,ordi2);
-	
+
 // 	// float **tab;
 // 	// tab = malloc(3 * sizeof(float *));
 // 	// tab[0] = malloc(2 * sizeof(float));
