@@ -9,11 +9,11 @@
 
 #define TIMEGAME 60
 
-#define NBEPOCH 12 
-#define MAXEPOCH 1000
-#define XI 0.01
+#define NBEPOCH 12
+#define MAXEPOCH 100000
+#define XI 0.1
 #define GAMMA 0.8
-#define TEMPERATURE 1.5
+#define TEMPERATURE 24
 
 #define DISTANCE1 60
 #define DISTANCE2 80
