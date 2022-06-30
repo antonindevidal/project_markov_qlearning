@@ -4,20 +4,48 @@
 #include "ball/ball.h"
 #include "menus.h"
 #include "player/player.h"
+
 #include "terrain/terrain.h"
 #include "screens/endScreen.h"
+#include "renforcement/renforcement.h"
 
 int main(int argc, char **argv)
 {
-	srand(time(0));
+	srand(time(NULL));
 	(void)argc;
 	(void)argv;
+
+	if (argc == 2)
+	{
+		int debut = time(NULL);
+		ordinateur_t *ordi1, *ordi2;
+		ordi1 = creerOrdi(EQUIPEGAUCHE);
+		ordi2 = creerOrdi(EQUIPEDROITE);
+		initQTableOrdi(ordi1);
+		initQTableOrdi(ordi2);
+		// chargerQTable("nario.don", ordi1->QTable);
+		// chargerQTable("valuigi.don", ordi2->QTable);
+		// chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
+		// chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
+		renforcement(ordi1, ordi2);
+
+		libererOrdi(ordi1);
+		libererOrdi(ordi2);
+		printf("-----------------FIN--------------\n");
+		printf("temps d'exec: %ld secondes \n", time(NULL) - debut);
+		return 0;
+	}
+
 	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
 	int debutTimer = 0;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
 
+	ordinateur_t *ordi1 = creerOrdi(EQUIPEGAUCHE);
+	chargerQTable("nario.don", ordi1->QTable);
+	ordinateur_t *ordi2 = creerOrdi(EQUIPEDROITE);
+	chargerQTable("valuigi.don", ordi2->QTable);
 	SDL_bool programON = SDL_TRUE;
 	SDL_Event event;
 
@@ -25,6 +53,10 @@ int main(int argc, char **argv)
 	SDL_Renderer *renderer = NULL;
 
 	SDL_DisplayMode screen;
+
+	/* Initialisation de la SDL  + gestion de l'échec possible */
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
+		endSDL(0, "ERROR SDL INIT", window, renderer);
 
 	ball_t *ball = creationBall();
 	if (ball == NULL)
@@ -36,10 +68,6 @@ int main(int argc, char **argv)
 	{
 		endSDL(0, "ERROR CREATION PLAYER", window, renderer);
 	}
-
-	/* Initialisation de la SDL  + gestion de l'échec possible */
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		endSDL(0, "ERROR SDL INIT", window, renderer);
 
 	SDL_GetCurrentDisplayMode(0, &screen);
 
@@ -67,16 +95,24 @@ int main(int argc, char **argv)
 	if (font == NULL)
 		endSDL(0, "Erreur chargement Font", window, renderer);
 
+	/* Musique */
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	Mix_Music *generique = Mix_LoadMUS("./resources/generique.mp3"); // Chargement de la musique
+	Mix_Music *jeuMusique = Mix_LoadMUS("./resources/jeu.mp3");
+
 	/* Création des textures */
-	// A REMPLIR
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
-	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
+	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/playerViolet.png", window, renderer);
+	SDL_Texture *playerRedSprite = loadTextureFromImage("./resources/sprites/player_red.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
+
 	/* Boucle du jeu */
+	Mix_PlayMusic(generique, 0); // Indice = priorité file
+	// Mix_PauseMusic();
+	// Mix_ResumeMusic();
 	while (programON)
 	{ // Boucle événementielle du programme
-
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
 
@@ -100,19 +136,19 @@ int main(int argc, char **argv)
 						arretEvent = 1;
 						break;
 					case SDLK_z:
-						movePlayer(player, HAUTD);
+						// movePlayer(player, HAUTD);
 						arretEvent = 1;
 						break;
 					case SDLK_q:
-						movePlayer(player, GAUCHED);
+						// movePlayer(player, GAUCHED);
 						arretEvent = 1;
 						break;
 					case SDLK_s:
-						movePlayer(player, BASD);
+						// movePlayer(player, BASD);
 						arretEvent = 1;
 						break;
 					case SDLK_d:
-						movePlayer(player, DROITD);
+						// movePlayer(player, DROITD);
 						arretEvent = 1;
 						break;
 					default:
@@ -123,7 +159,11 @@ int main(int argc, char **argv)
 					if ((SDL_GetMouseState(&mouseX, &mouseY) &
 						 SDL_BUTTON(SDL_BUTTON_LEFT)))
 					{ // Si c'est un click gauche
-						pushBall(ball, rand() % 360, BALL_ACCELERATION);
+						int distance = sqrt(pow(mouseX - ball->x, 2) + pow(mouseY - ball->y, 2));
+						int t = ball->x - mouseX;
+						float a = acos((t * 1.0) / distance * 1.0);
+						float angle = a * 180.0 / M_PI;
+						pushBall(ball, angle, BALL_ACCELERATION);
 					}
 					arretEvent = 1;
 					break;
@@ -136,6 +176,25 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
+			if (rand() % 2)
+			{
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
+				faireAction(action, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
+				faireAction(action2, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+			}
+			else
+			{
+				int action = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
+				faireAction(action, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+				int action2 = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
+				faireAction(action2, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+			}
+
 			if (moveBall(ball, &e))
 			{
 				if (e == EQUIPEGAUCHE)
@@ -143,22 +202,26 @@ int main(int argc, char **argv)
 				if (e == EQUIPEDROITE)
 					score2++;
 
-				ball->x = WINDOWW / 2;
-				ball->y = WINDOWH / 2;
+				ball->x = (WINDOWW / 2) + rand() % 100 - 50;
+				ball->y = (WINDOWH / 2) + rand() % 100 - 50;
 				ball->v = 0;
-				player->x = WINDOWW / 4;
-				player->y = WINDOWH / 2;
+				// player->x = WINDOWW / 4;
+				// player->y = WINDOWH / 2;
+				resetEmplacement(ordi1);
+				resetEmplacement(ordi2);
 			}
-			playerBallCollision(player, ball);
+			// playerBallCollision(player, ball);
 			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
 			{
 				etat = 2;
+				Mix_PauseMusic();
 			}
 
 			/* Draw frame */
 			afficherTerrain(terrainSpriteSheet, renderer);
 			afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
-			afficherTexture(playerSprite, renderer, player->w, player->h, player->x, player->y);
+			afficherTexture(playerSprite, renderer, ordi2->player->w, ordi2->player->h, ordi2->player->x, ordi2->player->y);
+			afficherTexture(playerRedSprite, renderer, ordi1->player->w, ordi1->player->h, ordi1->player->x, ordi1->player->y);
 			afficherScore(score1, score2, font, window, renderer);
 			char t[10];
 			int min = (TIMEGAME - (int)(time(NULL) - debutTimer)) / 60;
@@ -188,6 +251,7 @@ int main(int argc, char **argv)
 						arretEvent = 1;
 						etat = 0;
 						debutTimer = time(NULL);
+						Mix_PlayMusic(jeuMusique, 1);
 						break;
 					default:
 						break;
@@ -195,6 +259,7 @@ int main(int argc, char **argv)
 					break;
 				default:
 					break;
+					int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
 				}
 			}
 			arretEvent = 0;
@@ -207,7 +272,7 @@ int main(int argc, char **argv)
 			}
 			break;
 		case 2: // Etat: Fin
-			ecranFin(window,font,renderer,event,&score1,&score2,player,ball,&debutTimer,&etat,&programON);
+			ecranFin(window, font, renderer, event, &score1, &score2, player, ball, &debutTimer, &etat, &programON, jeuMusique);
 			break;
 		default:
 			break;
@@ -217,9 +282,47 @@ int main(int argc, char **argv)
 	}
 	TTF_CloseFont(font);
 	endSDL(1, "Normal ending", window, renderer);
+	SDL_DestroyTexture(ballSprite);
+	SDL_DestroyTexture(playerSprite);
+	SDL_DestroyTexture(playerRedSprite);
+	SDL_DestroyTexture(terrainSpriteSheet);
+	SDL_DestroyTexture(mainTitle);
+	Mix_FreeMusic(jeuMusique);
+	Mix_FreeMusic(generique);
 	TTF_Quit();
 	IMG_Quit();
+	SDL_AudioQuit();
 	SDL_Quit();
 	return EXIT_SUCCESS;
 }
 
+// // main renforcement
+// int main(int argc, char **argv)
+// {
+// 	ordinateur_t *ordi1,*ordi2;
+// 	ordi1=creerOrdi(EQUIPEGAUCHE);
+// 	ordi2=creerOrdi(EQUIPEDROITE);
+// 	initQTableOrdi(ordi1);
+// 	initQTableOrdi(ordi2);
+// 	//afficherQTable(ordi1);
+// 	//afficherQTable(ordi2);
+// 	renforcement(ordi1,ordi2);
+
+// 	// float **tab;
+// 	// tab = malloc(3 * sizeof(float *));
+// 	// tab[0] = malloc(2 * sizeof(float));
+// 	// tab[1] = malloc(2 * sizeof(float));
+// 	// tab[2] = malloc(2 * sizeof(float));
+// 	// tab[0][0] = 5;
+// 	// tab[1][0] = 5;
+// 	// tab[2][0] = 5;
+// 	// tab[0][1] = 5;
+// 	// tab[1][1] = 5;
+// 	// tab[2][1] = 5;
+
+// 	// afficherQTable(tab, 3, 2);
+// 	libererOrdi(ordi1);
+// 	libererOrdi(ordi2);
+// 	printf("-----------------FIN--------------\n");
+// 	return 0;
+// }

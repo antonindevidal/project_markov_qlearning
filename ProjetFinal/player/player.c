@@ -5,9 +5,20 @@ player_t *createPlayer(enum EQUIPE equipe)
     player_t *p = malloc(sizeof(player_t));
     if (p != NULL)
     {
-        p->x = WINDOWW / 4;
-        p->y = WINDOWH / 2;
-        p->dir = HAUTD;
+        if (EQUIPEGAUCHE == equipe)
+        {
+            p->x = WINDOWW / 4;
+            p->y = WINDOWH / 2;
+            p->dir = HAUTD;
+        }
+        else
+        {
+            p->x = 3 * (WINDOWW / 4);
+            p->y = WINDOWH / 2;
+            p->dir = BASD;
+        }
+
+        
         p->w = PLAYERWIDTH;
         p->h = PLAYERHEIGHT;
         p->equipe = equipe;
@@ -23,12 +34,12 @@ void movePlayer(player_t *p, enum DIRECTION dir)
 
     if (p->x < WALLW + PLAYERWIDTH / 2)
         p->x = WALLW + PLAYERWIDTH / 2;
-    if (p->x > WINDOWW - WALLW - PLAYERWIDTH /2)
-        p->x = WINDOWW - WALLW - PLAYERWIDTH /2;
-    if (p->y > WINDOWH - PLAYERHEIGHT/2)
-        p->y = WINDOWH - PLAYERHEIGHT/2 ;
-    if (p->y < PLAYERHEIGHT/2)
-        p->y =  PLAYERHEIGHT/2;
+    if (p->x > WINDOWW - WALLW - PLAYERWIDTH / 2)
+        p->x = WINDOWW - WALLW - PLAYERWIDTH / 2;
+    if (p->y > WINDOWH - PLAYERHEIGHT / 2)
+        p->y = WINDOWH - PLAYERHEIGHT / 2;
+    if (p->y < PLAYERHEIGHT / 2)
+        p->y = PLAYERHEIGHT / 2;
 }
 
 void playerBallCollision(player_t *p, ball_t *b)
@@ -45,6 +56,6 @@ void playerBallCollision(player_t *p, ball_t *b)
         {
             angle = -1 * angle;
         }
-        pushBall(b, angle,5);
+        pushBall(b, angle, 5);
     }
 }

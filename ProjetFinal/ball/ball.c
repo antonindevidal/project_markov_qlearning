@@ -17,7 +17,7 @@ ball_t *creationBall()
 void pushBall(ball_t *b, int angle, int power)
 {
     b->theta = angle;
-    b->v += power;
+    b->v = power;
     if (b->v > MAX_VELOCITY)
         b->v = MAX_VELOCITY;
 }
@@ -41,7 +41,7 @@ int collisionBall(ball_t *b, enum EQUIPE *e)
     if (b->x > WINDOWW - WALLW)
     {
         b->theta = 180 - b->theta;
-        b->x = WINDOWW - WALLW;
+        b->x = WINDOWW - WALLW -5;
         if (b->y > WINDOWH / 2 - GOALSIZE / 2 && b->y < WINDOWH - GOALSIZE / 2)
         {
             but = 1;
@@ -51,7 +51,7 @@ int collisionBall(ball_t *b, enum EQUIPE *e)
     else if (b->x < WALLW)
     {
         b->theta = 180 - b->theta;
-        b->x = WALLW;
+        b->x = WALLW +5;
         if (b->y > WINDOWH / 2 - GOALSIZE / 2 && b->y < WINDOWH - GOALSIZE / 2)
         {
             but = 1;
@@ -61,12 +61,12 @@ int collisionBall(ball_t *b, enum EQUIPE *e)
     else if (b->y < 0)
     {
         b->theta = -b->theta;
-        b->y = 0;
+        b->y = 0 +5;
     }
     else if (b->y > WINDOWH)
     {
         b->theta = -b->theta;
-        b->y = WINDOWH;
+        b->y = WINDOWH -5;
     }
     return but;
 }
