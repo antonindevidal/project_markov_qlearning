@@ -9,15 +9,9 @@
 
 #define TIMEGAME 60
 
-<<<<<<< HEAD
 #define NBEPOCH 12 
 #define MAXEPOCH 200
 #define XI 0.01
-=======
-#define NBEPOCH 12
-#define MAXEPOCH 100000
-#define XI 0.1
->>>>>>> 494a6a5dcafd0ea25c2534342af0ced664db17da
 #define GAMMA 0.8
 #define TEMPERATURE 24
 

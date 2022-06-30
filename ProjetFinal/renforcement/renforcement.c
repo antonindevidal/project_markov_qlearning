@@ -349,10 +349,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             // 1resetEmplacement itération du jeu
             a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
             a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
-<<<<<<< HEAD
 
-=======
->>>>>>> 494a6a5dcafd0ea25c2534342af0ced664db17da
             if (rand() % 2)
             {
                 faireAction(a1[pas - 1], ordi1, ball);
