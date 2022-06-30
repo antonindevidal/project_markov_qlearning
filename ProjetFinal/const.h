@@ -9,19 +9,11 @@
 
 #define TIMEGAME 60
 
-<<<<<<< HEAD
-#define NBEPOCH 12 
-#define MAXEPOCH 200
-#define XI 0.01
-#define GAMMA 0.8
-#define TEMPERATURE 24
-=======
 #define NBEPOCH 20
 #define MAXEPOCH 25000000
 #define XI 0.01
 #define GAMMA 0.87
 #define TEMPERATURE 2400
->>>>>>> e7519f32c74c31498358fd62cd5174be38b59786
 
 #define DISTANCE1 60
 #define DISTANCE2 80
@@ -56,21 +48,12 @@ enum ACTIONS{HAUT,BAS,GAUCHE,DROIT,HG,HD,BG,BD,TIR};
 enum REWARDS{
 But=15,
 balleRapprocheBut=3,
-<<<<<<< HEAD
-balleEloigneBut=-1,
-balleBeacoupRapprocheBut=4,
-balleEloigneBeaucoupbut=-3,
-seRapprocheDeLaBalle=1,
-sEloigneDeLaBalle=-2,
-rateLeTir=-3};
-=======
 balleEloigneBut=-3,
 balleBeacoupRapprocheBut=6,
 balleEloigneBeaucoupbut=-6,
 seRapprocheDeLaBalle=5,
 sEloigneDeLaBalle=-15,
 rateLeTir=-4};
->>>>>>> e7519f32c74c31498358fd62cd5174be38b59786
 
 // enum REWARDS{
 // But=12,
