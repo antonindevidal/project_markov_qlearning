@@ -10,7 +10,7 @@
 #define TIMEGAME 60
 
 #define NBEPOCH 20
-#define MAXEPOCH 25000000
+#define MAXEPOCH 2500000
 #define XI 0.01
 #define GAMMA 0.87
 #define TEMPERATURE 2400
