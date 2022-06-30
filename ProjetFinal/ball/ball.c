@@ -58,15 +58,17 @@ int collisionBall(ball_t *b, enum EQUIPE *e)
             *e = EQUIPEDROITE;
         }
     }
-    else if (b->y < 0)
+    else if (b->y < WALLH)
     {
         b->theta = -b->theta;
-        b->y = 0 +5;
+        b->y = WALLH +5;
+        b->v+=5;
     }
-    else if (b->y > WINDOWH)
+    else if (b->y > WINDOWH-WALLH)
     {
         b->theta = -b->theta;
-        b->y = WINDOWH -5;
+        b->y = WINDOWH-WALLH -5;
+        b->v+=5;
     }
     return but;
 }
