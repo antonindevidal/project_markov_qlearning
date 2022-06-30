@@ -287,6 +287,8 @@ int main(int argc, char **argv)
 	SDL_DestroyTexture(playerRedSprite);
 	SDL_DestroyTexture(terrainSpriteSheet);
 	SDL_DestroyTexture(mainTitle);
+	Mix_FreeMusic(jeuMusique);
+	Mix_FreeMusic(generique);
 	TTF_Quit();
 	IMG_Quit();
 	SDL_AudioQuit();
