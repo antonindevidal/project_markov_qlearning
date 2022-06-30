@@ -15,37 +15,23 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	if (argc == 2)
-	{
-		int debut = time(NULL);
-		ordinateur_t *ordi1, *ordi2;
-		ordi1 = creerOrdi(EQUIPEGAUCHE);
-		ordi2 = creerOrdi(EQUIPEDROITE);
-		initQTableOrdi(ordi1);
-		initQTableOrdi(ordi2);
-		// chargerQTable("nario.don", ordi1->QTable);
-		// chargerQTable("valuigi.don", ordi2->QTable);
-		// chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
-		// chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
-		renforcement(ordi1, ordi2);
-
-		libererOrdi(ordi1);
-		libererOrdi(ordi2);
-		printf("-----------------FIN--------------\n");
-		printf("temps d'exec: %ld secondes \n", time(NULL) - debut);
-		return 0;
-	}
-
 	int arretEvent = 0, mouseX = 0, mouseY = 0, cycles = -1, cpt = 0;
 	int debutTimer = 0;
 	int score1 = 0, score2 = 0;
 	enum EQUIPE e = EQUIPEDROITE;
 	int etat = 1;
 
+	//équipe gauche
 	ordinateur_t *ordi1 = creerOrdi(EQUIPEGAUCHE);
 	chargerQTable("nario.don", ordi1->QTable);
-	ordinateur_t *ordi2 = creerOrdi(EQUIPEDROITE);
-	chargerQTable("valuigi.don", ordi2->QTable);
+	ordinateur_t *ordi2 = creerOrdi(EQUIPEGAUCHE);
+	chargerQTable("nario.don", ordi2->QTable);
+
+	//équipe droite
+	ordinateur_t *ordi3 = creerOrdi(EQUIPEDROITE);
+	chargerQTable("valuigi.don", ordi3->QTable);
+	ordinateur_t *ordi4 = creerOrdi(EQUIPEDROITE);
+	chargerQTable("valuigi.don", ordi4->QTable);
 	SDL_bool programON = SDL_TRUE;
 	SDL_Event event;
 
@@ -176,22 +162,78 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
-			if (rand() % 2)
+			int random = rand() % 4;
+			if (random == 0)
 			{
-				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player), *(ordi3->player), *(ordi4->player)), 0.5);
 				faireAction(action, ordi1, ball);
 				playerBallCollision(ordi1->player, ball);
-				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
+
+				int action4 = choixAction(ordi4, perception(*ball, *(ordi4->player), *(ordi2->player), *(ordi3->player), *(ordi1->player)), 0.5);
+				faireAction(action4, ordi4, ball);
+				playerBallCollision(ordi4->player, ball);
+
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action2, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+
+				int action3 = choixAction(ordi3, perception(*ball, *(ordi3->player), *(ordi1->player), *(ordi2->player), *(ordi4->player)), 0.5);
+				faireAction(action3, ordi3, ball);
+				playerBallCollision(ordi3->player, ball);
+			}
+			else if (random == 1)
+			{
+				int action3 = choixAction(ordi3, perception(*ball, *(ordi3->player), *(ordi1->player), *(ordi2->player), *(ordi4->player)), 0.5);
+				faireAction(action3, ordi3, ball);
+				playerBallCollision(ordi3->player, ball);
+
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+
+				int action4 = choixAction(ordi4, perception(*ball, *(ordi4->player), *(ordi2->player), *(ordi3->player), *(ordi1->player)), 0.5);
+				faireAction(action4, ordi4, ball);
+				playerBallCollision(ordi4->player, ball);
+
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player), *(ordi3->player), *(ordi4->player)), 0.5);
 				faireAction(action2, ordi2, ball);
 				playerBallCollision(ordi2->player, ball);
 			}
+			else if (random == 2)
+			{
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action2, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+
+				int action3 = choixAction(ordi3, perception(*ball, *(ordi3->player), *(ordi1->player), *(ordi2->player), *(ordi4->player)), 0.5);
+				faireAction(action3, ordi3, ball);
+				playerBallCollision(ordi3->player, ball);
+
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+
+				int action4 = choixAction(ordi4, perception(*ball, *(ordi4->player), *(ordi2->player), *(ordi3->player), *(ordi1->player)), 0.5);
+				faireAction(action4, ordi4, ball);
+				playerBallCollision(ordi4->player, ball);
+			}
 			else
 			{
-				int action = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
-				faireAction(action, ordi2, ball);
+
+				int action4 = choixAction(ordi4, perception(*ball, *(ordi4->player), *(ordi2->player), *(ordi3->player), *(ordi1->player)), 0.5);
+				faireAction(action4, ordi4, ball);
+				playerBallCollision(ordi4->player, ball);
+
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action2, ordi2, ball);
 				playerBallCollision(ordi2->player, ball);
-				int action2 = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
-				faireAction(action2, ordi1, ball);
+
+				int action3 = choixAction(ordi3, perception(*ball, *(ordi3->player), *(ordi1->player), *(ordi2->player), *(ordi4->player)), 0.5);
+				faireAction(action3, ordi3, ball);
+				playerBallCollision(ordi3->player, ball);
+
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player), *(ordi3->player), *(ordi4->player)), 0.5);
+				faireAction(action, ordi1, ball);
 				playerBallCollision(ordi1->player, ball);
 			}
 
@@ -209,6 +251,8 @@ int main(int argc, char **argv)
 				// player->y = WINDOWH / 2;
 				resetEmplacement(ordi1);
 				resetEmplacement(ordi2);
+				resetEmplacement(ordi3);
+				resetEmplacement(ordi4);
 			}
 			// playerBallCollision(player, ball);
 			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
@@ -220,8 +264,11 @@ int main(int argc, char **argv)
 			/* Draw frame */
 			afficherTerrain(terrainSpriteSheet, renderer);
 			afficherTexture(ballSprite, renderer, ball->size, ball->size, ball->x, ball->y);
-			afficherTexture(playerSprite, renderer, ordi2->player->w, ordi2->player->h, ordi2->player->x, ordi2->player->y);
+			afficherTexture(playerSprite, renderer, ordi3->player->w, ordi3->player->h, ordi3->player->x, ordi3->player->y);
+			afficherTexture(playerSprite, renderer, ordi4->player->w, ordi4->player->h, ordi4->player->x, ordi4->player->y);
+
 			afficherTexture(playerRedSprite, renderer, ordi1->player->w, ordi1->player->h, ordi1->player->x, ordi1->player->y);
+			afficherTexture(playerRedSprite, renderer, ordi2->player->w, ordi2->player->h, ordi2->player->x, ordi2->player->y);
 			afficherScore(score1, score2, font, window, renderer);
 			char t[10];
 			int min = (TIMEGAME - (int)(time(NULL) - debutTimer)) / 60;
@@ -259,7 +306,6 @@ int main(int argc, char **argv)
 					break;
 				default:
 					break;
-					int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
 				}
 			}
 			arretEvent = 0;

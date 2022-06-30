@@ -18,7 +18,7 @@ int distanceAdversaire(ball_t ball, player_t player)
 }
 
 // Prend l'état du monde et renvoie l'état de perception s
-int perception(ball_t ball, player_t player, player_t player2)
+int perception(ball_t ball, player_t player, player_t player2,player_t player3,player_t player4)
 {
     int etat = RIGHT11;
     float distance = sqrt(pow(player.x - ball.x, 2) + pow(player.y - ball.y, 2));
@@ -148,7 +148,7 @@ int perception(ball_t ball, player_t player, player_t player2)
             etat = DR31;
         }
     }
-    if(distanceAdversaire(ball,player2) !=1){
+    if(distanceAdversaire(ball,player2) !=1 && distanceAdversaire(ball,player3) !=1 && distanceAdversaire(ball,player4) !=1){
         etat++;
     }
 
@@ -309,91 +309,91 @@ void initPartie(ordinateur_t *ordi1, ordinateur_t *ordi2, ball_t **ball, ball_t 
     (*precball)->y += 200 * ry;
 }
 
-void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
-{ // Fonction principale
+// void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
+// { // Fonction principale
 
-    int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
-    int epoque, pas;
-    float T = TEMPERATURE;
-    int s1[NBEPOCH], a1[NBEPOCH - 1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
-    int s2[NBEPOCH], a2[NBEPOCH - 1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
+//     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
+//     int epoque, pas;
+//     float T = TEMPERATURE;
+//     int s1[NBEPOCH], a1[NBEPOCH - 1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
+//     int s2[NBEPOCH], a2[NBEPOCH - 1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
-    player_t prec1, prec2;
-    ball_t *ball;
-    ball_t *precBall;
+//     player_t prec1, prec2;
+//     ball_t *ball;
+//     ball_t *precBall;
 
-    ball = creationBall();
-    precBall = creationBall();
+//     ball = creationBall();
+//     precBall = creationBall();
 
-    for (epoque = 0; epoque < MAXEPOCH; epoque++)
-    {
-        T = (TEMPERATURE - (epoque * 1.0 / MAXEPOCH) * TEMPERATURE) + 0.0001;
-        // Reset le monde
-        if (isGoal || nbActionPourReset >= 5)
-        {
-            isGoal = 0;
-            nbActionPourReset = 0;
-            initPartie(ordi1, ordi2, &ball, &precBall);
-            copie(&prec1, ordi1->player);
-            copie(&prec2, ordi2->player);
-        }
-        r1[0] = 0;
-        r2[0] = 0;
-        s1[0] = perception(*ball, *(ordi1->player), *(ordi2->player)); // Etat actuel joueur1
-        s2[0] = perception(*ball, *(ordi2->player), *(ordi1->player)); // Etat actuel joueur2
+//     for (epoque = 0; epoque < MAXEPOCH; epoque++)
+//     {
+//         T = (TEMPERATURE - (epoque * 1.0 / MAXEPOCH) * TEMPERATURE) + 0.0001;
+//         // Reset le monde
+//         if (isGoal || nbActionPourReset >= 5)
+//         {
+//             isGoal = 0;
+//             nbActionPourReset = 0;
+//             initPartie(ordi1, ordi2, &ball, &precBall);
+//             copie(&prec1, ordi1->player);
+//             copie(&prec2, ordi2->player);
+//         }
+//         r1[0] = 0;
+//         r2[0] = 0;
+//         s1[0] = perception(*ball, *(ordi1->player), *(ordi2->player)); // Etat actuel joueur1
+//         s2[0] = perception(*ball, *(ordi2->player), *(ordi1->player)); // Etat actuel joueur2
 
-        // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
-        // a1[0] = choixAction(ordi1, s1[0], T);
-        // a2[0] = choixAction(ordi2, s2[0], T);
-        // printf("---------%d---------\n",epoque);
+//         // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
+//         // a1[0] = choixAction(ordi1, s1[0], T);
+//         // a2[0] = choixAction(ordi2, s2[0], T);
+//         // printf("---------%d---------\n",epoque);
 
-        for (pas = 1; pas < NBEPOCH; pas++)
-        { // printf("\t-----%d-----\n",pas);
-            // 1resetEmplacement itération du jeu
-            a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
-            a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
+//         for (pas = 1; pas < NBEPOCH; pas++)
+//         { // printf("\t-----%d-----\n",pas);
+//             // 1resetEmplacement itération du jeu
+//             a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
+//             a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
 
-            if (rand() % 2)
-            {
-                faireAction(a1[pas - 1], ordi1, ball);
-                faireAction(a2[pas - 1], ordi2, ball);
-            }
-            else
-            {
-                faireAction(a2[pas - 1], ordi2, ball);
-                faireAction(a1[pas - 1], ordi1, ball);
-            }
+//             if (rand() % 2)
+//             {
+//                 faireAction(a1[pas - 1], ordi1, ball);
+//                 faireAction(a2[pas - 1], ordi2, ball);
+//             }
+//             else
+//             {
+//                 faireAction(a2[pas - 1], ordi2, ball);
+//                 faireAction(a1[pas - 1], ordi1, ball);
+//             }
 
-            isGoal = moveBall(ball, &equipeBut);
-            r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
-            r2[pas] = recompense(*precBall, *ball, prec2, *(ordi2->player), isGoal, equipeBut); // Récompense joueur2
-            s1[pas] = perception(*ball, *(ordi1->player), *(ordi2->player));                    // Etat actuel joueur1
-            s2[pas] = perception(*ball, *(ordi2->player), *(ordi1->player));                    // Etat actuel joueur2
+//             isGoal = moveBall(ball, &equipeBut);
+//             r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
+//             r2[pas] = recompense(*precBall, *ball, prec2, *(ordi2->player), isGoal, equipeBut); // Récompense joueur2
+//             s1[pas] = perception(*ball, *(ordi1->player), *(ordi2->player));                    // Etat actuel joueur1
+//             s2[pas] = perception(*ball, *(ordi2->player), *(ordi1->player));                    // Etat actuel joueur2
 
-            copie(&prec1, ordi1->player);
-            copie(&prec2, ordi2->player);
-            copieBall(precBall,ball);
-            // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
+//             copie(&prec1, ordi1->player);
+//             copie(&prec2, ordi2->player);
+//             copieBall(precBall,ball);
+//             // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
 
-            // Appliquer l'action choisie au monde
-            if (isGoal)
-            { // Si l'état atteint est terminal : break => but
-                // printf("\nBUUUUUUUUTTTTTTTT\n");
-                pas++;
-                break;
-            }
-        }
-        pas--;
-        nbActionPourReset++;
-        evolution(ordi1, s1, a1, r1, pas);
-        evolution(ordi2, s2, a2, r2, pas);
-    }
-    printf("fin renforcement");
-    saveQTable("nario.don", ordi1->QTable);
-    saveQTable("valuigi.don", ordi2->QTable);
-    free(ball);
-    free(precBall);
-}
+//             // Appliquer l'action choisie au monde
+//             if (isGoal)
+//             { // Si l'état atteint est terminal : break => but
+//                 // printf("\nBUUUUUUUUTTTTTTTT\n");
+//                 pas++;
+//                 break;
+//             }
+//         }
+//         pas--;
+//         nbActionPourReset++;
+//         evolution(ordi1, s1, a1, r1, pas);
+//         evolution(ordi2, s2, a2, r2, pas);
+//     }
+//     printf("fin renforcement");
+//     saveQTable("nario.don", ordi1->QTable);
+//     saveQTable("valuigi.don", ordi2->QTable);
+//     free(ball);
+//     free(precBall);
+// }
 
 void resetEmplacement(ordinateur_t *ordi)
 {

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 /* Déclaration des prototypes */
-int perception(ball_t ball,player_t player, player_t player2); // Prend l'état du monde et renvoie l'état de perception s
+int perception(ball_t ball,player_t player, player_t player2,player_t player3,player_t player4); // Prend l'état du monde et renvoie l'état de perception s
 float maxQTable(ordinateur_t ordi, int indEtat, int *s);
 void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n);
 int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal, enum EQUIPE equipeBut);
