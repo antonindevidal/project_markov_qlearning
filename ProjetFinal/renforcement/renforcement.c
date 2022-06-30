@@ -270,7 +270,7 @@ int choixAction(ordinateur_t *ordi, int s, float T)
             break;
         }
     }
-    //printf("action: %d\n", action);
+    // printf("action: %d\n", action);
     return action;
 }
 
@@ -312,10 +312,8 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     int isGoal = 1, equipeBut = 0, nbActionPourReset = 0;
     int epoque, pas;
     float T = TEMPERATURE;
-    int s1[NBEPOCH], a1[NBEPOCH-1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
-    int s2[NBEPOCH], a2[NBEPOCH-1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
-
-
+    int s1[NBEPOCH], a1[NBEPOCH - 1], r1[NBEPOCH]; // Liste états, actions et récompenses pour joueur 1
+    int s2[NBEPOCH], a2[NBEPOCH - 1], r2[NBEPOCH]; // Liste états, actions et récompenses pour joueur 2
 
     player_t prec1, prec2;
     ball_t *ball;
@@ -326,7 +324,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
 
     for (epoque = 0; epoque < MAXEPOCH; epoque++)
     {
-        T = (TEMPERATURE - (epoque * 1.0 / MAXEPOCH)*TEMPERATURE) + 0.0001;
+        T = (TEMPERATURE - (epoque * 1.0 / MAXEPOCH) * TEMPERATURE) + 0.0001;
         // Reset le monde
         if (isGoal || nbActionPourReset >= 5)
         {
@@ -351,9 +349,18 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             // 1resetEmplacement itération du jeu
             a1[pas - 1] = choixAction(ordi1, s1[pas - 1], T);
             a2[pas - 1] = choixAction(ordi2, s2[pas - 1], T);
-            
-            faireAction(a2[pas - 1], ordi2, ball);
-            faireAction(a1[pas - 1], ordi1, ball);
+
+            if (rand() % 2)
+            {
+                faireAction(a1[pas - 1], ordi1, ball);
+                faireAction(a2[pas - 1], ordi2, ball);
+            }
+            else
+            {
+                faireAction(a2[pas - 1], ordi2, ball);
+                faireAction(a1[pas - 1], ordi1, ball);
+            }
+
             isGoal = moveBall(ball, &equipeBut);
             r1[pas] = recompense(*precBall, *ball, prec1, *(ordi1->player), isGoal, equipeBut); // Récompense joueur1
             r2[pas] = recompense(*precBall, *ball, prec2, *(ordi2->player), isGoal, equipeBut); // Récompense joueur2
@@ -365,7 +372,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             // Appliquer l'action choisie au monde
             if (isGoal)
             { // Si l'état atteint est terminal : break => but
-                //printf("\nBUUUUUUUUTTTTTTTT\n");
+                // printf("\nBUUUUUUUUTTTTTTTT\n");
                 pas++;
                 break;
             }
@@ -377,7 +384,7 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
     }
     printf("fin renforcement");
     saveQTable("nario.don", ordi1->QTable);
-    //saveQTable("valuigi.don", ordi2->QTable);
+    saveQTable("valuigi.don", ordi2->QTable);
     free(ball);
     free(precBall);
 }
@@ -481,7 +488,7 @@ void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball)
         {
             int distance = sqrt(pow(ball->x - WINDOWW - WALLW, 2) + pow(ball->y - WINDOWH / 2, 2));
             int dx = +WINDOWW + WALLW - ball->x;
-            float a = acos( (float)dx  / (float)distance * 1.0);
+            float a = acos((float)dx / (float)distance * 1.0);
             angle = a * 180.0 / M_PI;
         }
         else

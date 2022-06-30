@@ -10,7 +10,7 @@
 #define TIMEGAME 60
 
 #define NBEPOCH 12 
-#define MAXEPOCH 1000
+#define MAXEPOCH 200
 #define XI 0.01
 #define GAMMA 0.8
 #define TEMPERATURE 1.5
@@ -51,7 +51,7 @@ balleRapprocheBut=3,
 balleEloigneBut=-1,
 balleBeacoupRapprocheBut=4,
 balleEloigneBeaucoupbut=-3,
-seRapprocheDeLaBalle=5,
+seRapprocheDeLaBalle=1,
 sEloigneDeLaBalle=-2,
 rateLeTir=-3};
 
