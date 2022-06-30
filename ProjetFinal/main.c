@@ -52,6 +52,10 @@ int main(int argc, char **argv)
 
 	SDL_DisplayMode screen;
 
+	/* Initialisation de la SDL  + gestion de l'échec possible */
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
+		endSDL(0, "ERROR SDL INIT", window, renderer);
+
 	ball_t *ball = creationBall();
 	if (ball == NULL)
 	{
@@ -62,10 +66,6 @@ int main(int argc, char **argv)
 	{
 		endSDL(0, "ERROR CREATION PLAYER", window, renderer);
 	}
-
-	/* Initialisation de la SDL  + gestion de l'échec possible */
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		endSDL(0, "ERROR SDL INIT", window, renderer);
 
 	SDL_GetCurrentDisplayMode(0, &screen);
 
@@ -93,17 +93,24 @@ int main(int argc, char **argv)
 	if (font == NULL)
 		endSDL(0, "Erreur chargement Font", window, renderer);
 
+	/* Musique */
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	Mix_Music *generique = Mix_LoadMUS("./resources/generique.mp3"); // Chargement de la musique
+	Mix_Music *jeuMusique = Mix_LoadMUS("./resources/jeu.mp3"); 
+
 	/* Création des textures */
-	// A REMPLIR
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
 	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
 	SDL_Texture *playerRedSprite = loadTextureFromImage("./resources/sprites/player_red.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
+
 	/* Boucle du jeu */
+	Mix_PlayMusic(generique, 0); // Indice = priorité file
+	// Mix_PauseMusic();
+	// Mix_ResumeMusic();
 	while (programON)
 	{ // Boucle événementielle du programme
-
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderClear(renderer); // Effacer l'image précédente avant de dessiner la nouvelle
 
@@ -150,11 +157,11 @@ int main(int argc, char **argv)
 					if ((SDL_GetMouseState(&mouseX, &mouseY) &
 						 SDL_BUTTON(SDL_BUTTON_LEFT)))
 					{ // Si c'est un click gauche
-					    int distance = sqrt(pow(mouseX - ball->x, 2) + pow(mouseY - ball->y, 2));
+						int distance = sqrt(pow(mouseX - ball->x, 2) + pow(mouseY - ball->y, 2));
 						int t = ball->x - mouseX;
 						float a = acos((t * 1.0) / distance * 1.0);
 						float angle = a * 180.0 / M_PI;
-						pushBall(ball,angle, BALL_ACCELERATION);
+						pushBall(ball, angle, BALL_ACCELERATION);
 					}
 					arretEvent = 1;
 					break;
@@ -181,8 +188,8 @@ int main(int argc, char **argv)
 				if (e == EQUIPEDROITE)
 					score2++;
 
-				ball->x = (WINDOWW / 2) + rand()%100-50;
-				ball->y = (WINDOWH / 2) + rand()%100-50;
+				ball->x = (WINDOWW / 2) + rand() % 100 - 50;
+				ball->y = (WINDOWH / 2) + rand() % 100 - 50;
 				ball->v = 0;
 				// player->x = WINDOWW / 4;
 				// player->y = WINDOWH / 2;
@@ -193,6 +200,7 @@ int main(int argc, char **argv)
 			if ((int)(time(NULL) - debutTimer) >= TIMEGAME)
 			{
 				etat = 2;
+				Mix_PauseMusic();
 			}
 
 			/* Draw frame */
@@ -229,6 +237,7 @@ int main(int argc, char **argv)
 						arretEvent = 1;
 						etat = 0;
 						debutTimer = time(NULL);
+						Mix_PlayMusic(jeuMusique, 1);
 						break;
 					default:
 						break;
@@ -249,7 +258,7 @@ int main(int argc, char **argv)
 			}
 			break;
 		case 2: // Etat: Fin
-			ecranFin(window, font, renderer, event, &score1, &score2, player, ball, &debutTimer, &etat, &programON);
+			ecranFin(window, font, renderer, event, &score1, &score2, player, ball, &debutTimer, &etat, &programON, jeuMusique);
 			break;
 		default:
 			break;
@@ -259,8 +268,14 @@ int main(int argc, char **argv)
 	}
 	TTF_CloseFont(font);
 	endSDL(1, "Normal ending", window, renderer);
+	SDL_DestroyTexture(ballSprite);
+	SDL_DestroyTexture(playerSprite);
+	SDL_DestroyTexture(playerRedSprite);
+	SDL_DestroyTexture(terrainSpriteSheet);
+	SDL_DestroyTexture(mainTitle);
 	TTF_Quit();
 	IMG_Quit();
+	SDL_AudioQuit();
 	SDL_Quit();
 	return EXIT_SUCCESS;
 }

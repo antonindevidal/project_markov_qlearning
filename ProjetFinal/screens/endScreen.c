@@ -1,6 +1,6 @@
 #include "endScreen.h"
 
-void ecranFin(SDL_Window *window, TTF_Font *font, SDL_Renderer *renderer, SDL_Event event, int *score1, int *score2, player_t *p, ball_t *b, int *debutTimer, int *etat, SDL_bool *programON)
+void ecranFin(SDL_Window *window, TTF_Font *font, SDL_Renderer *renderer, SDL_Event event, int *score1, int *score2, player_t *p, ball_t *b, int *debutTimer, int *etat, SDL_bool *programON, Mix_Music *musiqueJeu)
 {
     int arretEvent = 0;
     while (SDL_PollEvent(&event) && !arretEvent)
@@ -30,6 +30,7 @@ void ecranFin(SDL_Window *window, TTF_Font *font, SDL_Renderer *renderer, SDL_Ev
                 p->y = WINDOWH / 2;
                 *score1 = 0;
                 *score2 = 0;
+                Mix_PlayMusic(musiqueJeu, 1);
                 break;
             default:
                 break;
