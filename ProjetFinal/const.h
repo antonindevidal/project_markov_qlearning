@@ -10,7 +10,7 @@
 #define TIMEGAME 60
 
 #define NBEPOCH 20
-#define MAXEPOCH 25000000
+#define MAXEPOCH 3000000
 #define XI 0.01
 #define GAMMA 0.87
 #define TEMPERATURE 2400
@@ -47,12 +47,12 @@ enum ACTIONS{HAUT,BAS,GAUCHE,DROIT,HG,HD,BG,BD,TIR};
 
 enum REWARDS{
 But=15,
-balleRapprocheBut=3,
-balleEloigneBut=-3,
+balleRapprocheBut=4,
+balleEloigneBut=-4,
 balleBeacoupRapprocheBut=6,
 balleEloigneBeaucoupbut=-6,
-seRapprocheDeLaBalle=5,
-sEloigneDeLaBalle=-15,
+seRapprocheDeLaBalle=2,
+sEloigneDeLaBalle=-2,
 rateLeTir=-4};
 
 // enum REWARDS{
