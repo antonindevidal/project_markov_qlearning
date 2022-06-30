@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 
 	/* Création des textures */
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
-	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/player.png", window, renderer);
+	SDL_Texture *playerSprite = loadTextureFromImage("./resources/sprites/playerViolet.png", window, renderer);
 	SDL_Texture *playerRedSprite = loadTextureFromImage("./resources/sprites/player_red.png", window, renderer);
 	SDL_Texture *terrainSpriteSheet = loadTextureFromImage("./resources/sprites/grass.png", window, renderer);
 	SDL_Texture *mainTitle = loadTextureFromImage("./resources/TITLE.png", window, renderer);
