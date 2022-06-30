@@ -9,14 +9,16 @@ player_t *createPlayer(enum EQUIPE equipe)
         {
             p->x = WINDOWW / 4;
             p->y = WINDOWH / 2;
+            p->dir = HAUTD;
         }
         else
         {
             p->x = 3 * (WINDOWW / 4);
             p->y = WINDOWH / 2;
+            p->dir = BASD;
         }
 
-        p->dir = HAUTD;
+        
         p->w = PLAYERWIDTH;
         p->h = PLAYERHEIGHT;
         p->equipe = equipe;

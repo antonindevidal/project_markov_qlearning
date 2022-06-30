@@ -23,8 +23,10 @@ int main(int argc, char **argv)
 		ordi2 = creerOrdi(EQUIPEDROITE);
 		initQTableOrdi(ordi1);
 		initQTableOrdi(ordi2);
-		//chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
-		//chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
+		// chargerQTable("nario.don", ordi1->QTable);
+		// chargerQTable("valuigi.don", ordi2->QTable);
+		// chargerQTable("valuigiSuiveurBalle.don", ordi1->QTable);
+		// chargerQTable("valuigiSuiveurBalle.don", ordi2->QTable);
 		renforcement(ordi1, ordi2);
 
 		libererOrdi(ordi1);
@@ -96,7 +98,7 @@ int main(int argc, char **argv)
 	/* Musique */
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_Music *generique = Mix_LoadMUS("./resources/generique.mp3"); // Chargement de la musique
-	Mix_Music *jeuMusique = Mix_LoadMUS("./resources/jeu.mp3"); 
+	Mix_Music *jeuMusique = Mix_LoadMUS("./resources/jeu.mp3");
 
 	/* Création des textures */
 	SDL_Texture *ballSprite = loadTextureFromImage("./resources/sprites/ball.png", window, renderer);
@@ -174,12 +176,24 @@ int main(int argc, char **argv)
 
 			/* Update cycle */
 			// A REMPLIR
-			int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
-			faireAction(action, ordi1, ball);
-			playerBallCollision(ordi1->player, ball);
-			int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
-			faireAction(action2, ordi2, ball);
-			playerBallCollision(ordi2->player, ball);
+			if (rand() % 2)
+			{
+				int action = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
+				faireAction(action, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+				int action2 = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
+				faireAction(action2, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+			}
+			else
+			{
+				int action = choixAction(ordi2, perception(*ball, *(ordi2->player), *(ordi1->player)), 0.5);
+				faireAction(action, ordi2, ball);
+				playerBallCollision(ordi2->player, ball);
+				int action2 = choixAction(ordi1, perception(*ball, *(ordi1->player), *(ordi2->player)), 0.5);
+				faireAction(action2, ordi1, ball);
+				playerBallCollision(ordi1->player, ball);
+			}
 
 			if (moveBall(ball, &e))
 			{

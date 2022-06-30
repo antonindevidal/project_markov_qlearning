@@ -148,6 +148,9 @@ int perception(ball_t ball, player_t player, player_t player2)
             etat = DR31;
         }
     }
+    if(distanceAdversaire(ball,player2) !=1){
+        etat++;
+    }
 
     return etat;
 }
@@ -366,6 +369,9 @@ void renforcement(ordinateur_t *ordi1, ordinateur_t *ordi2)
             s1[pas] = perception(*ball, *(ordi1->player), *(ordi2->player));                    // Etat actuel joueur1
             s2[pas] = perception(*ball, *(ordi2->player), *(ordi1->player));                    // Etat actuel joueur2
 
+            copie(&prec1, ordi1->player);
+            copie(&prec2, ordi2->player);
+            copieBall(precBall,ball);
             // Si c'est un apprentissage de qualité d'états : mettre à jour les successeurs de l'état perçu
 
             // Appliquer l'action choisie au monde
@@ -512,4 +518,13 @@ void copie(player_t *prec, player_t *ordi)
     prec->w = ordi->w;
     prec->x = ordi->x;
     prec->y = ordi->y;
+}
+
+void copieBall(ball_t *prec, ball_t *ball)
+{
+    prec->size=ball->size;
+    prec->theta=ball->size;
+    prec->v=ball->v;
+    prec->x=ball->x;
+    prec->y=ball->y;
 }
