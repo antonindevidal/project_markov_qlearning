@@ -19,6 +19,7 @@ void resetEmplacement(ordinateur_t *ordi);
 void saveQTable(char *nom_fichier, float **QTable);
 void chargerQTable(char *nom_fichier, float **Qtable);
 void copie(player_t *prec, player_t *ordi);
+void copieBall(ball_t *prec, ball_t *ball);
 void faireAction(enum ACTIONS action, ordinateur_t *ordi, ball_t *ball);
 
 #endif

@@ -9,7 +9,7 @@ void initQTableOrdi(ordinateur_t *ordi)
         for (j = 0; j < NBACTIONS; j++)
         {
             r = (rand() % 3 - 1)/10.0;
-            ordi->QTable[i][j] = r;
+            ordi->QTable[i][j] = 0;
         }
     }
 }
