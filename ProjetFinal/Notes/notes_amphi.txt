@@ -1,0 +1,60 @@
+Tableau 1 :
+On fait la valeur moyenne pour chaque couple (perception, action)
+=> Beaucoup de valeurs : au moins 10-15 par situation
+=> On les classe par variance
+Pas prendre le max, à la rigueur prendre pire mais non (permet d’avoir un système plus fiable mais marche mal)
+
+Tableau 2 :
+Pour la 2ème action appliquée ce qu’on a fait pour le tableau 1.
+Moyenne des récompenses qu’on peut espérer après avoir A 1 :
+4, 3, 3
+perception = état
+Sur la partie droite, on prend le max de la moyenne pour le choix de l’action
+
+On choisit la suite géométrique pour gagner du temps
+
+Formule de mise à jour :
+Plus xi est proche de 1, plus la suite converge vite, prendre la suite avec la distribution de probabilité. Permet de calculer la moyenne rapidement 
+
+Qualité d’une action ou d’un état :
+On juge la qualité de l’action en fonction de la qualité de l’état atteint
+Etat / Action / Qualité (qualité de l’action)
+v(s) : qualité d’état
+Q(s, a) : qualité de l’action en fonction de l’état
+Faire peu d’états, sinon il faut un réseau de neurones
+
+La formule (9) doit être comprise absolument 
+Gamma doit être en dessous 0.97 (Pondère la récompense)
+
+Choix d’une action  epsilon-greedy:
+On choisit epsilon % on tire au aléatoire et sinon on prend le meilleur
+On choisit epsilon au fur et à mesure qu’on apprend. Au début, il faut explorer le monde donc epsilon proche de 1 mais quand on connaît le monde, il vaut mieux prendre un epsilon faible pour approfondir les meilleurs états/actions.
+L’aléatoire n’est pas contrôlé ici. (Vaut mieux un choix aléatoire non uniforme
+
+Choix d’une action preference learning-base :
+Permet de contrôler l’aléatoire.
+Gibbs = Boltzaman (Pour les recherches internet)
+
+Mise à jour : Modification immédiate :
+A chaque fois on modifie, c’est nul. Fonctionne que si la récompense instantanée est forte.
+
+Mise à jour après un « run » :
+On laisse tourner le programme jusqu’à une situation pertinent puis on retourne les récompenses obtenues.
+Il faut un timeout, se limiter à un longueur.
+
+Qualité des actions (formule 11) :
+Permet de calculer la nouvelle qualité à partir de la précédente.
+S’, a’ sont les valeurs à l’état final. Il n’est pas très bon.
+
+Double Q-learning :
+Meilleure façon de calculer une nouvelle qualité d’action. Le code est donné.
+
+SARSA :
+Evite les situations catastrophiques mais n’optimise pas les actions.
+Très utile en robotique.
+On peut tester les deux versions facilement normalement.
+
+SARSA avec double learning :
+Ne pas le faire, plus compliqué pour pas grand-chose de plus.
+
+Pour du déboggage: voir dans le bouquin de la bibliographie (assez complexe au niveau math).
