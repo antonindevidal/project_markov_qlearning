@@ -184,63 +184,134 @@ void evolution(ordinateur_t *ordi, int *s, int *a, int *r, int n)
 }
 
 // récompense lié à l'avancement de l'objectif
+// int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal, enum EQUIPE equipeBut)
+// {
+//     int ecart, ecartPrec, ecartNouv;
+//     ecart = sqrt(pow(precBall.x - ball.x, 2) + pow(precBall.y - ball.y, 2));
+
+//     if (isGoal && equipeBut == player.equipe)
+//     {
+//         return But;
+//     }
+//     // La balle a bougé
+//     else if (ecart != 0)
+//     {
+//         if (ecart > 100)
+//         {
+//             if (precBall.x < ball.x)
+//             {
+//                 if (player.equipe == EQUIPEGAUCHE)
+//                     return balleBeacoupRapprocheBut;
+//                 else
+//                     return balleEloigneBeaucoupbut;
+//             }
+//             else
+//             {
+//                 if (player.equipe == EQUIPEDROITE)
+//                     return balleBeacoupRapprocheBut;
+//                 else
+//                     return balleEloigneBeaucoupbut;
+//             }
+//         }
+//         else
+//         {
+//             if (precBall.x < ball.x)
+//             {
+//                 if (player.equipe == EQUIPEGAUCHE)
+//                     return balleRapprocheBut;
+//                 else
+//                     return balleEloigneBut;
+//             }
+//             else
+//             {
+//                 if (player.equipe == EQUIPEDROITE)
+//                     return balleRapprocheBut;
+//                 else
+//                     return balleEloigneBut;
+//             }
+//         }
+//     }
+//     else
+//     {
+//         ecartPrec = sqrt(pow(precBall.x - precPlayer.x, 2) + pow(precBall.y - precPlayer.y, 2));
+//         ecartNouv = sqrt(pow(ball.x - player.x, 2) + pow(ball.y - player.y, 2));
+//         if (ecartNouv < ecartPrec)
+//             return seRapprocheDeLaBalle;
+//         else if (ecartNouv > ecartPrec)
+//             return sEloigneDeLaBalle;
+//         else
+//             return rateLeTir;
+//     }
+// }
+
+// récompense lié à l'avancement de l'objectif
 int recompense(ball_t precBall, ball_t ball, player_t precPlayer, player_t player, int isGoal, enum EQUIPE equipeBut)
 {
     int ecart, ecartPrec, ecartNouv;
     ecart = sqrt(pow(precBall.x - ball.x, 2) + pow(precBall.y - ball.y, 2));
 
+    ecartPrec = sqrt(pow(precBall.x - precPlayer.x, 2) + pow(precBall.y - precPlayer.y, 2));
+    ecartNouv = sqrt(pow(ball.x - player.x, 2) + pow(ball.y - player.y, 2));
+
     if (isGoal && equipeBut == player.equipe)
     {
         return But;
     }
-    // La balle a bougé
-    else if (ecart != 0)
+    // La balle a beaucoup bougé
+    else if (ecart >= 100)
     {
-        if (ecart > 100)
+
+        if (precBall.x < ball.x)
         {
-            if (precBall.x < ball.x)
-            {
-                if (player.equipe == EQUIPEGAUCHE)
-                    return balleBeacoupRapprocheBut;
-                else
-                    return balleEloigneBeaucoupbut;
-            }
+            if (player.equipe == EQUIPEGAUCHE)
+                return balleBeacoupRapprocheBut;
             else
-            {
-                if (player.equipe == EQUIPEDROITE)
-                    return balleBeacoupRapprocheBut;
-                else
-                    return balleEloigneBeaucoupbut;
-            }
+                return balleEloigneBeaucoupbut;
         }
         else
         {
-            if (precBall.x < ball.x)
-            {
-                if (player.equipe == EQUIPEGAUCHE)
-                    return balleRapprocheBut;
-                else
-                    return balleEloigneBut;
-            }
+            if (player.equipe == EQUIPEDROITE)
+                return balleBeacoupRapprocheBut;
             else
-            {
-                if (player.equipe == EQUIPEDROITE)
-                    return balleRapprocheBut;
-                else
-                    return balleEloigneBut;
-            }
+                return balleEloigneBeaucoupbut;
         }
+    } // Si le perso à beaucoup bougé
+    else if (abs(ecartNouv - ecartPrec) > 20)
+    {
+
+        if (ecartNouv < ecartPrec)
+            return seRapprocheDeLaBalle;
+        else
+            return sEloigneDeLaBalle;
+
+    } // Si la balle à bougé un peu
+    else if (ecart != 0)
+    {
+        if (precBall.x < ball.x)
+        {
+            if (player.equipe == EQUIPEGAUCHE)
+                return balleRapprocheBut;
+            else
+                return balleEloigneBut;
+        }
+        else
+        {
+            if (player.equipe == EQUIPEDROITE)
+                return balleRapprocheBut;
+            else
+                return balleEloigneBut;
+        }
+    }
+    else if (abs(ecartNouv - ecartPrec) != 0)
+    {
+        if (ecartNouv < ecartPrec)
+            return seRapprocheDeLaBalle;
+        else
+            return sEloigneDeLaBalle;
     }
     else
     {
-        ecartPrec = sqrt(pow(precBall.x - precPlayer.x, 2) + pow(precBall.y - precPlayer.y, 2));
-        ecartNouv = sqrt(pow(ball.x - player.x, 2) + pow(ball.y - player.y, 2));
-        if (ecartNouv < ecartPrec)
-            return seRapprocheDeLaBalle;
-        else if (ecartNouv > ecartPrec)
-            return sEloigneDeLaBalle;
-        else
-            return rateLeTir;
+        return rateLeTir;
     }
 }
 
