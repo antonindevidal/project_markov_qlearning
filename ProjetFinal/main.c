@@ -295,34 +295,3 @@ int main(int argc, char **argv)
 	SDL_Quit();
 	return EXIT_SUCCESS;
 }
-
-// // main renforcement
-// int main(int argc, char **argv)
-// {
-// 	ordinateur_t *ordi1,*ordi2;
-// 	ordi1=creerOrdi(EQUIPEGAUCHE);
-// 	ordi2=creerOrdi(EQUIPEDROITE);
-// 	initQTableOrdi(ordi1);
-// 	initQTableOrdi(ordi2);
-// 	//afficherQTable(ordi1);
-// 	//afficherQTable(ordi2);
-// 	renforcement(ordi1,ordi2);
-
-// 	// float **tab;
-// 	// tab = malloc(3 * sizeof(float *));
-// 	// tab[0] = malloc(2 * sizeof(float));
-// 	// tab[1] = malloc(2 * sizeof(float));
-// 	// tab[2] = malloc(2 * sizeof(float));
-// 	// tab[0][0] = 5;
-// 	// tab[1][0] = 5;
-// 	// tab[2][0] = 5;
-// 	// tab[0][1] = 5;
-// 	// tab[1][1] = 5;
-// 	// tab[2][1] = 5;
-
-// 	// afficherQTable(tab, 3, 2);
-// 	libererOrdi(ordi1);
-// 	libererOrdi(ordi2);
-// 	printf("-----------------FIN--------------\n");
-// 	return 0;
-// }
