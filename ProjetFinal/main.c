@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	SDL_GetCurrentDisplayMode(0, &screen);
 
 	/* Création de la fenêtre */
-	window = SDL_CreateWindow("Nario Gréviste Ultimate",
+	window = SDL_CreateWindow("Nario Grévistes Ultimate",
 							  SDL_WINDOWPOS_CENTERED,
 							  SDL_WINDOWPOS_CENTERED,
 							  WINDOWW,
