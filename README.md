@@ -31,6 +31,7 @@ Le **site internet** du projet est disponible [ici](https://perso.isima.fr/~ande
 ### Jeu de la vie
 Le principe est de développer le célèbre jeu de Conway avec fenêtre graphique.<br/>
 Le README.md du jeu de la vie est disponible [ici](/JeuxDeLaVie/README.md).<br/>
+
 La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/projet-zz1-site-web/JeuDeLaVie.html).<br/>
 
 ### Le Chef d'oeuvre
@@ -42,4 +43,8 @@ La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/
 
 
 # Deuxième semaine:
+### Nario Grévistes Ultimate
+Lors de la 2ème semaine, nous avons conçu un petit jeu de foot où deux IA doivent s'affronter.<br />
+Les IA ont été entraîné en utilisant un apprentissage par renforcement à l'aide de l'algorithme du Q-Learning avec l'algorithme 'preference learning base' pour le choix des actions à effectuer.<br />
 
+La visualisation est disponible sur le [site](https://perso.isima.fr/~andevidal/projet-zz1-site-web/ProjetFinal.html).<br/>
