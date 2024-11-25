@@ -30,7 +30,7 @@ We created a football pitch with physics for the ball and the players and a game
 
 The aim of this project is to create an AI using Q-learning so the game plays itsef (Ai against AI).
 
-![Q-learning game](Doc\projet_final_jeu_J4.gif)
+![Q-learning game](Doc/projet_final_jeu_J4.gif)
 
 ### Q-learning algorithm
 Before running this, we must train the AI using algorithm to reward the computer for its action if it was positive.
@@ -39,13 +39,13 @@ And we set a list of states : Up1, Down1, Left1, Right1, UpLeft1, UpRight1, Down
 
 Where 1 2 and 3 represent the distance of the player from the ball.
 
-![States](Doc\etats.png)
+![States](Doc/etats.png)
 
 We create a matrix for each with those parameters and each cell has a value representing the weight of the action of a specific state. The higher is the weight, the higher is the probability for this action to be played.
 
 For the learning we can either start with a blank matrix or we can fill a matrix to influence the behaviour of th AI.
 
-![Matrix](Doc\projet_final_matrice_main.png)
+![Matrix](Doc/projet_final_matrice_main.png)
 
 
 
@@ -53,14 +53,14 @@ For the learning we can either start with a blank matrix or we can fill a matrix
 
 Here is an example for a 2v2 IA game.
 
-![alt](Doc\projet_final_jeu_J4_4v4.gif)
+![alt](Doc/projet_final_jeu_J4_4v4.gif)
 
 
 ## Markov chains game
 
 This second game was a way to learn about Markov chains, a simple way to give life to enemies in games.
 
-![alt](Doc\JeuPremiereSemaineDroit.gif)
+![alt](Doc/JeuPremiereSemaineDroit.gif)
 
 
 This is a simple side scroller shooter where we must shoot the UFOs.
@@ -91,5 +91,5 @@ During 2 days, we implemented a version of Conway's Game of life.
  - By changing data.h, you can modify the rules 
 
 
-![Game of life](Doc\jeu_de_la_vie_3.gif)
+![Game of life](Doc/jeu_de_la_vie_3.gif)
 
